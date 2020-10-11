@@ -1,0 +1,37 @@
+.boton {
+    cursor:pointer;
+}
+
+input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.barraForm {
+	height: 22px;
+	cursor: move;
+	z-index: 2;
+	margin-top: 0px;
+	margin-left: 0px; margin-right: 0px;
+	margin-bottom: 0px;
+	background-color: #ea7117;
+	color: #ea7117;
+	text-align: left;
+}
+
+.Form {
+    display: none; /* Escondido por default */
+	position: absolute;
+	top: auto;
+	left: auto;
+	text-align: center;
+	width: auto; height: auto;
+	background: rgb(35,35,35);
+    border: 1px solid #ea7117;
+    color: rgb(255, 255, 255);
+}
