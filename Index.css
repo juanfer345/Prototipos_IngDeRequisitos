@@ -2,36 +2,101 @@
     cursor:pointer;
 }
 
-input[type=text], select {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-.barraForm {
-	height: 22px;
-	cursor: move;
-	z-index: 2;
-	margin-top: 0px;
-	margin-left: 0px; margin-right: 0px;
-	margin-bottom: 0px;
-	background-color: #ea7117;
-	color: #ea7117;
-	text-align: left;
-}
-
 .Form {
     display: none; /* Escondido por default */
 	position: absolute;
 	top: auto;
 	left: auto;
 	text-align: center;
-	width: auto; height: auto;
+	width: min-content; 
+	height: min-content;
 	background: rgb(35,35,35);
-    border: 1px solid #ea7117;
-    color: rgb(255, 255, 255);
+    border: 1px solid #0a1e33;
+	color: rgb(255, 255, 255);
+	font-size: 2.2px;
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.barraForm {
+	height: 7px;
+	cursor: move;
+	z-index: 2;
+	margin-top: 0px;
+	margin-left: 0px; margin-right: 0px;
+	margin-bottom: 0px;
+	background-color: #015d9f;
+	text-align: left;
+}
+
+.campos{
+	display: grid;
+	grid-template-columns: 0.5fr 2fr;
+	align-items: center;
+}
+
+label {
+	width: auto;
+	margin-left: 2px;
+}
+
+input, select {
+	font-size: 2px;
+    width: auto;
+    padding: 1px 4px;
+    margin: 1px 2px;
+    border: 0.5px solid #ccc;
+    border-radius: 4px;
+	text-align: center;
+}
+
+.botonExtra {
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	font-size: 2.2px;
+	background-color: rgb(33, 81, 255);
+	border: 0.5px solid rgb(100, 100, 100);
+	color: rgb(255,255,255);
+    border-radius: 2px;
+	margin: 2px 1px;
+	cursor:pointer;
+	float: right;
+}
+
+.botones{
+	display: grid;
+	grid-template-columns: auto auto;
+}
+
+.botonConfirmar {
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	font-size: 2.2px;
+	background-color: rgb(0, 173, 255);
+	border: 0.5px solid rgb(100, 100, 100);
+	color: rgb(255,255,255);
+    border-radius: 2px;
+	margin: 2px 1px;
+	cursor:pointer;
+	/* position: relative;
+    left: 50%; */
+}
+
+.botonBorrar {
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	font-size: 2.2px;
+	background-color: rgb(139, 33, 255);
+	border: 0.5px solid rgb(100, 100, 100);
+	color: rgb(255,255,255);
+    border-radius: 2px;
+	margin: 2px 1px;
+	cursor:pointer;
+}
+
+.botonCerrar {
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	font-size: 2.2px;
+	background-color: rgb(255, 85, 33);
+	border: 0.5px solid rgb(100, 100, 100);
+	color: rgb(255,255,255);
+    border-radius: 2px;
+	margin: 2px 1px;
+	cursor:pointer;
 }
