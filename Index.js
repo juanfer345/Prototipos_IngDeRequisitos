@@ -4,9 +4,15 @@ function inicializarPagina(direccion) {
     document.getElementById("diseñaAsignatura").addEventListener("click", formularioDisenaAsignatura)
     document.getElementById("diseñaAsignaturaText").addEventListener("click", formularioDisenaAsignatura)
 
-    document.getElementById("ValidaProblema").addEventListener("click", formularioValidaProblema, false)
-    document.getElementById("ValidaProblemaText").addEventListener("click", formularioValidaProblema, false)
+    document.getElementById("diseñaClase").addEventListener("click", formularioDisenaClase)
+    document.getElementById("diseñaClaseText").addEventListener("click", formularioDisenaClase)
+
+    document.getElementById("ValidaProblema").addEventListener("click", formularioValidaProblema)
+    document.getElementById("ValidaProblemaText").addEventListener("click", formularioValidaProblema)
+
+
     
+
     // Haciendo que cada formulario sea arrastrable
     asignarArrastracion(document.getElementById("divForm1"), document.getElementById("barraForm1"));
     asignarArrastracion(document.getElementById("divForm2"), document.getElementById("barraForm2"));
@@ -105,6 +111,55 @@ function formularioDisenaAsignatura(input){
     document.getElementById("verAsignaturas").addEventListener("click", verAsignaturas, false);
 }
 
+function formularioDisenaClase(input){
+
+    var asignaturasHTML = "<label for='asignaturas'>Asignaturas</label> <select id='asignaturas'>";
+    // var asignaturasHTML = "<label for='asignaturas'>Asignaturas</label> <label id='labelSelect'> <select id='asignaturas'>";
+
+    for (var [key, value] of Object.entries(asignaturas)) {
+        asignaturasHTML += "<option value='" + key + "'>" + key + "</option>"
+    }
+    asignaturasHTML += "</select>"
+    // asignaturasHTML += "</select></label>"
+
+    document.getElementById("Form1").innerHTML = `
+        <div>
+            <h1 class="tituloForm">
+                Diseña Clase
+            </h1>
+
+            <div class="campos">
+                <label for="tematica"> Temática </label>
+                <input type="text" id="tematica">
+
+                <label for="numero"> Contenido </label>
+                <input type="text" id="numero">
+
+                <label for="codigo"> Código </label>
+                <input type="text" id="codigo">
+                `
+                + asignaturasHTML +
+                `
+            </div>
+            <div class="botones">
+                <button id="confirmarForm1" type="button" class="botonConfirmar"> Guardar Clase </button>
+                <button type="reset" class="botonBorrar"> Reiniciar Campos </button>
+                <button id="verAsignaturas" type="button" class="botonExtra"> Ver Asignaturas </button>
+                <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+            </div>
+        </div>
+    `;
+
+    var divform = document.getElementById("divForm1");
+    divform.style.display = "block";
+    divform.style.top = input.clientY + "px";
+    divform.style.left = input.clientX + "px";
+    
+    document.getElementById("confirmarForm1").addEventListener("click", guardarDatos, false);
+    document.getElementById("cerrarForm1").onclick = () => {divform.style.display = "none"};
+    document.getElementById("verAsignaturas").addEventListener("click", verAsignaturas, false);
+}
+
 function formularioValidaProblema(input){
 
     var form = document.getElementById("Form1");
@@ -160,7 +215,6 @@ function crearObjeto(objetiviris){
     for (let index = 0; index < objetiviris.length; index++) {
         objeto[objetiviris[index].id] = objetiviris[index].value
     }
-
     return objeto;
 }
 
@@ -183,7 +237,5 @@ var informesProgreso = {};
 var informesFinales = {};
 var prototipoAlfa = {};
 var prototipoBeta = {};
-
-
 
 window.addEventListener("load", inicializarPagina, false);
