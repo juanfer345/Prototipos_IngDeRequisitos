@@ -10,6 +10,12 @@ function inicializarPagina() {
     document.getElementById("ValidaProblema").addEventListener("click", formularioValidaProblema)
     document.getElementById("ValidaProblemaText").addEventListener("click", formularioValidaProblema)
 
+    document.getElementById("diseñaRubrica").addEventListener("click", formularioDisenaRubrica)
+    document.getElementById("diseñaRubricaText").addEventListener("click", formularioDisenaRubrica)
+
+    document.getElementById("registraEmpresa").addEventListener("click", formularioRegistraEmpresa)
+    document.getElementById("registraEmpresaText").addEventListener("click", formularioRegistraEmpresa)
+
     // Haciendo que cada formulario sea arrastrable
     asignarArrastracion(document.getElementById("divForm1"), document.getElementById("barraForm1"));
     asignarArrastracion(document.getElementById("divForm2"), document.getElementById("barraForm2"));
@@ -58,6 +64,12 @@ function asignarArrastracion(formulario, barra) {
     }
 }
 
+function mostracionFormulario(input, divform) {
+    divform.style.display = "block";
+    divform.style.top = input.clientY + "px";
+    divform.style.left = input.clientX + "px";
+}
+
 function formularioDisenaAsignatura(input) {
 
     // Llenando los datos del formulario
@@ -85,9 +97,7 @@ function formularioDisenaAsignatura(input) {
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm1");
-    divform.style.display = "block";
-    divform.style.top = input.clientY + "px";
-    divform.style.left = input.clientX + "px";
+    mostracionFormulario(input, divform)
 
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("confirmarForm1").addEventListener("click",
@@ -143,9 +153,7 @@ function verAsignatura(input) {
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm2");
-    divform.style.display = "block";
-    divform.style.top = input.clientY + "px";
-    divform.style.left = input.clientX + "px";
+    mostracionFormulario(input, divform)
 
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("cerrarForm2").onclick = () => { divform.style.display = "none" };
@@ -192,13 +200,11 @@ function verClases(input, nombreSelect = "") {
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm3");
-    divform.style.display = "block";
-    divform.style.top = input.clientY + "px";
-    divform.style.left = input.clientX + "px";
+    mostracionFormulario(input, divform)
 
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("cerrarForm3").onclick = () => { divform.style.display = "none" };
-
+    min = "0"
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
     document.getElementById("asignatura").addEventListener("change", () => { LlenarTablaSelect(asignatura, "datosVerClases", clases) }, false);
     LlenarTablaSelect(asignatura, "datosVerClases", clases)
@@ -219,6 +225,47 @@ function formularioDisenaClase(input) {
             <input type="text" id="tematica">
             
             <label for="numero"> Número </label>
+            <input type="number" id="numero" min="0">
+            
+            ${asignaturasHTML}
+        </div>
+
+        <div class="botones">
+            <button id="confirmarForm1" type="button" class="botonConfirmar"> Diseñar </button>
+            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
+            <button id="verClases" type="button" class="botonExtra"> Ver Clases </button>
+            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+        </div>
+    `;
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("confirmarForm1").addEventListener("click",
+        () => {
+            guardarDatos(document.querySelector("#datosDiseñaClase").querySelectorAll("input, select"), "Clase");
+        }, false);
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+    document.getElementById("verClases").addEventListener("click", () => { verClases(event) }, false);
+}
+
+function formularioDisenaRubrica(input) {
+
+    // Obteniendo los valores preestablecidos para llenar el formulario
+    const asignaturasHTML = obtenerDatosSelect("rubrica", "Nombre", rubricas);
+
+    // Llenando los datos del formulario
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Diseña Rúbrica </h1>"
+
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosDiseñaRubrica" class="campos">
+
+            <label for="tematica"> Temática </label>
+            <input type="text" id="tematica">
+            
+            <label for="numero"> Número </label>
             <input type="number" id="numero">
             
             ${asignaturasHTML}
@@ -234,9 +281,116 @@ function formularioDisenaClase(input) {
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm1");
-    divform.style.display = "block";
-    divform.style.top = input.clientY + "px";
-    divform.style.left = input.clientX + "px";
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("confirmarForm1").addEventListener("click",
+        () => {
+            guardarDatos(document.querySelector("#datosDiseñaClase").querySelectorAll("input, select"), "Clase");
+        }, false);
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+    document.getElementById("verClases").addEventListener("click", () => { verClases(event) }, false);
+}
+
+function formularioRegistraEmpresa(input) {
+
+    // Llenando los datos del formulario
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Registra Empresa </h1>"
+
+    document.getElementById("Form1").innerHTML = `
+        <h2 class='subtituloForm'> Datos Empresa <h2/>
+
+        <div id="datosRegistraEmpresa" class="campos">
+            <label for="nombre"> Nombre </label>
+            <input type="text" id="nombre">
+            
+            <label for="mision"> Misión </label>
+            <input type="text" id="mision">
+            
+            <label for="vision"> Visión </label>
+            <input type="text" id="vision">
+            
+            <label for="objetivo"> Objetivo Estratégico </label>
+            <input type="text" id="objetivo">
+            
+            <label for="necesidad"> Necesidad </label>
+            <input type="text" id="necesidad">
+        </div>
+
+        <h2 class='subtituloForm'> Datos Representante <h2/>
+
+        <div id="datosRegistraRepresentante" class="campos">
+            <label for="nombre"> Nombre </label>
+            <input type="text" id="nombre">
+            
+            <label for="correo"> Correo </label>
+            <input type="email" id="correo">
+            
+            <label for="celular"> Celular </label>
+            <input type="number" id="celular" min="0">
+            
+            <label> Disponibilidad </label>
+
+            <div class="radios">
+                <input type="radio" id="disponibilidad" name="disponibilidad" value="poca">
+                <label> Poca </label>
+
+                <input type="radio" id="disponibilidad" name="disponibilidad" value="mucha">
+                <label> Mucha </label>
+            </div>
+        </div>
+
+        <div class="botones">
+            <button id="confirmarForm1" type="button" class="botonConfirmar"> Registrar </button>
+            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
+        </div>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+    `;
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("confirmarForm1").addEventListener("click",
+        () => {
+            guardarDatos(document.querySelector("#datosRegistraEmpresa").querySelectorAll("input"), "Empresa");
+            guardarDatos(document.querySelector("#datosRegistraRepresentante").querySelectorAll("input"), "Representante");
+        }, false);
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+}
+
+function formularioDefineProblema(input) {
+
+    // Obteniendo los valores preestablecidos para llenar el formulario
+    const asignaturasHTML = obtenerDatosSelect("asignatura", "Asignatura", asignaturas);
+
+    // Llenando los datos del formulario
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Diseña Clase </h1>"
+
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosDiseñaClase" class="campos">
+
+            <label for="tematica"> Temática </label>
+            <input type="text" id="tematica">
+            
+            <label for="numero"> Número </label>
+            <input type="number" id="numero" min="0">
+            
+            ${asignaturasHTML}
+        </div>
+
+        <div class="botones">
+            <button id="confirmarForm1" type="button" class="botonConfirmar"> Diseñar </button>
+            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
+            <button id="verClases" type="button" class="botonExtra"> Ver Clases </button>
+            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+        </div>
+    `;
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
 
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("confirmarForm1").addEventListener("click",
@@ -347,9 +501,20 @@ function guardarDatos(input, caso) {
                 cadenaAux1 = `La asignatura ${input[0].value}`; cadenaAux2 = "a"
                 asignaturas[input[0].value] = crearObjeto(input);
                 break;
+
             case "Clase":
                 cadenaAux1 = `La clase ${input[0].value}`; cadenaAux2 = "a"
                 clases[input[0].value] = crearObjeto(input);
+                break;
+
+            case "Empresa":
+                cadenaAux1 = `La empresa ${input[0].value}`; cadenaAux2 = "a"
+                empresas[input[0].value] = crearObjeto(input);
+                break;
+
+            case "Representante":
+                cadenaAux1 = `El representante ${input[0].value}`; cadenaAux2 = "o"
+                representantes[input[0].value] = crearObjeto(input);
                 break;
             default:
                 break;
@@ -364,13 +529,19 @@ function guardarDatos(input, caso) {
 function crearObjeto(listiviris) {
     var objeto = {};
     for (let index = 0; index < listiviris.length; index++) {
-        objeto[listiviris[index].id] = listiviris[index].value
+        if (listiviris[index].type != "radio") {
+            objeto[listiviris[index].id] = listiviris[index].value
+        }
+        else {
+            if (listiviris[index].checked) {
+                objeto[listiviris[index].id] = listiviris[index].value
+            }
+        }
     }
     return objeto;
 }
 
 var criteriosEvaluacion = {};
-var rubricas = {};
 var asignaturas = {};
 var clases = {};
 var proyectos = {};
@@ -389,6 +560,13 @@ var informesProgreso = {};
 var informesFinales = {};
 var prototipoAlfa = {};
 var prototipoBeta = {};
+var rubricas = {
+    "Rubrica de Prototipo Alfa": { nombre: "Rubrica de Prototipo Alfa", nota: 0 },
+    "Rubrica de Prototipo Beta": { nombre: "Rubrica de Prototipo Beta", nota: 0 },
+    "Rubrica de Informe Inicial": { nombre: "Rubrica de Informe Inicial", nota: 0 },
+    "Rubrica de Informe de Progreso": { nombre: "Rubrica de Informe de Progreso", nota: 0 },
+    "Rubrica de Informe Final": { nombre: "Rubrica de Informe Final", nota: 0 }
+};
 
 window.addEventListener("load", inicializarPagina, false);
 
