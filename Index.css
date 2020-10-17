@@ -70,6 +70,20 @@ select {
 	-webkit-appearance: none;
 }
 
+.tabla {
+	
+	margin-top: 2px;
+    margin-bottom: 2px;
+	display: grid;
+    grid-template-columns: 25px 25px;
+	align-items: center;
+}
+
+.tabla label {
+	margin-top: 1px;
+	margin-bottom: 1px;
+}
+
 /* select::-ms-expand {
     display: none;
 } */
