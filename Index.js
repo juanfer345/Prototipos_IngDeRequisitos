@@ -7,14 +7,17 @@ function inicializarPagina() {
     document.getElementById("diseñaClase").addEventListener("click", formularioDisenaClase)
     document.getElementById("diseñaClaseText").addEventListener("click", formularioDisenaClase)
 
-    document.getElementById("ValidaProblema").addEventListener("click", formularioValidaProblema)
-    document.getElementById("ValidaProblemaText").addEventListener("click", formularioValidaProblema)
-
     document.getElementById("diseñaRubrica").addEventListener("click", formularioDisenaRubrica)
     document.getElementById("diseñaRubricaText").addEventListener("click", formularioDisenaRubrica)
 
     document.getElementById("registraEmpresa").addEventListener("click", formularioRegistraEmpresa)
     document.getElementById("registraEmpresaText").addEventListener("click", formularioRegistraEmpresa)
+
+    document.getElementById("defineProblema").addEventListener("click", formularioDefineProblema)
+    document.getElementById("defineProblemaText").addEventListener("click", formularioDefineProblema)
+
+    document.getElementById("ValidaProblema").addEventListener("click", formularioValidaProblema)
+    document.getElementById("ValidaProblemaText").addEventListener("click", formularioValidaProblema)
 
     // Haciendo que cada formulario sea arrastrable
     asignarArrastracion(document.getElementById("divForm1"), document.getElementById("barraForm1"));
@@ -363,29 +366,38 @@ function formularioRegistraEmpresa(input) {
 function formularioDefineProblema(input) {
 
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const asignaturasHTML = obtenerDatosSelect("asignatura", "Asignatura", asignaturas);
+    const empresasHTML = obtenerDatosSelect("empresa", "Nombre Empresa", empresas);
 
     // Llenando los datos del formulario
-    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Diseña Clase </h1>"
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Define Problema </h1>"
 
     document.getElementById("Form1").innerHTML = `
-        <div id="datosDiseñaClase" class="campos">
+        <div id="datosDefineProblema" class="campos">
 
-            <label for="tematica"> Temática </label>
-            <input type="text" id="tematica">
+            ${empresasHTML}
+
+            <label for="causa"> Causa </label>
+            <input type="text" id="causa">
             
-            <label for="numero"> Número </label>
-            <input type="number" id="numero" min="0">
+            <label for="descripcion"> Descripción </label>
+            <input type="text" id="descripcion">
+
+            <label for="impacto"> Impacto </label>
+            <input type="text" id="impacto">
             
-            ${asignaturasHTML}
+            <label for="proceso"> Proceso Asociado </label>
+            <input type="text" id="proceso">
+
+            <label for="actor"> Actor Involucrado </label>
+            <input type="text" id="actor">
         </div>
 
         <div class="botones">
-            <button id="confirmarForm1" type="button" class="botonConfirmar"> Diseñar </button>
+            <button id="confirmarForm1" type="button" class="botonConfirmar"> Definir </button>
             <button type="reset" class="botonBorrar"> Limpiar Campos </button>
-            <button id="verClases" type="button" class="botonExtra"> Ver Clases </button>
-            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
         </div>
+        
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
@@ -395,45 +407,66 @@ function formularioDefineProblema(input) {
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
-            guardarDatos(document.querySelector("#datosDiseñaClase").querySelectorAll("input, select"), "Clase");
+            guardarDatos(document.querySelector("#datosDefineProblema").querySelectorAll("input, select"), "Problema");
         }, false);
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
-    document.getElementById("verClases").addEventListener("click", () => { verClases(event) }, false);
 }
 
 function formularioValidaProblema(input) {
 
-    var form = document.getElementById("Form1");
-    form.innerHTML = `
-        <h1 class="tituloForm">
-            Profesor Valida Problema Mijín
-        </h1>
 
-        <div class="campos">
-        <label for="fname">First Name</label>
-        <input type="text" id="fname" name="firstname" placeholder="Your name..">
+    aprobado sin Ajustes
+    aprobado con ajustes
+    no aprobado
 
-        <label for="lname">Last Name</label>
-        <input type="text" id="lname" name="lastname" placeholder="Your last name..">
-    
-        <label for="country">Country</label>
-        <select id="country" name="country">
-            <option value="australia">Australia</option>
-            <option value="canada">Canada</option>
-            <option value="usa">USA</option>
-        </select>
+     // Obteniendo los valores preestablecidos para llenar el formulario
+     const empresasHTML = obtenerDatosSelect("empresa", "Nombre Empresa", empresas);
 
-        <input id="confirmarForm1" type="submit" value="Submit">
-        <button class="botonBorrar" type="button"> Borrar </button> 
-        <div>
+    // Llenando los datos del formulario
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Valida Problema </h1>"
+
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosDefineProblema" class="campos">
+
+            ${empresasHTML}
+
+            <label for="causa"> Causa </label>
+            <input type="text" id="causa">
+            
+            <label for="descripcion"> Descripción </label>
+            <input type="text" id="descripcion">
+
+            <label for="impacto"> Impacto </label>
+            <input type="text" id="impacto">
+            
+            <label for="proceso"> Proceso Asociado </label>
+            <input type="text" id="proceso">
+
+            <label for="actor"> Actor Involucrado </label>
+            <input type="text" id="actor">
+        </div>
+
+        <div class="botones">
+            <button id="confirmarForm1" type="button" class="botonConfirmar"> Definir </button>
+            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
+        </div>
+        
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
 
-    var divform = document.getElementById("divForm1")
-    divform.style.display = "block";
-    divform.style.top = input.clientY + "px";;
-    divform.style.left = input.clientX + "px";;
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm2");
+    mostracionFormulario(input, divform)
 
-    document.getElementById("confirmarForm1").addEventListener("click", guardarDatos, false)
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("cerrarForm2").onclick = () => { divform.style.display = "none" };
+    document.getElementById("verClases").addEventListener("click", () => { verClases(event, "asignatura") }, false);
+    document.getElementById("verContenidos").addEventListener("click", verAsignatura, false);
+
+    // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
+    document.getElementById("asignatura").addEventListener("change", () => { actualizarCamposSelect("asignatura", "datosVerAsignatura", asignaturas) }, false);
+    actualizarCamposSelect("asignatura", "datosVerAsignatura", asignaturas)
+    
 }
 
 function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo) {
@@ -442,6 +475,7 @@ function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo) {
     if (llave != "") {
         document.querySelector("#" + nombreContenedorCampos).querySelectorAll("input").forEach(
             (element) => {
+                if ()
                 element.value = arreglo[llave][element.id];
             }
         );
@@ -515,6 +549,11 @@ function guardarDatos(input, caso) {
             case "Representante":
                 cadenaAux1 = `El representante ${input[0].value}`; cadenaAux2 = "o"
                 representantes[input[0].value] = crearObjeto(input);
+                break;
+
+            case "Problema":
+                cadenaAux1 = `El problema de la empresa ${input[0].value}`; cadenaAux2 = "o"
+                problemas[input[0].value] = crearObjeto(input);
                 break;
             default:
                 break;
