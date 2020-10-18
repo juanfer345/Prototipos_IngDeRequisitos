@@ -922,3 +922,6 @@ window.addEventListener("load", inicializarPagina, false);
 
 
 //var profesoresHTML = obtenerDatosSelect("profesores", "Profesor", profesores);
+function HolaKHace(){
+    // NO hace nada
+}
