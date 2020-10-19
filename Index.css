@@ -107,6 +107,8 @@ select {
 }
 
 .tabla label {
+	margin-left: 0px;
+	margin-right: 0px;
 	margin-top: 1px;
 	margin-bottom: 1px;
 }
@@ -168,7 +170,7 @@ select {
 	grid-template-columns: auto auto;
 }
 
-.botonConfirmar, .botonBorrar, .botonCerrar, .botonExtra {
+.botonConfirmar, .botonBorrar, .botonCerrar, .botonExtra, .botonAgregar, .botonRemover {
 	font-size: 3px;
 	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 	color: rgb(255, 255, 255);
@@ -192,4 +194,12 @@ select {
 
 .botonExtra {
 	background-color: rgb(21 50 71);
+}
+
+.botonAgregar {
+	background-color: rgb(105 172 15);
+}
+
+.botonRemover {
+	background-color: rgb(206 31 22);
 }
