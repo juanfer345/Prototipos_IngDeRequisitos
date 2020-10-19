@@ -27,7 +27,7 @@ function inicializarPagina() {
 
     document.getElementById("entregaInformeFinal").addEventListener("click", formularioEntregaInformeFinal)
     document.getElementById("entregaInformeFinalText").addEventListener("click", formularioEntregaInformeFinal)
-    
+
     document.getElementById("entregaPrototipoAlpha").addEventListener("click", formularioEntregaPrototipoAlpha)
     document.getElementById("entregaPrototipoAlphaText").addEventListener("click", formularioEntregaPrototipoAlpha)
 
@@ -39,6 +39,9 @@ function inicializarPagina() {
 
     document.getElementById("DefineMetodologia").addEventListener("click", formularioDefineMetodologia)
     document.getElementById("DefineMetodologiaText").addEventListener("click", formularioDefineMetodologia)
+
+    document.getElementById("realizaRetroalimentacion").addEventListener("click", formularioRealizaRetroalimentacion)
+    document.getElementById("realizaRetroalimentacionText").addEventListener("click", formularioRealizaRetroalimentacion)
 
 
     // Haciendo que cada formulario sea arrastrable
@@ -709,13 +712,13 @@ function formularioEntregaPrototipoAlpha(input) {
 
 function formularioEntregaPrototipoBeta(input) {
 
-       // Obteniendo los valores preestablecidos para llenar el formulario
-       const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
+    // Obteniendo los valores preestablecidos para llenar el formulario
+    const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
 
-       // Llenando los datos del formulario
-       document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Entrega Prototipo Beta </h1>"
-   
-       document.getElementById("Form1").innerHTML = `
+    // Llenando los datos del formulario
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Entrega Prototipo Beta </h1>"
+
+    document.getElementById("Form1").innerHTML = `
            <div id="datosEntregaProBeta" class="campos">
    
                ${equiposHTML}
@@ -735,33 +738,93 @@ function formularioEntregaPrototipoBeta(input) {
                <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
            </div>
        `;
-   
-       // Mostrando el formulario y ubicándolo en la posición adecuada
-       var divform = document.getElementById("divForm1");
-       mostracionFormulario(input, divform)
-   
-       // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
-       document.getElementById("confirmarForm1").addEventListener("click",
-           () => {
-               guardarDatos(document.querySelector("#datosEntregaProBeta").querySelectorAll("select, input"), "PrototipoBeta");
-           }, false);
-   
-       document.getElementById("verCalificacion").addEventListener("click", () => {
-           verCalificacion(event, "equipo", "Prototipo Beta")
-       }, false);
-   
-       document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("confirmarForm1").addEventListener("click",
+        () => {
+            guardarDatos(document.querySelector("#datosEntregaProBeta").querySelectorAll("select, input"), "PrototipoBeta");
+        }, false);
+
+    document.getElementById("verCalificacion").addEventListener("click", () => {
+        verCalificacion(event, "equipo", "Prototipo Beta")
+    }, false);
+
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
+function formularioRealizaRetroalimentacion(input) {
+    // Obteniendo los valores preestablecidos para llenar el formulario
+    const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
 
-function formularioConformaEquipo(input){
-     // Obteniendo los valores preestablecidos para llenar el formulario
-     const empresasHTML = obtenerDatosSelect("empresa", "Empresa Proyecto", empresas);
- 
-     // Llenando los datos del formulario
-     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Conforma Equipo </h1>"
- 
-     document.getElementById("Form1").innerHTML = `
+    // Llenando los datos del formulario
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Realiza Retroalimentación </h1>"
+
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosPrototipoAlpha" class="campos">
+
+            ${equiposHTML}
+
+            <label for="link"> Link </label>
+            <input type="text" id="link" readonly>
+            
+            <label for="calidad"> Calidad </label>
+            <input type="text" id="calidad" readonly>
+
+            <label for="fechaEntrega"> Fecha de Entrega </label>
+            <input type="text" id="fechaEntrega" readonly>
+
+        </div>
+
+        <div id="datosRealizaRetro" class="campos">
+
+            <label for="valoracion"> Valoración </label>
+            <input type="text" id="valoracion">
+
+            <label for="sugerencia"> Sugerencia </label>
+            <input type="text" id="sugerencia">
+
+        </div>
+
+        <div class="botones">
+            <button id="confirmarForm1" type="button" class="botonConfirmar"> Guardar Retroalimentación </button>
+            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
+            
+        </div>
+            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+    `;
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("equipo").addEventListener("change",
+        () => {
+            actualizarCamposSelect("equipo", "datosPrototipoAlpha", equipos);
+        }, false);
+        actualizarCamposSelect("equipo", "datosPrototipoAlpha", equipos);
+
+    document.getElementById("confirmarForm1").addEventListener("click",
+        () => {
+            guardarDatos(document.querySelector("#datosRealizaRetro").querySelectorAll("select, input"), "Retroalimentacion");
+        }, false);
+
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+
+}
+
+function formularioConformaEquipo(input) {
+    // Obteniendo los valores preestablecidos para llenar el formulario
+    const empresasHTML = obtenerDatosSelect("empresa", "Empresa Proyecto", empresas);
+
+    // Llenando los datos del formulario
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Conforma Equipo </h1>"
+
+    document.getElementById("Form1").innerHTML = `
          <div id="datosEquipo" class="campos">
  
              ${empresasHTML}
@@ -790,32 +853,32 @@ function formularioConformaEquipo(input){
          </div>
          <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
      `;
- 
-     // Mostrando el formulario y ubicándolo en la posición adecuada
-     var divform = document.getElementById("divForm1");
-     mostracionFormulario(input, divform)
- 
-     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
-     document.getElementById("confirmarForm1").addEventListener("click",
-         () => {
-             guardarDatos(document.querySelector("#datosEquipo").querySelectorAll("input, select"), "Equipo");
-         }, false);
-     document.getElementById("verEmpresa").addEventListener("click", () => { verEmpresa(event, "empresa") }, false);
-     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
- 
-     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-     document.getElementById("empresa").addEventListener("change", () => { actualizarCamposSelect("empresa", "datosProblema", problemas) }, false);
-     actualizarCamposSelect("empresa", "datosProblema", problemas);
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("confirmarForm1").addEventListener("click",
+        () => {
+            guardarDatos(document.querySelector("#datosEquipo").querySelectorAll("input, select"), "Equipo");
+        }, false);
+    document.getElementById("verEmpresa").addEventListener("click", () => { verEmpresa(event, "empresa") }, false);
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+
+    // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
+    document.getElementById("empresa").addEventListener("change", () => { actualizarCamposSelect("empresa", "datosProblema", problemas) }, false);
+    actualizarCamposSelect("empresa", "datosProblema", problemas);
 }
 
-function formularioDefineMetodologia(input){
-     // Obteniendo los valores preestablecidos para llenar el formulario
-     const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
+function formularioDefineMetodologia(input) {
+    // Obteniendo los valores preestablecidos para llenar el formulario
+    const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
 
-     // Llenando los datos del formulario
-     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Define Metodologia de Desarrollo </h1>"
- 
-     document.getElementById("Form1").innerHTML = `
+    // Llenando los datos del formulario
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Define Metodologia de Desarrollo </h1>"
+
+    document.getElementById("Form1").innerHTML = `
          <div id="datosMetodologia" class="campos">
  
              ${equiposHTML}
@@ -840,18 +903,18 @@ function formularioDefineMetodologia(input){
          </div>
          <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
      `;
- 
-     // Mostrando el formulario y ubicándolo en la posición adecuada
-     var divform = document.getElementById("divForm1");
-     mostracionFormulario(input, divform)
- 
-     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
-     document.getElementById("confirmarForm1").addEventListener("click",
-         () => {
-             guardarDatos(document.querySelector("#datosMetodologia").querySelectorAll("select, input"), "Metodologia");
-         }, false);
- 
-     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("confirmarForm1").addEventListener("click",
+        () => {
+            guardarDatos(document.querySelector("#datosMetodologia").querySelectorAll("select, input"), "Metodologia");
+        }, false);
+
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
 function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
@@ -1000,15 +1063,15 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
     LlenarTablaSelect(equipoSeleccionado, "datosCriteriosCalif", Criterios)
 }
 
-function formularioEntregaInformeFinal(input){
+function formularioEntregaInformeFinal(input) {
 
-        // Obteniendo los valores preestablecidos para llenar el formulario
-        const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
+    // Obteniendo los valores preestablecidos para llenar el formulario
+    const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
 
-        // Llenando los datos del formulario
-        document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Entrega Informe Final </h1>"
-    
-        document.getElementById("Form1").innerHTML = `
+    // Llenando los datos del formulario
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Entrega Informe Final </h1>"
+
+    document.getElementById("Form1").innerHTML = `
             <div id="datosEntregaInfFinal" class="campos">
     
                 ${equiposHTML}
@@ -1031,22 +1094,22 @@ function formularioEntregaInformeFinal(input){
                 <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
             </div>
         `;
-    
-        // Mostrando el formulario y ubicándolo en la posición adecuada
-        var divform = document.getElementById("divForm1");
-        mostracionFormulario(input, divform)
-    
-        // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
-        document.getElementById("confirmarForm1").addEventListener("click",
-            () => {
-                guardarDatos(document.querySelector("#datosEntregaInfFinal").querySelectorAll("select, input"), "InformeFinal");
-            }, false);
-    
-        document.getElementById("verCalificacion").addEventListener("click", () => {
-            verCalificacion(event, "equipo", "Informe Final")
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("confirmarForm1").addEventListener("click",
+        () => {
+            guardarDatos(document.querySelector("#datosEntregaInfFinal").querySelectorAll("select, input"), "InformeFinal");
         }, false);
-    
-        document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+
+    document.getElementById("verCalificacion").addEventListener("click", () => {
+        verCalificacion(event, "equipo", "Informe Final")
+    }, false);
+
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
 function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo) {
@@ -1161,20 +1224,25 @@ function guardarDatos(input, caso) {
                 cadenaAux1 = `El informe inicial del equipo ${input[0].value}`; cadenaAux2 = "o"
                 informesIniciales[input[0].value] = crearObjeto(input);
                 break;
-            
+
             case "InformeFinal":
                 cadenaAux1 = `El informe Final del equipo ${input[0].value}`; cadenaAux2 = "o"
                 informesFinales[input[0].value] = crearObjeto(input);
                 break;
 
-                
+
 
             case "PrototipoAlpha":
                 cadenaAux1 = `El prototipo Alpha del equipo ${input[0].value}`; cadenaAux2 = "o"
                 prototipoAlfa[input[0].value] = crearObjeto(input);
                 break;
 
-                    
+            case "Retroalimentacion":
+                cadenaAux1 = `La retroalimentación del prototipo Alpha del equipo ${input[0].value}`; cadenaAux2 = "a"
+                retroalimentaciones[input[0].value] = crearObjeto(input);
+                break;
+
+
             case "PrototipoBeta":
                 cadenaAux1 = `El prototipo Beta del equipo ${input[0].value}`; cadenaAux2 = "o"
                 prototipoBeta[input[0].value] = crearObjeto(input);
@@ -1183,8 +1251,8 @@ function guardarDatos(input, caso) {
             case "Metodologia":
                 cadenaAux1 = `La metodologia del equipo ${input[0].value}`; cadenaAux2 = "a"
                 metodologiasDesarrollo[input[0].value] = crearObjeto(input);
-                break; 
-    
+                break;
+
 
             default:
                 break;
