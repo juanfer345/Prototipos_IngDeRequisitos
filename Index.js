@@ -78,6 +78,12 @@ function mostracionFormulario(input, divform) {
 
 function formularioDisenaAsignatura(input) {
 
+    // Identificador contenido
+    var identificador = 0;
+
+    // Obteniendo los valores preestablecidos para llenar el formulario
+    const profesoresHTML = obtenerDatosSelect("profesor", "Profesor", profesores);
+
     // Llenando los datos del formulario
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Diseña Asignatura </h1>"
 
@@ -86,12 +92,13 @@ function formularioDisenaAsignatura(input) {
             <label for="nombre"> Nombre </label>
             <input type="text" id="nombre">
 
-            <label for="contenido"> Contenido </label>
-            <input type="text" id="contenido">
-
-            <label for="codigo"> Código </label>
-            <input type="text" id="codigo">
+            ${profesoresHTML}
+            
+            <label> Contenido </label>
+            <button id="agregarContenido" type="button" class="botonAgregar"> Agregar Contenido </button>
         </div>
+
+        <div id="contenidoAsignatura" class="campos"></div>
 
         <div class="botones">
             <button id="confirmarForm1" type="button" class="botonConfirmar"> Diseñar </button>
@@ -106,12 +113,32 @@ function formularioDisenaAsignatura(input) {
     mostracionFormulario(input, divform)
 
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("agregarContenido").addEventListener("click",
+        () => {
+            var div = document.getElementById("contenidoAsignatura");
+
+            var campo = document.createElement("input");
+            campo.setAttribute("type", "text");
+            campo.setAttribute("id", `contenido_${identificador}`);
+
+            var boton = document.createElement("button");
+            boton.setAttribute("id", `botonContenido_${identificador}`);
+            boton.setAttribute("type", "button");
+            boton.setAttribute("class", "botonRemover");
+            boton.innerHTML = "Remover Contenido"
+            boton.addEventListener("click", () => { campo.remove(); boton.remove(); }, false)
+
+            div.appendChild(campo); div.appendChild(boton); identificador++;
+        }
+    );
+
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
-            guardarDatos(document.querySelector("#datosDiseñaAsignatura").querySelectorAll("input"), "Asignatura");
+            guardarDatos(document.querySelector("#datosDiseñaAsignatura").querySelectorAll("input, select"), "Asignatura");
+            guardarDatos(document.querySelector("#contenidoAsignatura").querySelectorAll("input"), "Contenido Asignatura", document.getElementById("nombre").value);
         }, false);
-    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
     document.getElementById("verAsignatura").addEventListener("click", verAsignatura, false);
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
 function verAsignatura(input) {
@@ -129,21 +156,9 @@ function verAsignatura(input) {
 
             <label for="profesor"> Profesor </label>
             <input type="text" id="profesor" readonly>
-
-            <label for="codigo"> Código </label>
-            <input type="text" id="codigo" readonly>
-            
-            <label for="horario"> Horario </label>
-            <input type="text" id="horario" readonly>
-            
-            <label for="nota"> Nota </label>
-            <input type="text" id="nota" readonly>
             
             <label for="estado"> Estado </label>
             <input type="text" id="estado" readonly>
-
-            <label for="semestre"> Semestre </label>
-            <input type="text" id="semestre" readonly>
             
             <label> Clase </label>
             <button id="verClases" type="button" class="botonExtra"> Ver Clases </button>
@@ -164,11 +179,11 @@ function verAsignatura(input) {
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("cerrarForm2").onclick = () => { divform.style.display = "none" };
     document.getElementById("verClases").addEventListener("click", () => { verClases(event, "asignatura") }, false);
-    document.getElementById("verContenidos").addEventListener("click", verAsignatura, false);
+    document.getElementById("verContenidos").addEventListener("click", () => { verContenidos(event, "asignatura") }, false);
 
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-    document.getElementById("asignatura").addEventListener("change", () => { actualizarCamposSelect("asignatura", "datosVerAsignatura", asignaturas) }, false);
-    actualizarCamposSelect("asignatura", "datosVerAsignatura", asignaturas)
+    document.getElementById("asignatura").addEventListener("change", () => { actualizarCamposSelect("asignatura", "datosVerAsignatura", asignaturas, "Clases") }, false);
+    actualizarCamposSelect("asignatura", "datosVerAsignatura", asignaturas, "Clases")
 }
 
 function verClases(input, nombreSelect = "") {
@@ -212,8 +227,48 @@ function verClases(input, nombreSelect = "") {
     document.getElementById("cerrarForm3").onclick = () => { divform.style.display = "none" };
 
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-    document.getElementById("asignatura").addEventListener("change", () => { LlenarTablaSelect(asignatura, "datosVerClases", clases) }, false);
-    LlenarTablaSelect(asignatura, "datosVerClases", clases)
+    document.getElementById("asignatura").addEventListener("change", () => { LlenarTablaSelect(asignatura, "datosVerClases", clases, "clases") }, false);
+    LlenarTablaSelect(asignatura, "datosVerClases", clases, "clases");
+}
+
+function verContenidos(input, nombreSelect) {
+
+    // Asignatura seleccionada antes de dar click a ver clases
+    var asignatura = document.getElementById(nombreSelect).value;
+
+    // Obteniendo los valores preestablecidos para llenar el formulario
+    const asignaturasHTML = obtenerDatosSelect("asignatura", "Asignatura", asignaturas, asignatura);
+
+    // Llenando los datos del formulario
+    document.getElementById("barraForm3").innerHTML = "<h1 class='tituloForm'> Ver Contenidos </h1>"
+
+    document.getElementById("Form3").innerHTML = `
+            <div class="campos">
+                ${asignaturasHTML}
+            </div>
+
+            <div class="tabla">
+                <label style="color: #05d1ff; font-size: 4px;"> Número </label>
+                <label style="color: #05d1ff; font-size: 4px;"> Contenido </label>
+            </div>
+
+            <div id="datosVerContenidos" class="tabla"> </div>
+
+            <div>
+                <button id="cerrarForm3" type="button" class="botonCerrar"> Cerrar </button>
+            </div>
+        `;
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm3");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("cerrarForm3").onclick = () => { divform.style.display = "none" };
+
+    // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
+    document.getElementById("asignatura").addEventListener("change", () => { LlenarTablaSelect(asignatura, "datosVerContenidos", asignaturas[asignatura]["contenidos"], "Contenidos") }, false);
+    LlenarTablaSelect(asignatura, "datosVerContenidos", asignaturas[asignatura]["contenidos"], "Contenidos")
 }
 
 function formularioDisenaClase(input) {
@@ -478,7 +533,7 @@ function formularioValidaProblema(input) {
 function verEmpresa(input) {
 
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const empresasHTML = obtenerDatosSelect("empresa", "Nombre Empresa", empresas);
+    const empresasHTML = obtenerDatosSelect("empresaVer", "Nombre Empresa", empresas);
 
     // Llenando los datos del formulario
     document.getElementById("barraForm2").innerHTML = "<h1 class='tituloForm'> Ver Empresa </h1>"
@@ -507,14 +562,14 @@ function verEmpresa(input) {
         <h2 class='subtituloForm'> Datos Representante <h2/>
 
         <div id="datosRepresentante" class="campos">
-            <label for="nombre"> Nombre </label>
-            <input type="text" id="nombre">
+            <label for="nombreRepre"> Nombre </label>
+            <input type="text" id="nombreRepre" readonly>
             
             <label for="correo"> Correo </label>
-            <input type="email" id="correo">
+            <input type="email" id="correo" readonly>
             
             <label for="celular"> Celular </label>
-            <input type="number" id="celular" min="0">
+            <input type="number" id="celular" min="0" readonly>
             
             <label> Disponibilidad </label>
 
@@ -538,13 +593,14 @@ function verEmpresa(input) {
     document.getElementById("cerrarForm2").onclick = () => { divform.style.display = "none" };
 
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-    document.getElementById("empresa").addEventListener("change",
+    document.getElementById("empresaVer").addEventListener("change",
         () => {
-            actualizarCamposSelect("empresa", "datosEmpresa", empresas);
-            actualizarCamposSelect("#datosRepresentante Nombre", "datosRepresentante", representantes);
+            actualizarCamposSelect("empresaVer", "datosEmpresa", empresas);
+            actualizarCamposSelect("nombreRepre", "datosRepresentante", representantes);
         }, false);
 
-    actualizarCamposSelect("asignatura", "datosVerAsignatura", asignaturas)
+    actualizarCamposSelect("empresaVer", "datosEmpresa", empresas);
+    actualizarCamposSelect("nombreRepre", "datosRepresentante", representantes);
 }
 
 function formularioEntregaInformeInicial(input) {
@@ -610,21 +666,24 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
     switch (tipoInfProt) {
         case "Informe Inicial":
             avanceIdea = `<label for="idea"> Idea de Desarrollo </label>
-                          <input type="text" id="idea"></input>`
+                          <input type="text" id="idea"></input>
+                          `
             var informePrototipo = informesIniciales;
             var Criterios = criteriosEvaluacionInfInicial;
             break;
 
         case "Informe de Progreso":
             avanceIdea = `<label for="avance"> Avance </label>
-                          <input type="text" id="avance"></input>`
+                          <input type="text" id="avance"></input>
+                          `
             var informePrototipo = informesProgreso;
             var Criterios = criteriosEvaluacionInfProgreso;
             break;
 
         case "Informe Final":
             avanceIdea = `<label for="conclusion"> Conclusión </label>
-                          <input type="text" id="conclusion"></input>`
+                          <input type="text" id="conclusion"></input>
+                          `
             var informePrototipo = informesFinales;
             var Criterios = criteriosEvaluacionInfFinal;
             break;
@@ -667,12 +726,10 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
             <input type="text" id="rubrica">
             
             <label for="notaRubrica"> Nota de la Rubrica </label>
-            <input type="text" id="notaRubrica">
-            `
+            <input type="text" id="notaRubrica">`
     }
     else {
         contenido = `
-            
             <label for="link"> Link </label>
             <input type="text" id="link">
             
@@ -688,8 +745,7 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
             <label for="notaRubrica"> Nota de la Rubrica </label>
             <input type="text" id="notaRubrica">
 
-            ${retroalimentacion}
-            `
+            ${retroalimentacion}`
     }
 
     // Llenando los datos del formulario
@@ -721,7 +777,6 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
             <button id="cerrarForm2" type="button" class="botonCerrar"> Cerrar </button>
         </div>
     `;
-
     document.getElementById("columnas").style.gridTemplateColumns = "20px 20px 20px 20px 20px 20px";
     document.getElementById("datosCriteriosCalif").style.gridTemplateColumns = "20px 20px 20px 20px 20px 20px";
 
@@ -739,7 +794,7 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
             LlenarTablaSelect(equipoSeleccionado, "datosCriteriosCalif", Criterios)
         }, false);
     actualizarCamposSelect("equipoVer", "datosVerCalificacion", informePrototipo)
-    LlenarTablaSelect(equipoSeleccionado, "datosCriteriosCalif", Criterios)
+    LlenarTablaSelect(equipoSeleccionado, "datosCriteriosCalif", Criterios, "criterios")
 }
 
 function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo) {
@@ -760,31 +815,66 @@ function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo) {
                 break;
             }
             else {
-                var i = 0;
-                for (var [key, value2] of Object.entries(value)) {
-                    campos[i].value = ""; i++;
-                }
+                Array.from(campos).forEach(
+                    (campo) => {
+                        campo.value = ""
+                    }
+                )
                 break;
             }
         }
     }
 }
 
-function LlenarTablaSelect(llave, nombreContenedorCampos, arreglo) {
+function LlenarTablaSelect(llave, nombreContenedorCampos, arreglo, caso) {
 
     var acumulador = "";
 
     if (arreglo[Object.keys(arreglo)[0]] != undefined) {
-        if (llave == "") {
-            llave = arreglo[Object.keys(arreglo)[0]].asignatura;
-        }
-        for (var [key, value] of Object.entries(arreglo)) {
-            if (value.asignatura == llave) {
-                acumulador += `
-                <label> ${value.numero} </label>
-                <label> ${value.tematica} </label>
-            `;
-            }
+        switch (caso) {
+            case "Clases":
+
+                if (llave == "") {
+                    llave = arreglo[Object.keys(arreglo)[0]].asignatura;
+                }
+                for (var [key, value] of Object.entries(arreglo)) {
+                    if (value.asignatura == llave) {
+                        acumulador += `
+                            <label> ${value.numero} </label>
+                            <label> ${value.tematica} </label>
+                        `;
+                    }
+                }
+                break;
+
+            case "Contenidos":
+
+                for (var [key, value] of Object.entries(arreglo)) {
+                    acumulador += `
+                        <label> ${key.split("_")[1]} </label>
+                        <label> ${value} </label>
+                    `;
+                }
+                break;
+
+            case "Criterios":
+
+                if (llave == "") {
+                    llave = arreglo[Object.keys(arreglo)[0]].equipo;
+                }
+                for (var [key, value] of Object.entries(arreglo)) {
+                    if (value.equipo == llave) {
+                        acumulador += `
+                            <label> ${value.nombre} </label>
+                            <label> ${value.descripcion} </label>
+                            <label> ${value.valoracion} </label>
+                            <label> ${value.comentario} </label>
+                            <label> ${value.nota} </label>
+                            <label> ${value.peso} </label>
+                        `;
+                    }
+                }
+                break;
         }
         document.getElementById(nombreContenedorCampos).innerHTML = acumulador;
     }
@@ -808,9 +898,9 @@ function obtenerDatosSelect(id, display, arreglo, seleccionado = "") {
     return salidaHTML;
 }
 
-function guardarDatos(input, caso) {
+function guardarDatos(input, caso, llave = input[0].value) {
 
-    var condicionCamposCompletos = true;
+    var condicionCamposCompletos = true; var condicionAlertacion = true;
     var cadenaAux1, cadenaAux2;
 
     // Esto es para comprobar que se hallan enviado todos los datos
@@ -821,41 +911,49 @@ function guardarDatos(input, caso) {
     if (condicionCamposCompletos) {
         switch (caso) {
             case "Asignatura":
-                cadenaAux1 = `La asignatura ${input[0].value}`; cadenaAux2 = "a"
-                asignaturas[input[0].value] = crearObjeto(input);
+                cadenaAux1 = `La asignatura ${llave}`; cadenaAux2 = "a"
+                asignaturas[llave] = crearObjeto(input);
+                break;
+
+            case "Contenido Asignatura":
+                condicionAlertacion = false;
+                if (asignaturas[llave] != undefined) {
+                    asignaturas[llave]["contenidos"] = {};
+                    adicionarAobjeto(asignaturas[llave]["contenidos"], input);
+                }
                 break;
 
             case "Clase":
-                cadenaAux1 = `La clase ${input[0].value}`; cadenaAux2 = "a"
-                clases[input[0].value] = crearObjeto(input);
+                cadenaAux1 = `La clase ${llave}`; cadenaAux2 = "a"
+                clases[llave] = crearObjeto(input);
                 break;
 
             case "Empresa":
-                cadenaAux1 = `La empresa ${input[0].value}`; cadenaAux2 = "a"
-                empresas[input[0].value] = crearObjeto(input);
+                cadenaAux1 = `La empresa ${llave}`; cadenaAux2 = "a"
+                empresas[llave] = crearObjeto(input);
                 break;
 
             case "Representante":
-                cadenaAux1 = `El representante ${input[0].value}`; cadenaAux2 = "o"
-                representantes[input[0].value] = crearObjeto(input);
+                cadenaAux1 = `El representante ${llave}`; cadenaAux2 = "o"
+                representantes[llave] = crearObjeto(input);
                 break;
 
             case "Problema":
-                cadenaAux1 = `El problema de la empresa ${input[0].value}`; cadenaAux2 = "o"
-                problemas[input[0].value] = crearObjeto(input);
+                cadenaAux1 = `El problema de la empresa ${llave}`; cadenaAux2 = "o"
+                problemas[llave] = crearObjeto(input);
                 break;
 
             case "InformeInicial":
-                cadenaAux1 = `El informe inicial del equipo ${input[0].value}`; cadenaAux2 = "o"
-                informesIniciales[input[0].value] = crearObjeto(input);
+                cadenaAux1 = `El informe inicial del equipo ${llave}`; cadenaAux2 = "o"
+                informesIniciales[llave] = crearObjeto(input);
                 break;
 
             default:
                 break;
         }
-        alert(`${cadenaAux1} ha sido almacenad${cadenaAux2}`);
+        if (condicionAlertacion) { alert(`${cadenaAux1} ha sido almacenad${cadenaAux2}`); }
     }
-    else {
+    else if (caso != "Contenido Asignatura") {
         alert("Por favor llenar todos los campos, Mija")
     }
 }
@@ -873,6 +971,19 @@ function crearObjeto(listiviris) {
         }
     }
     return objeto;
+}
+
+function adicionarAobjeto(objeto, listiviris) {
+    for (let index = 0; index < listiviris.length; index++) {
+        if (listiviris[index].type != "radio") {
+            objeto[listiviris[index].id] = listiviris[index].value
+        }
+        else {
+            if (listiviris[index].checked) {
+                objeto[listiviris[index].id] = listiviris[index].value
+            }
+        }
+    }
 }
 
 var criteriosEvaluacionInfInicial = {};
@@ -903,7 +1014,11 @@ var problemas = {
 var retroalimentaciones = {};
 var historiasAcademicas = {};
 var estudiantes = {};
-var profesores = {};
+var profesores = {
+    "Elma Riadito": { nombre: "Elma Riadito", correo: "Elma@elma.com", celular: "3173022932", direccion: "Calle falsa 123", identificacion: "1" },
+    "Elsa Pato": { nombre: "Elsa Pato", correo: "Elsa@elsa.ru", celular: "7823", direccion: "Carrera falsa 123", identificacion: "2" },
+    "Alan Brito Delgado": { nombre: "Alan Brito Delgado", correo: "Alan@Brito.delgado", celular: "", direccion: "Carrera falsa 456", identificacion: "3" },
+};
 var metodologiasDesarrollo = {};
 var informesIniciales = {};
 var informesProgreso = {};
@@ -918,11 +1033,10 @@ var rubricas = {
     "Rubrica de Informe Final": { nombre: "Rubrica de Informe Final", nota: 0 }
 };
 
-window.addEventListener("load", inicializarPagina, false);
-
+window.addEventListener("load", inicializarPagina, false)
 
 //var profesoresHTML = obtenerDatosSelect("profesores", "Profesor", profesores);
-function HolaKHace(){
+function HolaKHace() {
     // NO hace nada
 }
 //Prueba santiago
