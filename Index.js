@@ -22,6 +22,9 @@ function inicializarPagina() {
     document.getElementById("entregaInformeInicial").addEventListener("click", formularioEntregaInformeInicial)
     document.getElementById("entregaInformeInicialText").addEventListener("click", formularioEntregaInformeInicial)
 
+    document.getElementById("entregaInformeFinal").addEventListener("click", formularioEntregaInformeFinal)
+    document.getElementById("entregaInformeFinalText").addEventListener("click", formularioEntregaInformeFinal)
+
     // Haciendo que cada formulario sea arrastrable
     asignarArrastracion(document.getElementById("divForm1"), document.getElementById("barraForm1"));
     asignarArrastracion(document.getElementById("divForm2"), document.getElementById("barraForm2"));
@@ -742,6 +745,55 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
     LlenarTablaSelect(equipoSeleccionado, "datosCriteriosCalif", Criterios)
 }
 
+function formularioEntregaInformeFinal(input){
+
+        // Obteniendo los valores preestablecidos para llenar el formulario
+        const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
+
+        // Llenando los datos del formulario
+        document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Entrega Informe Final </h1>"
+    
+        document.getElementById("Form1").innerHTML = `
+            <div id="datosEntregaInfFinal" class="campos">
+    
+                ${equiposHTML}
+    
+                <label for="tema"> Tema </label>
+                <input type="text" id="tema">
+                
+                <label for="secciones"> Secciones </label>
+                <input type="text" id="secciones">
+    
+                <label for="avance"> Avance </label>
+                <input type="text" id="avance">
+                
+            </div>
+    
+            <div class="botones">
+                <button id="confirmarForm1" type="button" class="botonConfirmar"> Entregar </button>
+                <button type="reset" class="botonBorrar"> Limpiar Campos </button>
+                <button id="verCalificacion" type="button" class="botonExtra"> Ver Calificación </button>
+                <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+            </div>
+        `;
+    
+        // Mostrando el formulario y ubicándolo en la posición adecuada
+        var divform = document.getElementById("divForm1");
+        mostracionFormulario(input, divform)
+    
+        // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+        document.getElementById("confirmarForm1").addEventListener("click",
+            () => {
+                guardarDatos(document.querySelector("#datosEntregaInfFinal").querySelectorAll("select, input"), "InformeFinal");
+            }, false);
+    
+        document.getElementById("verCalificacion").addEventListener("click", () => {
+            verCalificacion(event, "equipo", "Informe Final")
+        }, false);
+    
+        document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+}
+
 function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo) {
 
     const llave = document.getElementById(nombreSelect).value;
@@ -849,6 +901,13 @@ function guardarDatos(input, caso) {
                 cadenaAux1 = `El informe inicial del equipo ${input[0].value}`; cadenaAux2 = "o"
                 informesIniciales[input[0].value] = crearObjeto(input);
                 break;
+            
+            case "InformeFinal":
+                cadenaAux1 = `El informe Final del equipo ${input[0].value}`; cadenaAux2 = "o"
+                informesFinales[input[0].value] = crearObjeto(input);
+                break;
+
+                
 
             default:
                 break;
