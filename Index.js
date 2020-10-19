@@ -22,6 +22,9 @@ function inicializarPagina() {
     document.getElementById("entregaInformeInicial").addEventListener("click", formularioEntregaInformeInicial)
     document.getElementById("entregaInformeInicialText").addEventListener("click", formularioEntregaInformeInicial)
 
+    document.getElementById("construyeCartera").addEventListener("click", formularioConstruyeCartera)
+    document.getElementById("construyeCarteraText").addEventListener("click", formularioConstruyeCartera)
+
     // Haciendo que cada formulario sea arrastrable
     asignarArrastracion(document.getElementById("divForm1"), document.getElementById("barraForm1"));
     asignarArrastracion(document.getElementById("divForm2"), document.getElementById("barraForm2"));
@@ -603,6 +606,46 @@ function verEmpresa(input) {
     actualizarCamposSelect("nombreRepre", "datosRepresentante", representantes);
 }
 
+function formularioConstruyeCartera(input) {
+    
+    // Llenando los datos del formulario
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Construye Cartera de Proyecto </h1>"
+
+    document.getElementById("Form1").innerHTML = `
+
+        <div id="datosCartera" class="campos">
+            
+            <label for="cantidad"> Cantidad </label>
+            <input type="number" id="cantidad" readonly>
+
+        </div>
+        
+        <div class="botones">
+            <button id="agregaProyecto" type="button" class="botonExtra"> Agregar Proyecto </button>
+            <button id="verProyecto" type="button" class="botonExtra"> Ver Proyecto </button>
+        </div>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+    `;
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("agregaProyecto").addEventListener("click", () => { agregarProyecto(event) }, false);
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+}
+
+function agregarProyecto(input){
+     // Obteniendo los valores preestablecidos para llenar el formulario
+     const problemasHTML = obtenerDatosSelect("empresa", "Nombre Empresa", empresas);
+    
+}
+
+function verProyecto(input){
+    
+}
+
 function formularioEntregaInformeInicial(input) {
 
     // Obteniendo los valores preestablecidos para llenar el formulario
@@ -993,7 +1036,7 @@ var criteriosEvaluacionProtAlfa = {};
 var criteriosEvaluacionProtBeta = {};
 var asignaturas = {};
 var clases = {};
-var proyectos = {};
+var proyectos = {cantidad: 0};
 var equipos = {};
 var carteraProyecto = {};
 var representantes = {};
