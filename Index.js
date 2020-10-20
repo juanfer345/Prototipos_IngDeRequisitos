@@ -40,6 +40,9 @@ function inicializarPagina() {
     document.getElementById("entregaPrototipoAlpha").addEventListener("click", formularioEntregaPrototipoAlpha)
     document.getElementById("entregaPrototipoAlphaText").addEventListener("click", formularioEntregaPrototipoAlpha)
 
+    document.getElementById("realizaRetroalimentacion").addEventListener("click", formularioRealizaRetroalimentacion)
+    document.getElementById("realizaRetroalimentacionText").addEventListener("click", formularioRealizaRetroalimentacion)
+
     document.getElementById("entregaInformeFinal").addEventListener("click", formularioEntregaInformeFinal)
     document.getElementById("entregaInformeFinalText").addEventListener("click", formularioEntregaInformeFinal)
 
@@ -1109,6 +1112,67 @@ function formularioEntregaPrototipoBeta(input) {
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
+function formularioRealizaRetroalimentacion(input) {
+    // Obteniendo los valores preestablecidos para llenar el formulario
+    const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
+
+    // Llenando los datos del formulario
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Realiza Retroalimentación </h1>"
+
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosPrototipoAlpha" class="campos">
+
+            ${equiposHTML}
+
+            <label for="link"> Link </label>
+            <input type="text" id="link" readonly>
+            
+            <label for="calidad"> Calidad </label>
+            <input type="text" id="calidad" readonly>
+
+            <label for="fechaEntrega"> Fecha de Entrega </label>
+            <input type="text" id="fechaEntrega" readonly>
+
+        </div>
+
+        <div id="datosRealizaRetro" class="campos">
+
+            <label for="valoracion"> Valoración </label>
+            <input type="text" id="valoracion">
+
+            <label for="sugerencia"> Sugerencia </label>
+            <input type="text" id="sugerencia">
+
+        </div>
+
+        <div class="botones">
+            <button id="confirmarForm1" type="button" class="botonConfirmar"> Guardar Retroalimentación </button>
+            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
+            
+        </div>
+            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+    `;
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("equipo").addEventListener("change",
+        () => {
+            actualizarCamposSelect("equipo", "datosPrototipoAlpha", equipos);
+        }, false);
+        actualizarCamposSelect("equipo", "datosPrototipoAlpha", equipos);
+
+    document.getElementById("confirmarForm1").addEventListener("click",
+        () => {
+            guardarDatos(document.querySelector("#datosRealizaRetro").querySelectorAll("select, input"), "Retroalimentacion");
+        }, false);
+
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+
+}
+
 function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
 
     // Asignatura seleccionada antes de dar click a ver clases¿
@@ -1436,6 +1500,11 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega) {
             case "PrototipoAlpha":
                 cadenaAux1 = `El prototipo Alpha del equipo ${llave}`; cadenaAux2 = "o"
                 prototipoAlfa[llave] = crearObjeto(input);
+                break;
+
+            case "Retroalimentacion":
+                cadenaAux1 = `La retroalimentación del prototipo Alpha del equipo ${input[0].value}`; cadenaAux2 = "a"
+                retroalimentaciones[input[0].value] = crearObjeto(input);
                 break;
 
             case "PrototipoBeta":
