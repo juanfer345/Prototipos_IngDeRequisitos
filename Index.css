@@ -63,7 +63,7 @@ label {
 	margin: 4.7px 2px;
 }
 
-input, select {
+input, select, textarea {
 	font-size: 7px;
 	width: auto;
 	padding: 1px 2px;
@@ -71,6 +71,23 @@ input, select {
 	border: 1px solid #636363;
 	border-radius: 2.8px;
 	text-align: center;
+}
+
+textarea {
+	min-width: 30px;
+	text-align: justify;
+	margin: 3px 2px;
+	overflow: hidden;
+	padding: 2px 5px;
+}
+
+input[disabled] {
+	color: white;
+}
+
+textarea[disabled] {
+	color: white;
+	background-color: rgb(96 96 96);
 }
 
 input[type="radio"] {
@@ -91,7 +108,7 @@ select {
 	align-items: center;
 }
 
-.tabla label{
+.tabla label {
 	margin: 1px 0px;
 }
 

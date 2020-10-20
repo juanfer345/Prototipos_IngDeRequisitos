@@ -103,6 +103,28 @@ function mostracionFormulario(input, divform) {
     divform.style.left = input.clientX + "px";
 }
 
+function AsignacionExpansionTextArea(lista) {
+    Array.from(lista).forEach(
+        (campo) => {
+            campo.addEventListener("input", () => {expansionTextArea(campo)})
+        }
+    );
+}
+
+function expansionTextArea(elemento) {
+    elemento.style.height = "auto";
+    elemento.style.height = elemento.scrollHeight + "px";
+}
+
+function expansionTextAreaDisabled(lista) {
+    Array.from(lista).forEach(
+        (campo) => {
+            campo.style.height = "auto";
+            campo.style.height = campo.scrollHeight + "px";
+        }
+    );
+}
+
 function formularioDisenaAsignatura(input) {
 
     // Identificador contenido
@@ -191,10 +213,10 @@ function verAsignatura(input, nombreCampoAsignatura = "") {
             ${asignaturasHTML}
 
             <label for="profesor"> Profesor </label>
-            <input type="text" id="profesor" readonly>
+            <input type="text" id="profesor" disabled>
             
             <label for="estado"> Estado </label>
-            <input type="text" id="estado" readonly>
+            <input type="text" id="estado" disabled>
             
         </div>
         <div id="datosVerAsignatura" class="botones">
@@ -411,16 +433,16 @@ function formularioRegistraEmpresa(input) {
             <input type="text" id="nombre">
             
             <label for="mision"> Misión </label>
-            <input type="text" id="mision">
+            <textarea id="mision"></textarea>
             
             <label for="vision"> Visión </label>
-            <input type="text" id="vision">
+            <textarea id="vision"></textarea>
             
             <label for="objetivo"> Objetivo Estratégico </label>
-            <input type="text" id="objetivo">
+            <textarea id="objetivo"></textarea>
             
             <label for="necesidad"> Necesidad </label>
-            <input type="text" id="necesidad">
+            <textarea id="necesidad"></textarea>
         </div>
 
         <h2 class='subtituloForm'> Datos Representante </h2>
@@ -457,12 +479,15 @@ function formularioRegistraEmpresa(input) {
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
 
+    // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+    AsignacionExpansionTextArea(document.querySelector("#datosRegistraEmpresa").querySelectorAll("textarea"));
+
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
             const llaveEmpresa = document.querySelector("#datosRegistraEmpresa").querySelectorAll("input")[0].value;
 
-            guardarDatos(document.querySelector("#datosRegistraEmpresa").querySelectorAll("input"), "Empresa");
+            guardarDatos(document.querySelector("#datosRegistraEmpresa").querySelectorAll("input, textarea"), "Empresa");
             guardarDatos(document.querySelector("#datosRegistraRepresentante").querySelectorAll("input"), "Representante",
                 undefined, [["empresa", empresas[llaveEmpresa].nombre]]);
         }, false);
@@ -483,16 +508,16 @@ function formularioDefineProblema(input) {
             ${empresasHTML}
 
             <label for="causa"> Causa </label>
-            <input type="text" id="causa">
+            <textarea id="causa"></textarea>
             
             <label for="descripcion"> Descripción </label>
-            <input type="text" id="descripcion">
+            <textarea id="descripcion"></textarea>
 
             <label for="impacto"> Impacto </label>
-            <input type="text" id="impacto">
+            <textarea id="impacto"></textarea>
             
             <label for="proceso"> Proceso Asociado </label>
-            <input type="text" id="proceso">
+            <textarea id="proceso"></textarea>
 
             <label for="actor"> Actor Involucrado </label>
             <input type="text" id="actor">
@@ -510,10 +535,13 @@ function formularioDefineProblema(input) {
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
 
+    // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+    AsignacionExpansionTextArea(document.querySelector("#datosDefineProblema").querySelectorAll("textarea"));
+
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
-            guardarDatos(document.querySelector("#datosDefineProblema").querySelectorAll("input, select"), "Problema");
+            guardarDatos(document.querySelector("#datosDefineProblema").querySelectorAll("input, select, textarea"), "Problema");
         }, false);
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
@@ -533,24 +561,24 @@ function formularioValidaProblema(input) {
             ${empresasHTML}
 
             <label for="causa"> Causa </label>
-            <input type="text" id="causa" readonly>
+            <textarea id="causa" disabled></textarea>
             
             <label for="descripcion"> Descripción </label>
-            <input type="text" id="descripcion" readonly>
+            <textarea id="descripcion" disabled></textarea>
 
             <label for="impacto"> Impacto </label>
-            <input type="text" id="impacto" readonly>
+            <textarea id="impacto" disabled></textarea>
             
             <label for="proceso"> Proceso Asociado </label>
-            <input type="text" id="proceso" readonly>
+            <textarea id="proceso" disabled></textarea>
 
             <label for="actor"> Actor Involucrado </label>
-            <input type="text" id="actor" readonly>
+            <input type="text" id="actor" disabled>
             
             ${validacionHTML}
 
             <label for="comentario"> Comentario </label>
-            <input type="text" id="comentario">
+            <textarea id="comentario"></textarea>
         </div>
 
         <div class="botones">
@@ -574,8 +602,15 @@ function formularioValidaProblema(input) {
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-    document.getElementById("empresa").addEventListener("change", () => { actualizarCamposSelect("empresa", "datosProblema", problemas) }, false);
+    document.getElementById("empresa").addEventListener("change", () => { 
+        // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+        expansionTextAreaDisabled(document.querySelector("#datosProblema").querySelectorAll("textarea"));
+        actualizarCamposSelect("empresa", "datosProblema", problemas) 
+    }, false);
     actualizarCamposSelect("empresa", "datosProblema", problemas);
+    
+    // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+    expansionTextAreaDisabled(document.querySelector("#datosProblema").querySelectorAll("textarea"));
 }
 
 function verEmpresa(input, selectEmpresa) {
@@ -597,29 +632,29 @@ function verEmpresa(input, selectEmpresa) {
             ${empresasHTML}
             
             <label for="mision"> Misión </label>
-            <input type="text" id="mision" readonly>
+            <textarea id="mision" disabled></textarea>
             
             <label for="vision"> Visión </label>
-            <input type="text" id="vision" readonly>
+            <textarea id="vision" disabled></textarea>
             
             <label for="objetivo"> Objetivo Estratégico </label>
-            <input type="text" id="objetivo" readonly>
+            <textarea id="objetivo" disabled></textarea>
             
             <label for="necesidad"> Necesidad </label>
-            <input type="text" id="necesidad" readonly>
+            <textarea id="necesidad" disabled></textarea>
         </div>
     
         <h2 class='subtituloForm'> Datos Representante </h2>
 
         <div id="datosRepresentante" class="campos">
-            <label for="nombreRepre"> Nombre </label>
-            <input type="text" id="nombreRepre" readonly>
+            <label for="nombre"> Nombre </label>
+            <input type="text" id="nombre" disabled>
             
             <label for="correo"> Correo </label>
-            <input type="email" id="correo" readonly>
+            <input type="email" id="correo" disabled>
             
             <label for="celular"> Celular </label>
-            <input type="number" id="celular" min="0" readonly>
+            <input type="number" id="celular" min="0" disabled>
             
             <label> Disponibilidad </label>
 
@@ -639,6 +674,9 @@ function verEmpresa(input, selectEmpresa) {
     var divform = document.getElementById("divForm2");
     mostracionFormulario(input, divform)
 
+    // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+    expansionTextAreaDisabled(document.querySelector("#datosEmpresa").querySelectorAll("textarea"));
+
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("cerrarForm2").onclick = () => { divform.style.display = "none" };
 
@@ -646,11 +684,11 @@ function verEmpresa(input, selectEmpresa) {
     document.getElementById("empresaVer").addEventListener("change",
         () => {
             actualizarCamposSelect("empresaVer", "datosEmpresa", empresas);
-            actualizarCamposSelect("empresaVer", "datosRepresentante", representantes);
+            actualizarCamposSelect("empresaVer", "datosRepresentante", representantes, true, "empresa");
         }, false);
 
     actualizarCamposSelect("empresaVer", "datosEmpresa", empresas);
-    actualizarCamposSelect("empresaVer", "datosRepresentante", representantes);
+    actualizarCamposSelect("empresaVer", "datosRepresentante", representantes, true, "empresa");
 }
 
 function formularioConstruyeCartera(input) {
@@ -663,7 +701,7 @@ function formularioConstruyeCartera(input) {
         <div id="datosCartera" class="campos">
             
             <label for="cantidad"> Cantidad </label>
-            <input type="number" id="cantidad" readonly>
+            <input type="number" id="cantidad" disabled>
 
         </div>
         
@@ -706,19 +744,19 @@ function formularioConformaEquipo(input) {
             ${empresasHTML}
 
             <label for="codigo"> Codigo </label>
-            <input type="text" id="codigo" readonly>
+            <input type="text" id="codigo" disabled>
             
             <label for="descripcion"> Descripción </label>
-            <input type="text" id="descripcion" readonly>
+            <input type="text" id="descripcion" disabled>
 
             <label for="impacto"> Impacto </label>
-            <input type="text" id="impacto" readonly>
+            <input type="text" id="impacto" disabled>
             
             <label for="proceso"> Proceso Asociado </label>
-            <input type="text" id="proceso" readonly>
+            <input type="text" id="proceso" disabled>
 
             <label for="actor"> Actor Involucrado </label>
-            <input type="text" id="actor" readonly>
+            <input type="text" id="actor" disabled>
         </div>
 
         <div class="botones">
@@ -857,13 +895,13 @@ function formularioCalificaInformeInicial(input) {
             ${equiposHTML}
             
             <label for="tema"> Tema </label>
-            <input type="text" id="tema" readonly>
+            <input type="text" id="tema" disabled>
             
             <label for="secciones"> Secciones </label>
-            <input type="text" id="secciones" readonly>
+            <input type="text" id="secciones" disabled>
 
             <label for="idea"> Idea de Desarrollo </label>
-            <input type="text" id="idea" readonly>
+            <input type="text" id="idea" disabled>
 
             ${estadoHTML}
 
@@ -1124,13 +1162,13 @@ function formularioRealizaRetroalimentacion(input) {
             ${equiposHTML}
 
             <label for="link"> Link </label>
-            <input type="text" id="link" readonly>
+            <input type="text" id="link" disabled>
             
             <label for="calidad"> Calidad </label>
-            <input type="text" id="calidad" readonly>
+            <input type="text" id="calidad" disabled>
 
             <label for="fechaEntrega"> Fecha de Entrega </label>
-            <input type="text" id="fechaEntrega" readonly>
+            <input type="text" id="fechaEntrega" disabled>
 
         </div>
 
@@ -1186,21 +1224,21 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
     switch (tipoInfProt) {
         case "Informe Inicial":
             avanceIdea = `<label for="idea"> Idea de Desarrollo </label>
-                          <input type="text" id="idea" readonly></input>`
+                          <input type="text" id="idea" disabled></input>`
             var informePrototipo = informesIniciales;
             var Criterios = criteriosEvaluacionInfInicial;
             break;
 
         case "Informe de Progreso":
             avanceIdea = `<label for="avance"> Avance </label>
-                          <input type="text" id="avance" readonly></input>`
+                          <input type="text" id="avance" disabled></input>`
             var informePrototipo = informesProgreso;
             var Criterios = criteriosEvaluacionInfProgreso;
             break;
 
         case "Informe Final":
             avanceIdea = `<label for="conclusion"> Conclusión </label>
-                          <input type="text" id="conclusion" readonly></input>`
+                          <input type="text" id="conclusion" disabled></input>`
             var informePrototipo = informesFinales;
             var Criterios = criteriosEvaluacionInfFinal;
             break;
@@ -1208,10 +1246,10 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
         case "Prototipo Alfa":
             retroalimentacion = `
                     <label for="valoracion"> Valoración </label>
-                    <input type="text" id="valoracion" readonly></input>
+                    <input type="text" id="valoracion" disabled></input>
 
                     <label for="sugerencia"> Sugerencia </label>
-                    <input type="text" id="sugerencia" readonly></input>
+                    <input type="text" id="sugerencia" disabled></input>
                     `
             var informePrototipo = prototipoAlfa;
             var Criterios = criteriosEvaluacionProtAlfa;
@@ -1229,39 +1267,39 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
     if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
         contenido = `
             <label for="tema"> Tema </label>
-            <input type="text" id="tema" readonly>
+            <input type="text" id="tema" disabled>
             
             <label for="secciones"> Secciones </label>
-            <input type="text" id="secciones" readonly>
+            <input type="text" id="secciones" disabled>
 
             ${avanceIdea}
             
             <label for="estado"> Estado </label>
-            <input type="text" id="estado" readonly>
+            <input type="text" id="estado" disabled>
 
             <label for="rubrica"> Rúbrica </label>
-            <input type="text" id="rubrica" readonly>
+            <input type="text" id="rubrica" disabled>
             
             <label for="notaRubrica"> Nota de la Rubrica </label>
-            <input type="text" id="notaRubrica" readonly>
+            <input type="text" id="notaRubrica" disabled>
             `
     }
     else {
         contenido = `
             <label for="link"> Link </label>
-            <input type="text" id="link" readonly>
+            <input type="text" id="link" disabled>
             
             <label for="calidad"> Calidad </label>
-            <input type="text" id="calidad" readonly>
+            <input type="text" id="calidad" disabled>
 
             <label for="fecha"> Fecha de Entrega </label>
-            <input type="text" id="fecha" readonly>
+            <input type="text" id="fecha" disabled>
             
             <label for="rubrica"> Rúbrica </label>
-            <input type="text" id="rubrica" readonly>
+            <input type="text" id="rubrica" disabled>
 
             <label for="notaRubrica"> Nota de la Rubrica </label>
-            <input type="text" id="notaRubrica" readonly>
+            <input type="text" id="notaRubrica" disabled>
 
             ${retroalimentacion}`
     }
@@ -1318,7 +1356,7 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
 function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, buscarPorValue = false, nombreValue = "") {
 
     const llave = document.getElementById(nombreSelect).value;
-    const campos = document.querySelector("#" + nombreContenedorCampos).querySelectorAll("input");
+    const campos = document.querySelector("#" + nombreContenedorCampos).querySelectorAll("input, textarea");
     var condicionalEncontracion = false;
     if (llave != "") {
         if (!buscarPorValue) {
@@ -1339,7 +1377,7 @@ function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, b
         }
         else {
             for (var [key, value] of Object.entries(arreglo)) {
-                if (llave == nombreValue) {
+                if (llave == value[nombreValue]) {
                     for (var [key, value2] of Object.entries(value)) {
                         var element = Array.from(campos).find(
                             (campo) => {
