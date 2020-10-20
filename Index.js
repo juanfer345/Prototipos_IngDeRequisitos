@@ -158,8 +158,8 @@ function formularioDisenaAsignatura(input) {
 
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
-            guardarDatos(document.querySelector("#datosDiseñaAsignatura").querySelectorAll("input, select"), "Asignatura");
-            guardarDatos(document.querySelector("#contenidoAsignatura").querySelectorAll("input"), "Contenido Asignatura", document.getElementById("nombre").value);
+            guardarDatos(document.querySelector("#datosDiseñaAsignatura").querySelectorAll("input, select"), "Asignatura",
+                undefined, document.querySelector("#contenidoAsignatura").querySelectorAll("input"));
             asignaturas[document.getElementById("nombre").value].estado = "Diseñada"
         }, false);
     document.getElementById("verAsignatura").addEventListener("click", () => { verAsignatura(event, "nombre") }, false);
@@ -402,7 +402,7 @@ function formularioRegistraEmpresa(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Registra Empresa </h1>"
 
     document.getElementById("Form1").innerHTML = `
-        <h2 class='subtituloForm'> Datos Empresa <h2/>
+        <h2 class='subtituloForm'> Datos Empresa </h2>
 
         <div id="datosRegistraEmpresa" class="campos">
             <label for="nombre"> Nombre </label>
@@ -421,7 +421,7 @@ function formularioRegistraEmpresa(input) {
             <input type="text" id="necesidad">
         </div>
 
-        <h2 class='subtituloForm'> Datos Representante <h2/>
+        <h2 class='subtituloForm'> Datos Representante </h2>
 
         <div id="datosRegistraRepresentante" class="campos">
             <label for="nombre"> Nombre </label>
@@ -458,8 +458,11 @@ function formularioRegistraEmpresa(input) {
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
+            const llaveEmpresa = document.querySelector("#datosRegistraEmpresa").querySelectorAll("input")[0].value;
+
             guardarDatos(document.querySelector("#datosRegistraEmpresa").querySelectorAll("input"), "Empresa");
-            guardarDatos(document.querySelector("#datosRegistraRepresentante").querySelectorAll("input"), "Representante");
+            guardarDatos(document.querySelector("#datosRegistraRepresentante").querySelectorAll("input"), "Representante",
+                undefined, [["empresa", empresas[llaveEmpresa].nombre]]);
         }, false);
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
@@ -583,7 +586,7 @@ function verEmpresa(input) {
 
     document.getElementById("Form2").innerHTML = `
     
-        <h2 class='subtituloForm'> Datos Empresa <h2/>
+        <h2 class='subtituloForm'> Datos Empresa </h2>
 
         <div id="datosEmpresa" class="campos">
 
@@ -602,7 +605,7 @@ function verEmpresa(input) {
             <input type="text" id="necesidad" readonly>
         </div>
     
-        <h2 class='subtituloForm'> Datos Representante <h2/>
+        <h2 class='subtituloForm'> Datos Representante </h2>
 
         <div id="datosRepresentante" class="campos">
             <label for="nombreRepre"> Nombre </label>
@@ -860,7 +863,7 @@ function formularioCalificaInformeInicial(input) {
 
             ${estadoHTML}
 
-            <h2 class='subtituloForm'> Rúbrica Informe Inicial <h2/>
+            <h2 class='subtituloForm'> Rúbrica Informe Inicial </h2>
 
             <label for="nota"> Nota de la Rúbrica </label>
             <input type="text" id="nota">
@@ -1365,7 +1368,7 @@ function obtenerDatosSelect(id, display, arreglo, seleccionado = "") {
     return salidaHTML;
 }
 
-function guardarDatos(input, caso, llave = input[0].value) {
+function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega) {
 
     var condicionCamposCompletos = true; var condicionAlertacion = true;
     var cadenaAux1, cadenaAux2;
@@ -1380,13 +1383,12 @@ function guardarDatos(input, caso, llave = input[0].value) {
             case "Asignatura":
                 cadenaAux1 = `La asignatura ${llave}`; cadenaAux2 = "a"
                 asignaturas[llave] = crearObjeto(input);
-                break;
 
-            case "Contenido Asignatura":
-                condicionAlertacion = false;
-                if (asignaturas[llave] != undefined) {
-                    asignaturas[llave]["contenidos"] = {};
-                    adicionarAobjeto(asignaturas[llave]["contenidos"], input);
+                if (nuevoAgrega != undefined) {
+                    if (asignaturas[llave] != undefined) {
+                        asignaturas[llave]["contenidos"] = {};
+                        adicionarAobjeto(asignaturas[llave]["contenidos"], nuevoAgrega);
+                    }
                 }
                 break;
 
@@ -1403,6 +1405,10 @@ function guardarDatos(input, caso, llave = input[0].value) {
             case "Representante":
                 cadenaAux1 = `El representante ${llave}`; cadenaAux2 = "o"
                 representantes[llave] = crearObjeto(input);
+
+                if (nuevoAgrega != undefined) {
+                    adicionarAobjeto(representantes[llave], nuevoAgrega);
+                }
                 break;
 
             case "Problema":
@@ -1478,13 +1484,27 @@ function crearObjeto(listiviris) {
 }
 
 function adicionarAobjeto(objeto, listiviris) {
-    for (let index = 0; index < listiviris.length; index++) {
-        if (listiviris[index].type != "radio") {
-            objeto[listiviris[index].id] = listiviris[index].value
+    if (NodeList.prototype.isPrototypeOf(listiviris)) {
+        for (let index = 0; index < listiviris.length; index++) {
+            if (listiviris[index].type != "radio") {
+                objeto[listiviris[index].id] = listiviris[index].value;
+            }
+            else {
+                if (listiviris[index].checked) {
+                    objeto[listiviris[index].id] = listiviris[index].value;
+                }
+            }
         }
-        else {
-            if (listiviris[index].checked) {
-                objeto[listiviris[index].id] = listiviris[index].value
+    }
+    else if (Array.isArray(listiviris)) {
+        for (let index = 0; index < listiviris.length; index++) {
+            if (listiviris[index].type != "radio") {
+                objeto[listiviris[index][0]] = listiviris[index][1];
+            }
+            else {
+                if (listiviris[index].checked) {
+                    objeto[listiviris[index][0]] = listiviris[index][1];
+                }
             }
         }
     }
@@ -1561,27 +1581,51 @@ var equipos = {
     AA: { nombre: "AA", mision: "misi", vision: "visi", objetivo: "obje", necesidad: "nece" },
 };
 
-var carteraProyecto = {};
-var representantes = {};
-var empresas = {
-    AA: {
-        nombre: "AA", mision: "misi", vision: "visi", objetivo: "obje", necesidad: "nece"
+var representantes = {
+    "José José": {
+        celular: "123",
+        correo: "j@j.com",
+        disponibilidad: "mucha",
+        nombre: "José José",
+        empresa: "Postobon"
     },
-    B: {
-        nombre: "B", mision: "otra", vision: "otravisi", objetivo: "otroobje", necesidad: "otranece"
+    "Yola Prieto": {
+        celular: "34233",
+        correo: "yola@y.co",
+        disponibilidad: "poca",
+        empresa: "EPM",
+        nombre: "Yola Prieto"
+    }
+};
+
+var empresas = {
+    Postobon: {
+        mision: "Vender Gaseosa",
+        necesidad: "Software para mejorar la máquinas expendedoras automáticas",
+        nombre: "Postobon",
+        objetivo: "Optimizar la venta de gaseosa",
+        vision: "Ver como se vende la gaseosa"
+    },
+    EPM: {
+        mision: "Brindar servicios básicos",
+        necesidad: "Aplicación para ubicación del personal en la ciudad",
+        nombre: "EPM",
+        objetivo: "Mejorar los servicios básicos",
+        vision: "no c"
     }
 };
 
 var problemas = {
-    AA: {
-        actor: "weno si pero no  gua decir",
-        causa: "mucho trabajo",
-        descripcion: "Hay mucho trabajo",
-        empresa: "AA",
-        impacto: "juerte",
+    Postobon: {
+        actor: "Cliente",
+        causa: "Las máquinas no proveen la bebida correcta",
+        descripcion: "Debido a un error en el software, muchas máquinas no proveen la bebida adecuada",
+        empresa: "Postobon",
+        impacto: "Alto",
         proceso: "no c"
     }
 };
+
 var retroalimentaciones = {};
 var historiasAcademicas = {};
 var estudiantes = {};
