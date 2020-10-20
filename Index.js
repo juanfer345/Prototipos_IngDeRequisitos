@@ -196,10 +196,9 @@ function verAsignatura(input, nombreCampoAsignatura = "") {
             <label for="estado"> Estado </label>
             <input type="text" id="estado" readonly>
             
-            <label> Clase </label>
+        </div>
+        <div id="datosVerAsignatura" class="botones">
             <button id="verClases" type="button" class="botonExtra"> Ver Clases </button>
-
-            <label> Contenido </label>
             <button id="verContenidos" type="button" class="botonExtra"> Ver Contenidos </button>
         </div>
 
@@ -1162,7 +1161,7 @@ function formularioRealizaRetroalimentacion(input) {
         () => {
             actualizarCamposSelect("equipo", "datosPrototipoAlpha", equipos);
         }, false);
-        actualizarCamposSelect("equipo", "datosPrototipoAlpha", equipos);
+    actualizarCamposSelect("equipo", "datosPrototipoAlpha", equipos);
 
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
@@ -1316,24 +1315,42 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
     LlenarTablaSelect(equipoSeleccionado, "datosCriteriosCalif", Criterios, "criterios")
 }
 
-function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo) {
+function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, buscarPorValue = false, nombreValue = "") {
 
     const llave = document.getElementById(nombreSelect).value;
     const campos = document.querySelector("#" + nombreContenedorCampos).querySelectorAll("input");
     var condicionalEncontracion = false;
     if (llave != "") {
-        for (var [key, value] of Object.entries(arreglo)) {
-            if (llave == key) {
-                for (var [key, value2] of Object.entries(value)) {
-                    var element = Array.from(campos).find(
-                        (campo) => {
-                            return campo.id == key;
-                        }
-                    );
-                    if (element != undefined) { element.value = value2; }
+        if (!buscarPorValue) {
+            for (var [key, value] of Object.entries(arreglo)) {
+                if (llave == key) {
+                    for (var [key, value2] of Object.entries(value)) {
+                        var element = Array.from(campos).find(
+                            (campo) => {
+                                return campo.id == key;
+                            }
+                        );
+                        if (element != undefined) { element.value = value2; }
+                    }
+                    condicionalEncontracion = true;
+                    break;
                 }
-                condicionalEncontracion = true;
-                break;
+            }
+        }
+        else {
+            for (var [key, value] of Object.entries(arreglo)) {
+                if (llave == nombreValue) {
+                    for (var [key, value2] of Object.entries(value)) {
+                        var element = Array.from(campos).find(
+                            (campo) => {
+                                return campo.id == key;
+                            }
+                        );
+                        if (element != undefined) { element.value = value2; }
+                    }
+                    condicionalEncontracion = true;
+                    break;
+                }
             }
         }
         if (!condicionalEncontracion) {
