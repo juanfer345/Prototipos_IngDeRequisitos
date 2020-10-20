@@ -576,10 +576,12 @@ function formularioValidaProblema(input) {
     actualizarCamposSelect("empresa", "datosProblema", problemas);
 }
 
-function verEmpresa(input) {
+function verEmpresa(input, selectEmpresa) {
+
+    nombreEmpresa = document.getElementById(selectEmpresa).value
 
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const empresasHTML = obtenerDatosSelect("empresaVer", "Nombre Empresa", empresas);
+    const empresasHTML = obtenerDatosSelect("empresaVer", "Nombre Empresa", empresas, nombreEmpresa);
 
     // Llenando los datos del formulario
     document.getElementById("barraForm2").innerHTML = "<h1 class='tituloForm'> Ver Empresa </h1>"
@@ -642,11 +644,11 @@ function verEmpresa(input) {
     document.getElementById("empresaVer").addEventListener("change",
         () => {
             actualizarCamposSelect("empresaVer", "datosEmpresa", empresas);
-            actualizarCamposSelect("nombreRepre", "datosRepresentante", representantes);
+            actualizarCamposSelect("empresaVer", "datosRepresentante", representantes);
         }, false);
 
     actualizarCamposSelect("empresaVer", "datosEmpresa", empresas);
-    actualizarCamposSelect("nombreRepre", "datosRepresentante", representantes);
+    actualizarCamposSelect("empresaVer", "datosRepresentante", representantes);
 }
 
 function formularioConstruyeCartera(input) {
