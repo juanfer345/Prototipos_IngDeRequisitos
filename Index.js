@@ -612,13 +612,13 @@ function formularioValidaProblema(input) {
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-    document.getElementById("empresa").addEventListener("change", 
-    () => {
-        actualizarCamposSelect("empresa", "datosProblema", problemas)
+    document.getElementById("empresa").addEventListener("change",
+        () => {
+            actualizarCamposSelect("empresa", "datosProblema", problemas)
 
-        // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
-        expansionTextAreaDisabled(document.querySelector("#datosProblema").querySelectorAll("textarea"));
-    }
+            // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+            expansionTextAreaDisabled(document.querySelector("#datosProblema").querySelectorAll("textarea"));
+        }
     );
     actualizarCamposSelect("empresa", "datosProblema", problemas);
 
@@ -1748,12 +1748,13 @@ var representantes = {
         empresa: "EPM",
         nombre: "Yola Prieto"
     },
-    "Elba Calao":{
-celular: "666",
-correo: "Elbacalao@unal.co",
-disponibilidad: "poca",
-empresa: "Bancolombia Medellín",
-nombre: "Elba Calao"}
+    "Elba Calao": {
+        celular: "666",
+        correo: "Elbacalao@unal.co",
+        disponibilidad: "poca",
+        empresa: "Bancolombia Medellín",
+        nombre: "Elba Calao"
+    }
 };
 
 var empresas = {
@@ -1771,12 +1772,13 @@ var empresas = {
         objetivo: "Mejorar los servicios básicos",
         vision: "no c"
     },
-    "Bancolombia Medellín":{
-mision: "Obtener mas dinero, y cada vez más y MÁS!!!",
-necesidad: "tampoco",
-nombre: "Bancolombia Medellín",
-objetivo: "ño",
-vision: "ño"}
+    "Bancolombia Medellín": {
+        mision: "Obtener mas dinero, y cada vez más y MÁS!!!",
+        necesidad: "tampoco",
+        nombre: "Bancolombia Medellín",
+        objetivo: "ño",
+        vision: "ño"
+    }
 };
 
 var problemas = {
@@ -1788,16 +1790,16 @@ var problemas = {
         impacto: "Alto",
         proceso: "no c"
     },
-   "Bancolombia Medellín":{
-    actor: "Los esclavos, digo clientes",
-    causa: "Cajeros automáticos funcionando incorrectamente, perdemos mucho dinero",
-    comentario: "Este problema es Perfecto y tiene muy buenas intenciones, apenas pa la guaracha, mero ki, que level, que FUA!, zukistrukis lulu.",
-    descripcion: "Se requiere de una inteligencia artificial lo suficientemente poderoxa como para que cada cajero automático sea capaz de proveerle al usuario con una sutil cantidad de billetes falsos, de tal manera que perdamos menos dinero. Pero ojo, debe ser sutíl pa q no estén jodiendo la vida luego.",
-    empresa: "Bancolombia Medellín",
-    impacto: "Poderoxo",
-    proceso: "Retiro de Dinero",
-    validacion: "Aprobado Sin Ajustes"
-   }
+    "Bancolombia Medellín": {
+        actor: "Los esclavos, digo clientes",
+        causa: "Cajeros automáticos funcionando incorrectamente, perdemos mucho dinero",
+        comentario: "Este problema es Perfecto y tiene muy buenas intenciones, apenas pa la guaracha, mero ki, que level, que FUA!, zukistrukis lulu.",
+        descripcion: "Se requiere de una inteligencia artificial lo suficientemente poderoxa como para que cada cajero automático sea capaz de proveerle al usuario con una sutil cantidad de billetes falsos, de tal manera que perdamos menos dinero. Pero ojo, debe ser sutíl pa q no estén jodiendo la vida luego.",
+        empresa: "Bancolombia Medellín",
+        impacto: "Poderoxo",
+        proceso: "Retiro de Dinero",
+        validacion: "Aprobado Sin Ajustes"
+    }
 };
 
 var retroalimentaciones = {};
