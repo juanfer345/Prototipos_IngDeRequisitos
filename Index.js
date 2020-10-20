@@ -728,13 +728,33 @@ function formularioConstruyeCartera(input) {
 
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("agregaProyecto").addEventListener("click", () => { agregarProyecto(event) }, false);
+    document.getElementById("verProyecto").addEventListener("click", () => { verProyecto(event) }, false);
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
 function agregarProyecto(input) {
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const problemasHTML = obtenerDatosSelect("empresa", "Nombre Empresa", empresas);
+    const empresasHTML = obtenerDatosSelect("empresa", "Empresa", empresas);
+    // Llenando los datos del formulario
+    document.getElementById("barraForm2").innerHTML = "<h1 class='tituloForm'> Agregar Proyecto </h1>"
 
+    document.getElementById("Form2").innerHTML = `
+
+        ${EmpresasHTML}
+
+        <div id="datosCartera" class="campos">
+            
+            <label for="cantidad"> Cantidad </label>
+            <input type="number" id="cantidad" disabled>
+
+        </div>
+        
+        <div class="botones">
+            <button id="agregaProyecto" type="button" class="botonExtra"> Agregar Proyecto </button>
+            <button id="verProyecto" type="button" class="botonExtra"> Ver Proyecto </button>
+        </div>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+    `;
 }
 
 function verProyecto(input) {
