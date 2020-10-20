@@ -106,7 +106,7 @@ function mostracionFormulario(input, divform) {
 function AsignacionExpansionTextArea(lista) {
     Array.from(lista).forEach(
         (campo) => {
-            campo.addEventListener("input", () => {expansionTextArea(campo)})
+            campo.addEventListener("input", () => { expansionTextArea(campo) })
         }
     );
 }
@@ -583,15 +583,25 @@ function formularioValidaProblema(input) {
 
         <div class="botones">
             <button id="confirmarForm1" type="button" class="botonConfirmar"> Validar </button>
-            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
+            <button id="reset" type="button" class="botonBorrar"> Limpiar Campos </button>
             <button id="verEmpresa" type="button" class="botonExtra"> Ver Empresa </button>
             <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
         </div>
     `;
 
+    // Borrado especial cuando hay campos editables y no editables
+    document.getElementById("reset").addEventListener("click",
+        () => {
+            document.getElementById("comentario").value = "";
+        }
+    );
+
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
+
+    // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+    AsignacionExpansionTextArea(document.querySelector("#datosProblema").querySelectorAll("textarea"));
 
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("confirmarForm1").addEventListener("click",
@@ -602,13 +612,15 @@ function formularioValidaProblema(input) {
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-    document.getElementById("empresa").addEventListener("change", () => { 
+    document.getElementById("empresa").addEventListener("change", () => {
+
+        actualizarCamposSelect("empresa", "datosProblema", problemas)
+
         // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
         expansionTextAreaDisabled(document.querySelector("#datosProblema").querySelectorAll("textarea"));
-        actualizarCamposSelect("empresa", "datosProblema", problemas) 
     }, false);
     actualizarCamposSelect("empresa", "datosProblema", problemas);
-    
+
     // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
     expansionTextAreaDisabled(document.querySelector("#datosProblema").querySelectorAll("textarea"));
 }
@@ -654,17 +666,10 @@ function verEmpresa(input, selectEmpresa) {
             <input type="email" id="correo" disabled>
             
             <label for="celular"> Celular </label>
-            <input type="number" id="celular" min="0" disabled>
+            <input type="text" id="celular" min="0" disabled>
             
             <label> Disponibilidad </label>
-
-            <div class="radios">
-                <input type="radio" id="disponibilidad" name="disponibilidad" value="poca" disabled>
-                <label> Poca </label>
-
-                <input type="radio" id="disponibilidad" name="disponibilidad" value="mucha" disabled>
-                <label> Mucha </label>
-            </div>
+            <input type="text" id="disponibilidad" disabled>
         </div>
         
         <button id="cerrarForm2" type="button" class="botonCerrar"> Cerrar </button>
@@ -674,9 +679,6 @@ function verEmpresa(input, selectEmpresa) {
     var divform = document.getElementById("divForm2");
     mostracionFormulario(input, divform)
 
-    // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
-    expansionTextAreaDisabled(document.querySelector("#datosEmpresa").querySelectorAll("textarea"));
-
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("cerrarForm2").onclick = () => { divform.style.display = "none" };
 
@@ -685,10 +687,17 @@ function verEmpresa(input, selectEmpresa) {
         () => {
             actualizarCamposSelect("empresaVer", "datosEmpresa", empresas);
             actualizarCamposSelect("empresaVer", "datosRepresentante", representantes, true, "empresa");
-        }, false);
+
+            // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+            expansionTextAreaDisabled(document.querySelector("#datosEmpresa").querySelectorAll("textarea"));
+        }
+    );
 
     actualizarCamposSelect("empresaVer", "datosEmpresa", empresas);
     actualizarCamposSelect("empresaVer", "datosRepresentante", representantes, true, "empresa");
+
+    // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+    expansionTextAreaDisabled(document.querySelector("#datosEmpresa").querySelectorAll("textarea"));
 }
 
 function formularioConstruyeCartera(input) {
@@ -1357,7 +1366,7 @@ function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, b
 
     const llave = document.getElementById(nombreSelect).value;
     const campos = document.querySelector("#" + nombreContenedorCampos).querySelectorAll("input, textarea");
-    var condicionalEncontracion = false;
+    var condicionalEncontracion = false; var condicionalEncontracionDoble = true;
     if (llave != "") {
         if (!buscarPorValue) {
             for (var [key, value] of Object.entries(arreglo)) {
@@ -1384,20 +1393,22 @@ function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, b
                                 return campo.id == key;
                             }
                         );
-                        if (element != undefined) { element.value = value2; }
+                        if (element != undefined) {
+                            element.value = value2;
+                        }
                     }
                     condicionalEncontracion = true;
                     break;
                 }
             }
         }
-        if (!condicionalEncontracion) {
-            Array.from(campos).forEach(
-                (campo) => {
-                    campo.value = ""
-                }
-            )
-        }
+    }
+    if (!condicionalEncontracion) {
+        Array.from(campos).forEach(
+            (campo) => {
+                campo.value = ""
+            }
+        )
     }
 }
 

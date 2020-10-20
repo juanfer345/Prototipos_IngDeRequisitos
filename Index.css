@@ -79,6 +79,7 @@ textarea {
 	margin: 3px 2px;
 	overflow: hidden;
 	padding: 2px 5px;
+	resize: none;
 }
 
 input[disabled] {
