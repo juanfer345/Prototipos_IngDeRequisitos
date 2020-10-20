@@ -160,6 +160,7 @@ function formularioDisenaAsignatura(input) {
         () => {
             guardarDatos(document.querySelector("#datosDiseñaAsignatura").querySelectorAll("input, select"), "Asignatura");
             guardarDatos(document.querySelector("#contenidoAsignatura").querySelectorAll("input"), "Contenido Asignatura", document.getElementById("nombre").value);
+            asignaturas[document.getElementById("nombre").value].estado = "Diseñada"
         }, false);
     document.getElementById("verAsignatura").addEventListener("click", () => { verAsignatura(event, "nombre") }, false);
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
@@ -302,7 +303,7 @@ function verContenidos(input, nombreSelect) {
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
     document.getElementById("asignaturaConte").addEventListener("change", () => {
         var asignatura = document.getElementById("asignaturaConte").value;
-        LlenarTablaSelect(asignatura, "contenidoTabla", asignaturas[asignatura]["contenidos"], "Contenidos") 
+        LlenarTablaSelect(asignatura, "contenidoTabla", asignaturas[asignatura]["contenidos"], "Contenidos")
     }, false);
     LlenarTablaSelect(asignatura, "contenidoTabla", asignaturas[asignatura]["contenidos"], "Contenidos")
 }
@@ -1493,22 +1494,26 @@ var asignaturas = {
     "Ingeniería de Software": {
         contenidos: { 1: "Scrum", 2: "Espiral", 3: "Cascada" },
         nombre: "Ingeniería de Software",
-        profesor: "Alan Brito Delgado"
+        profesor: "Alan Brito Delgado",
+        estado: "Diseñada"
     },
     "Programación Orientada a Objetos": {
         contenidos: {},
         nombre: "Programación Orientada a Objetos",
-        profesor: "Elma Riadito"
+        profesor: "Elma Riadito",
+        estado: "Diseñada"
     },
     "Calidad del Software": {
         contenidos: { 1: "Buena calidad", 2: "Mejor calidad" },
         nombre: "Calidad del Software",
-        profesor: "Elsa Pato"
+        profesor: "Elsa Pato",
+        estado: "Diseñada"
     },
     "Calidad del Software II": {
         contenidos: { 0: "Mucha mejor calidad", 1: "Muchísima mejor calidad", 2: "Muchisisisima mejor calidad" },
         nombre: "Calidad del Software II",
-        profesor: "Alan Brito Delgado"
+        profesor: "Alan Brito Delgado",
+        estado: "Diseñada"
     }
 };
 
@@ -1517,12 +1522,18 @@ var proyectos = { cantidad: 0 };
 var equipos = {
     AA: { nombre: "AA", mision: "misi", vision: "visi", objetivo: "obje", necesidad: "nece" },
 };
+
 var carteraProyecto = {};
 var representantes = {};
 var empresas = {
-    AA: { nombre: "AA", mision: "misi", vision: "visi", objetivo: "obje", necesidad: "nece" },
-    B: { nombre: "B", mision: "otra", vision: "otravisi", objetivo: "otroobje", necesidad: "otranece" }
+    AA: {
+        nombre: "AA", mision: "misi", vision: "visi", objetivo: "obje", necesidad: "nece"
+    },
+    B: {
+        nombre: "B", mision: "otra", vision: "otravisi", objetivo: "otroobje", necesidad: "otranece"
+    }
 };
+
 var problemas = {
     AA: {
         actor: "weno si pero no  gua decir",
@@ -1537,10 +1548,18 @@ var retroalimentaciones = {};
 var historiasAcademicas = {};
 var estudiantes = {};
 var profesores = {
-    "Elma Riadito": { nombre: "Elma Riadito", correo: "Elma@elma.com", celular: "3173022932", direccion: "Calle falsa 123", identificacion: "1" },
-    "Elsa Pato": { nombre: "Elsa Pato", correo: "Elsa@elsa.ru", celular: "7823", direccion: "Carrera falsa 123", identificacion: "2" },
-    "Alan Brito Delgado": { nombre: "Alan Brito Delgado", correo: "Alan@Brito.delgado", celular: "", direccion: "Carrera falsa 456", identificacion: "3" },
-    "Elsa Podiondo": { nombre: "Elsa Podiondo", correo: "E@P.com", celular: "Mas de 8000!!!!", direccion: "El Hueco", identificacion: "4" }
+    "Elma Riadito": {
+        nombre: "Elma Riadito", correo: "Elma@elma.com", celular: "3173022932", direccion: "Calle falsa 123", identificacion: "1"
+    },
+    "Elsa Pato": {
+        nombre: "Elsa Pato", correo: "Elsa@elsa.ru", celular: "7823", direccion: "Carrera falsa 123", identificacion: "2"
+    },
+    "Alan Brito Delgado": {
+        nombre: "Alan Brito Delgado", correo: "Alan@Brito.delgado", celular: "", direccion: "Carrera falsa 456", identificacion: "3"
+    },
+    "Elsa Podiondo": {
+        nombre: "Elsa Podiondo", correo: "E@P.com", celular: "Mas de 8000!!!!", direccion: "El Hueco", identificacion: "4"
+    }
 };
 var metodologiasDesarrollo = {};
 var informesIniciales = {};
