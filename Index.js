@@ -215,8 +215,8 @@ function verAsignatura(input, nombreCampoAsignatura = "") {
     document.getElementById("verContenidos").addEventListener("click", () => { verContenidos(event, "asignatura") }, false);
 
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-    document.getElementById("asignatura").addEventListener("change", () => { actualizarCamposSelect("asignatura", "datosVerAsignatura", asignaturas, "Clases") }, false);
-    actualizarCamposSelect("asignatura", "datosVerAsignatura", asignaturas, "Clases")
+    document.getElementById("asignatura").addEventListener("change", () => { actualizarCamposSelect("asignatura", "datosVerAsignatura", asignaturas) }, false);
+    actualizarCamposSelect("asignatura", "datosVerAsignatura", asignaturas)
 }
 
 function verClases(input, nombreSelect = "") {
@@ -230,27 +230,27 @@ function verClases(input, nombreSelect = "") {
     }
 
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const asignaturasHTML = obtenerDatosSelect("asignatura", "Asignatura", asignaturas, asignatura);
+    const asignaturasHTML = obtenerDatosSelect("asignaturaVerClases", "Asignatura", asignaturas, asignatura);
 
     // Llenando los datos del formulario
     document.getElementById("barraForm3").innerHTML = "<h1 class='tituloForm'> Ver Clases </h1>"
 
     document.getElementById("Form3").innerHTML = `
-            <div class="campos">
-                ${asignaturasHTML}
-            </div>
+        <div class="campos">
+            ${asignaturasHTML}
+        </div>
 
-            <div class="tabla">
-                <label class="tituloTabla""> Número </label>
-                <label class="tituloTabla""> Temática </label>
-            </div>
-    
-            <div id="datosVerClases" class="tabla"> </div>
+        <div class="tabla">
+            <label class="tituloTabla""> Número </label>
+            <label class="tituloTabla""> Temática </label>
+        </div>
 
-            <div>
-                <button id="cerrarForm3" type="button" class="botonCerrar"> Cerrar </button>
-            </div>
-        `;
+        <div id="datosVerClases" class="tabla"> </div>
+
+        <div>
+            <button id="cerrarForm3" type="button" class="botonCerrar"> Cerrar </button>
+        </div>
+    `;
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm3");
@@ -260,8 +260,13 @@ function verClases(input, nombreSelect = "") {
     document.getElementById("cerrarForm3").onclick = () => { divform.style.display = "none" };
 
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-    document.getElementById("asignatura").addEventListener("change", () => { LlenarTablaSelect(asignatura, "datosVerClases", clases, "clases") }, false);
-    LlenarTablaSelect(asignatura, "datosVerClases", clases, "clases");
+    document.getElementById("asignaturaVerClases").addEventListener("change",
+        () => {
+            var asignatura = document.getElementById("asignaturaVerClases").value;
+            LlenarTablaSelect(asignatura, "datosVerClases", clases, "Clases")
+        }, false
+    );
+    LlenarTablaSelect(asignatura, "datosVerClases", clases, "Clases");
 }
 
 function verContenidos(input, nombreSelect) {
@@ -290,8 +295,8 @@ function verContenidos(input, nombreSelect) {
             <button id="cerrarForm3" type="button" class="botonCerrar"> Cerrar </button>
         </div>
     `;
-    document.getElementById("tituloTabla").style.gridTemplateColumns = "auto";
-    document.getElementById("contenidoTabla").style.gridTemplateColumns = "auto";
+    document.getElementById("tituloTabla").style.gridTemplateColumns = "repeat(1, minmax(0, 1fr))";
+    document.getElementById("contenidoTabla").style.gridTemplateColumns = "repeat(1, minmax(0, 1fr))";
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm3");
@@ -344,9 +349,10 @@ function formularioDisenaClase(input) {
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
             guardarDatos(document.querySelector("#datosDiseñaClase").querySelectorAll("input, select"), "Clase");
-        }, false);
+        }, false
+    );
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
-    document.getElementById("verClases").addEventListener("click", () => { verClases(event) }, false);
+    document.getElementById("verClases").addEventListener("click", () => { verClases(event, "asignatura") }, false);
 }
 
 function formularioDefineCriterioEvaluacion(input) {
@@ -1385,7 +1391,7 @@ function guardarDatos(input, caso, llave = input[0].value) {
                 break;
 
             case "Clase":
-                cadenaAux1 = `La clase ${llave}`; cadenaAux2 = "a"
+                cadenaAux1 = `La clase ${llave} de la asignatura ${input[2].value}`; cadenaAux2 = "a"
                 clases[llave] = crearObjeto(input);
                 break;
 
@@ -1492,7 +1498,7 @@ var criteriosEvaluacionProtBeta = {};
 
 var asignaturas = {
     "Ingeniería de Software": {
-        contenidos: { 1: "Scrum", 2: "Espiral", 3: "Cascada" },
+        contenidos: { 1: "Metodologías de Desarrollo", 2: "Conceptos UN-Lencep", 3: "Conceptos UML" },
         nombre: "Ingeniería de Software",
         profesor: "Alan Brito Delgado",
         estado: "Diseñada"
@@ -1517,7 +1523,39 @@ var asignaturas = {
     }
 };
 
-var clases = {};
+var clases = {
+    "Calidad del código": {
+        tematica: "Calidad del código",
+        numero: "1",
+        asignatura: "Calidad del Software"
+    },
+    "Calidad de los casos de uso": {
+        tematica: "Calidad de los casos de uso",
+        numero: "2",
+        asignatura: "Calidad del Software"
+    },
+    Scrum: {
+        tematica: "Scrum",
+        numero: "1",
+        asignatura: "Ingeniería de Software"
+    },
+    RUP: {
+        tematica: "RUP",
+        numero: "2",
+        asignatura: "Ingeniería de Software"
+    },
+    Cascada: {
+        tematica: "Cascada",
+        numero: "3",
+        asignatura: "Ingeniería de Software"
+    },
+    Espiral: {
+        tematica: "Espiral",
+        numero: "4",
+        asignatura: "Ingeniería de Software"
+    }
+};
+
 var proyectos = { cantidad: 0 };
 var equipos = {
     AA: { nombre: "AA", mision: "misi", vision: "visi", objetivo: "obje", necesidad: "nece" },
