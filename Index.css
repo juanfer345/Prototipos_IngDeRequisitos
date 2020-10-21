@@ -3,20 +3,14 @@
 }
 
 .barraForm {
-	height: 34px;
 	cursor: move;
 	background-color: #015d9f;
 	font-size: 6.4px;
-	position: relative;
+	padding: 6px 4px;
 }
 
 .tituloForm {
 	margin: 0px;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	-ms-transform: translate(-50%, -50%);
-	transform: translate(-50%, -50%);
 }
 
 .subtituloForm {

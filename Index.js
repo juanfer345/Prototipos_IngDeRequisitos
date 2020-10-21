@@ -711,7 +711,7 @@ function formularioConstruyeCartera(input) {
         <div id="datosCartera" class="campos">
             
             <label for="cantidad"> Cantidad </label>
-            <input type="number" id="cantidad" disabled>
+            <input type="number" id="cantidad" disabled value="${cantidadProyectos}">
 
         </div>
         
@@ -735,30 +735,128 @@ function formularioConstruyeCartera(input) {
 function agregarProyecto(input) {
     // Obteniendo los valores preestablecidos para llenar el formulario
     const empresasHTML = obtenerDatosSelect("empresa", "Empresa", empresas);
+    
     // Llenando los datos del formulario
     document.getElementById("barraForm2").innerHTML = "<h1 class='tituloForm'> Agregar Proyecto </h1>"
 
     document.getElementById("Form2").innerHTML = `
+       
+        <div id="datosProyecto" class="campos">
 
-        ${EmpresasHTML}
+            ${empresasHTML}
 
-        <div id="datosCartera" class="campos">
-            
-            <label for="cantidad"> Cantidad </label>
-            <input type="number" id="cantidad" disabled>
+            <label for="objetivo"> Objetivo Estratégico </label>
+            <textarea id="objetivo" disabled></textarea>
+
+            <label for="descripcion"> Descripción </label>
+            <textarea id="descripcion"></textarea>
 
         </div>
         
         <div class="botones">
-            <button id="agregaProyecto" type="button" class="botonExtra"> Agregar Proyecto </button>
-            <button id="verProyecto" type="button" class="botonExtra"> Ver Proyecto </button>
+            <button id="confirmarForm2" type="button" class="botonExtra"> Guardar Proyecto </button>
+            <button id="reset" type="button" class="botonBorrar"> Limpiar Campos </button>
         </div>
-        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+        <button id="cerrarForm2" type="button" class="botonCerrar"> Cerrar </button>
     `;
+
+    // Borrado especial cuando hay campos editables y no editables
+    document.getElementById("reset").addEventListener("click",
+        () => {
+            document.getElementById("descripcion").value = "";
+        }
+    );
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm2");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("confirmarForm2").addEventListener("click",
+        () => {
+            guardarDatos(document.querySelector("#datosProyecto").querySelectorAll("select, textarea"), "Proyecto",
+                undefined, undefined, [true, false, true]);
+            document.getElementById("cantidad").value = cantidadProyectos;
+        }
+    );
+    document.getElementById("cerrarForm2").onclick = () => { divform.style.display = "none" };
+
+    // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
+    document.getElementById("empresa").addEventListener("change",
+        () => {
+            actualizarCamposSelect("empresa", "datosProyecto", empresas);
+
+            // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+            expansionTextAreaDisabled(document.querySelector("#datosProyecto").querySelectorAll("textarea"));
+        }
+    );
+    actualizarCamposSelect("empresa", "datosProyecto", empresas);
+
+    // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+    expansionTextAreaDisabled(document.querySelector("#datosProyecto").querySelectorAll("textarea"));
 }
 
 function verProyecto(input) {
 
+    // Obteniendo los valores preestablecidos para llenar el formulario
+    const proyectosHTML = obtenerDatosSelect("proyectos", "Empresa", proyectos);
+    
+    // Llenando los datos del formulario
+    document.getElementById("barraForm3").innerHTML = "<h1 class='tituloForm'> Ver Proyecto </h1>"
+
+    document.getElementById("Form3").innerHTML = `
+       
+        <div id="datosVerProyecto" class="campos">
+
+            ${proyectosHTML}
+
+            <label for="objetivo"> Objetivo Estratégico </label>
+            <textarea id="objetivo" disabled></textarea>
+
+            <label for="calidad"> Calidad </label>
+            <input type="text" id="calidad" disabled>
+            
+            <label for="informeInicial"> Informe Inicial </label>
+            <input type="text" id="informeInicial" disabled>
+            
+            <label for="informeProgreso"> Informe de Progreso </label>
+            <input type="text" id="informeProgreso" disabled>
+            
+            <label for="informeFinal"> Informe Final </label>
+            <input type="text" id="informeFinal" disabled>
+            
+            <label for="prototipoAlpha"> Prototipo Alpha </label>
+            <input type="text" id="prototipoAlpha" disabled>
+            
+            <label for="prototipoBeta"> Prototipo Beta </label>
+            <input type="text" id="prototipoBeta" disabled>
+
+        </div>
+        
+        <button id="cerrarForm3" type="button" class="botonCerrar"> Cerrar </button>
+    `;
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm3");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("cerrarForm3").onclick = () => { divform.style.display = "none" };
+
+
+    // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
+    document.getElementById("proyectos").addEventListener("change",
+        () => {
+            actualizarCamposSelect("proyectos", "datosVerProyecto", proyectos);
+
+            // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+            expansionTextAreaDisabled(document.querySelector("#datosVerProyecto").querySelectorAll("textarea"));
+        }
+    );
+    actualizarCamposSelect("proyectos", "datosVerProyecto", proyectos);
+
+    // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+    expansionTextAreaDisabled(document.querySelector("#datosVerProyecto").querySelectorAll("textarea"));
 }
 
 function formularioConformaEquipo(input) {
@@ -1529,7 +1627,7 @@ function obtenerDatosSelect(id, display, arreglo, seleccionado = "") {
     return salidaHTML;
 }
 
-function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega) {
+function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega, AgregaConCondicion) {
 
     var condicionCamposCompletos = true; var condicionAlertacion = true;
     var cadenaAux1, cadenaAux2;
@@ -1581,6 +1679,19 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega) {
                     cadenaAux1 = `El problema de la empresa ${llave}`; cadenaAux2 = "validado"
                 }
                 problemas[llave] = crearObjeto(input);
+                break;
+
+            case "Proyecto":
+
+                cadenaAux1 = `El proyecto de la empresa ${llave}`; cadenaAux2 = "almacenado"
+
+                proyectos[llave] = crearObjeto(input, AgregaConCondicion);
+
+                var aux = 0;
+                for (var [key, value] of Object.entries(proyectos)) {
+                    aux++;
+                }
+                cantidadProyectos = aux - 1;
                 break;
 
             case "InformeProgreso":
@@ -1640,15 +1751,38 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega) {
     }
 }
 
-function crearObjeto(listiviris) {
+function crearObjeto(listiviris, AgregaConCondicion) {
     var objeto = {};
-    for (let index = 0; index < listiviris.length; index++) {
-        if (listiviris[index].type != "radio") {
-            objeto[listiviris[index].id] = listiviris[index].value
-        }
-        else {
-            if (listiviris[index].checked) {
+
+    if (AgregaConCondicion == undefined) {
+
+        for (let index = 0; index < listiviris.length; index++) {
+            if (listiviris[index].type != "radio") {
                 objeto[listiviris[index].id] = listiviris[index].value
+            }
+            else {
+                if (listiviris[index].checked) {
+                    objeto[listiviris[index].id] = listiviris[index].value
+                }
+            }
+        }
+    }
+    else {
+        var j = 0;
+        for (let index = 0; index < listiviris.length; index++) {
+            if (AgregaConCondicion[j]) {
+                if (listiviris[index].type != "radio") {
+                    objeto[listiviris[index].id] = listiviris[index].value
+                }
+                else {
+                    if (listiviris[index].checked) {
+                        objeto[listiviris[index].id] = listiviris[index].value
+                    }
+                }
+                j++;
+            }
+            else {
+                j++;
             }
         }
     }
@@ -1747,8 +1881,8 @@ var clases = {
         asignatura: "Ingeniería de Software"
     }
 };
-
-var proyectos = { cantidad: 0 };
+var cantidadProyectos = 0;
+var proyectos = {  };
 var equipos = {
     AA: { nombre: "AA", mision: "misi", vision: "visi", objetivo: "obje", necesidad: "nece" },
 };
