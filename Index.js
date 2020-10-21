@@ -22,6 +22,9 @@ function inicializarPagina() {
     document.getElementById("construyeCartera").addEventListener("click", formularioConstruyeCartera)
     document.getElementById("construyeCarteraText").addEventListener("click", formularioConstruyeCartera)
 
+    document.getElementById("registraHistoria").addEventListener("click", formularioRegistraHistoria)
+    document.getElementById("registraHistoriatext").addEventListener("click", formularioRegistraHistoria)
+
     document.getElementById("conformaEquipo").addEventListener("click", formularioConformaEquipo)
     document.getElementById("conformaEquipoText").addEventListener("click", formularioConformaEquipo)
 
@@ -127,9 +130,6 @@ function expansionTextAreaDisabled(lista) {
 
 function formularioDisenaAsignatura(input) {
 
-    // Identificador contenido
-    var identificador = 0;
-
     // Obteniendo los valores preestablecidos para llenar el formulario
     const profesoresHTML = obtenerDatosSelect("profesor", "Profesor", profesores);
 
@@ -162,8 +162,14 @@ function formularioDisenaAsignatura(input) {
     mostracionFormulario(input, divform)
 
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    //idboton de disparo, id div contenido, tipo inputs,nombre boton remover,  prefijo id opcional, opcional si input lista el objeto pa llenarla,
+    // nombre boton extra opcional, funcion boton extra opcional
     document.getElementById("agregarContenido").addEventListener("click",
         () => {
+
+    // Identificador contenido
+    var identificador = 0;
+
             var div = document.getElementById("contenidoAsignatura");
 
             var campo = document.createElement("input");
@@ -510,8 +516,8 @@ function formularioDefineProblema(input) {
             <label for="causa"> Causa </label>
             <textarea id="causa"></textarea>
             
-            <label for="descripcion"> Descripción </label>
-            <textarea id="descripcion"></textarea>
+            <label for="descripcionProblema"> Descripción </label>
+            <textarea id="descripcionProblema"></textarea>
 
             <label for="impacto"> Impacto </label>
             <textarea id="impacto"></textarea>
@@ -563,8 +569,8 @@ function formularioValidaProblema(input) {
             <label for="causa"> Causa </label>
             <textarea id="causa" disabled></textarea>
             
-            <label for="descripcion"> Descripción </label>
-            <textarea id="descripcion" disabled></textarea>
+            <label for="descripcionProblema"> Descripción </label>
+            <textarea id="descripcionProblema" disabled></textarea>
 
             <label for="impacto"> Impacto </label>
             <textarea id="impacto" disabled></textarea>
@@ -687,7 +693,7 @@ function verEmpresa(input, selectEmpresa) {
     document.getElementById("empresaVer").addEventListener("change",
         () => {
             actualizarCamposSelect("empresaVer", "datosEmpresa", empresas);
-            actualizarCamposSelect("empresaVer", "datosRepresentante", representantes, true, "empresa");
+            actualizarCamposSelect("empresaVer", "datosRepresentante", representantes, "empresa");
 
             // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
             expansionTextAreaDisabled(document.querySelector("#datosEmpresa").querySelectorAll("textarea"));
@@ -695,7 +701,7 @@ function verEmpresa(input, selectEmpresa) {
     );
 
     actualizarCamposSelect("empresaVer", "datosEmpresa", empresas);
-    actualizarCamposSelect("empresaVer", "datosRepresentante", representantes, true, "empresa");
+    actualizarCamposSelect("empresaVer", "datosRepresentante", representantes, "empresa");
 
     // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
     expansionTextAreaDisabled(document.querySelector("#datosEmpresa").querySelectorAll("textarea"));
@@ -711,7 +717,7 @@ function formularioConstruyeCartera(input) {
         <div id="datosCartera" class="campos">
             
             <label for="cantidad"> Cantidad </label>
-            <input type="number" id="cantidad" disabled value="${cantidadProyectos}">
+            <input type="number" id="cantidad" disabled value="${carteraDeProyectos.cantidadProyectos}">
 
         </div>
         
@@ -735,7 +741,7 @@ function formularioConstruyeCartera(input) {
 function agregarProyecto(input) {
     // Obteniendo los valores preestablecidos para llenar el formulario
     const empresasHTML = obtenerDatosSelect("empresa", "Empresa", empresas);
-    
+
     // Llenando los datos del formulario
     document.getElementById("barraForm2").innerHTML = "<h1 class='tituloForm'> Agregar Proyecto </h1>"
 
@@ -748,8 +754,8 @@ function agregarProyecto(input) {
             <label for="objetivo"> Objetivo Estratégico </label>
             <textarea id="objetivo" disabled></textarea>
 
-            <label for="descripcion"> Descripción </label>
-            <textarea id="descripcion"></textarea>
+            <label for="descripcionProyecto"> Descripción </label>
+            <textarea id="descripcionProyecto"></textarea>
 
         </div>
         
@@ -776,7 +782,7 @@ function agregarProyecto(input) {
         () => {
             guardarDatos(document.querySelector("#datosProyecto").querySelectorAll("select, textarea"), "Proyecto",
                 undefined, undefined, [true, false, true]);
-            document.getElementById("cantidad").value = cantidadProyectos;
+            document.getElementById("cantidad").value = carteraDeProyectos.cantidadProyectos;
         }
     );
     document.getElementById("cerrarForm2").onclick = () => { divform.style.display = "none" };
@@ -799,8 +805,8 @@ function agregarProyecto(input) {
 function verProyecto(input) {
 
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const proyectosHTML = obtenerDatosSelect("proyectos", "Empresa", proyectos);
-    
+    const proyectosHTML = obtenerDatosSelect("proyectos", "Empresa", carteraDeProyectos.proyectos);
+
     // Llenando los datos del formulario
     document.getElementById("barraForm3").innerHTML = "<h1 class='tituloForm'> Ver Proyecto </h1>"
 
@@ -812,6 +818,12 @@ function verProyecto(input) {
 
             <label for="objetivo"> Objetivo Estratégico </label>
             <textarea id="objetivo" disabled></textarea>
+
+            <label for="descripcion"> Descripción </label>
+            <textarea id="descripcion" disabled></textarea>
+
+            <label for="codigo"> Código </label>
+            <input type="text" id="codigo" disabled>
 
             <label for="calidad"> Calidad </label>
             <input type="text" id="calidad" disabled>
@@ -843,20 +855,94 @@ function verProyecto(input) {
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("cerrarForm3").onclick = () => { divform.style.display = "none" };
 
-
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
     document.getElementById("proyectos").addEventListener("change",
         () => {
-            actualizarCamposSelect("proyectos", "datosVerProyecto", proyectos);
+            actualizarCamposSelect("proyectos", "datosVerProyecto", carteraDeProyectos.proyectos);
 
             // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
             expansionTextAreaDisabled(document.querySelector("#datosVerProyecto").querySelectorAll("textarea"));
         }
     );
-    actualizarCamposSelect("proyectos", "datosVerProyecto", proyectos);
+    actualizarCamposSelect("proyectos", "datosVerProyecto", carteraDeProyectos.proyectos);
 
     // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
     expansionTextAreaDisabled(document.querySelector("#datosVerProyecto").querySelectorAll("textarea"));
+}
+
+function formularioRegistraHistoria(input) {
+
+    // Llenando los datos del formulario
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Registra Historia Académica </h1>"
+
+    document.getElementById("Form1").innerHTML = `
+        <h2 class='subtituloForm'> Datos Estudiante </h2>
+
+        <div id="datosRegistraEstudiante" class="campos">
+            <label for="nombre"> Nombre </label>
+            <input type="text" id="nombre">
+
+            <label for="identificacion"> Identificación </label>
+            <input type="number" id="identificacion" min="0">
+            
+            <label for="direccion"> Dirección </label>
+            <input type="text" id="direccion">
+            
+            <label for="celular"> Celular </label>
+            <input type="number" id="celular" min="0">
+
+            <label for="correo"> Correo </label>
+            <input type="email" id="correo">
+
+            <label for="carrera"> Carrera </label>
+            <input type="text" id="carrera">
+
+            <label for="semestre"> Semestre </label>
+            <input type="text" id="semestre">
+
+            <label for="rol"> Rol </label>
+            <input type="text" id="rol">
+
+            <label> Competencia </label>
+
+            <div class="radios">
+                <input type="radio" id="competencia" name="competencia" value="tecnica">
+                <label> Técnica </label>
+
+                <input type="radio" id="competencia" name="competencia" value="social">
+                <label> Social </label>
+            </div>
+
+        </div>
+
+        <h2 class='subtituloForm'> Historia Académica </h2>
+
+        <button id="agregarAsignatura" type="button" class="botonExtra"> Agregar Asitnatura </button>
+
+        <div class="botones">
+            <button id="confirmarForm1" type="button" class="botonConfirmar"> Registrar </button>
+            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
+        </div>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+    `;
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+    AsignacionExpansionTextArea(document.querySelector("#datosRegistraEmpresa").querySelectorAll("textarea"));
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("confirmarForm1").addEventListener("click",
+        () => {
+            const llaveEmpresa = document.querySelector("#datosRegistraEmpresa").querySelectorAll("input")[0].value;
+
+            guardarDatos(document.querySelector("#datosRegistraEmpresa").querySelectorAll("input, textarea"), "Empresa");
+            guardarDatos(document.querySelector("#datosRegistraRepresentante").querySelectorAll("input"), "Representante",
+                undefined, [["empresa", empresas[llaveEmpresa].nombre]]);
+        }, false);
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
 function formularioConformaEquipo(input) {
@@ -868,32 +954,38 @@ function formularioConformaEquipo(input) {
 
     document.getElementById("Form1").innerHTML = `
         <div id="datosEquipo" class="campos">
-
+        
             ${empresasHTML}
 
-            <label for="codigo"> Codigo </label>
-            <input type="text" id="codigo" disabled>
-            
-            <label for="descripcion"> Descripción </label>
-            <input type="text" id="descripcion" disabled>
+            <label for="codigo"> Código </label>
+            <input type="number" id="codigo" disabled>
 
-            <label for="impacto"> Impacto </label>
-            <input type="text" id="impacto" disabled>
+            <label for="cantidad"> Cantidad </label>
+            <input type="number" id="cantidad" disabled>
             
-            <label for="proceso"> Proceso Asociado </label>
-            <input type="text" id="proceso" disabled>
+        </div>
+        
+        <h2 class='subtituloForm'> Estudiantes </h2>
+            
+        <button id="agregarEstudiante" type="button" class="botonExtra"> Agregar Estudiante </button>
 
-            <label for="actor"> Actor Involucrado </label>
-            <input type="text" id="actor" disabled>
+        <div id="datosEquipo" class="campos">
+        
+            ${empresasHTML}
+
+            <label for="codigo"> Código </label>
+            <input type="number" id="codigo" disabled>
+
+            <label for="cantidad"> Cantidad </label>
+            <input type="number" id="cantidad" disabled>
+            
         </div>
 
         <div class="botones">
             <button id="confirmarForm1" type="button" class="botonConfirmar"> Conformar </button>
-            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
             <button id="verEquipo" type="button" class="botonExtra"> Ver Equipo </button>
-            <button id="agregarEstudiante" type="button" class="botonExtra"> Agregar Estudiante </button>
+            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
         </div>
-        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
@@ -903,14 +995,11 @@ function formularioConformaEquipo(input) {
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
-            guardarDatos(document.querySelector("#datosEquipo").querySelectorAll("input, select"), "Equipo");
-        }, false);
-    document.getElementById("verEmpresa").addEventListener("click", () => { verEmpresa(event, "empresa") }, false);
+            guardarDatos(document.querySelector("#datosEquipo").querySelectorAll("input, select, textarea"), "Equipo");
+        }
+    );
+    document.getElementById("verEquipo").addEventListener("click", () => { verEquipo(event, "empresa") }, false);
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
-
-    // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-    document.getElementById("empresa").addEventListener("change", () => { actualizarCamposSelect("empresa", "datosProblema", problemas) }, false);
-    actualizarCamposSelect("empresa", "datosProblema", problemas);
 }
 
 function formularioDefineMetodologia(input) {
@@ -1481,7 +1570,7 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
     LlenarTablaSelect(equipoSeleccionado, "datosCriteriosCalif", Criterios, "criterios")
 }
 
-function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, buscarPorValue = false, nombreValue = "") {
+function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, nombreValue = undefined) {
 
     const llave = document.getElementById(nombreSelect).value;
     const campos = document.querySelector("#" + nombreContenedorCampos).querySelectorAll("input, textarea");
@@ -1495,7 +1584,7 @@ function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, b
     );
 
     if (llave != "") {
-        if (!buscarPorValue) {
+        if (nombreValue == undefined) {
             for (var [key, value] of Object.entries(arreglo)) {
                 if (llave == key) {
                     for (var [key, value2] of Object.entries(value)) {
@@ -1683,15 +1772,32 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega, AgregaCo
 
             case "Proyecto":
 
-                cadenaAux1 = `El proyecto de la empresa ${llave}`; cadenaAux2 = "almacenado"
+                cadenaAux1 = `El proyecto de la empresa ${llave}`;
 
-                proyectos[llave] = crearObjeto(input, AgregaConCondicion);
-
-                var aux = 0;
-                for (var [key, value] of Object.entries(proyectos)) {
-                    aux++;
+                var aux = 1; var total = 1; var encontradoCodigo = false;
+                for (var [undefined, value] of Object.entries(carteraDeProyectos.proyectos)) {
+                    if (!encontradoCodigo) {
+                        for (var [key1, value2] of Object.entries(value)) {
+                            if (key1 == "codigo") {
+                                if (value2 != aux) {
+                                    encontradoCodigo = true;
+                                    break;
+                                }
+                                else {
+                                    aux++;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    total++;
                 }
-                cantidadProyectos = aux - 1;
+
+                carteraDeProyectos.proyectos[llave] = crearObjeto(input, AgregaConCondicion);
+                carteraDeProyectos.proyectos[llave].codigo = aux;
+                carteraDeProyectos.cantidadProyectos = total;
+
+                cadenaAux2 = `almacenado con código ${aux}`
                 break;
 
             case "InformeProgreso":
@@ -1803,6 +1909,7 @@ function adicionarAobjeto(objeto, listiviris) {
         }
     }
     else if (Array.isArray(listiviris)) {
+        // Pa ponerle la empresa a representante
         for (let index = 0; index < listiviris.length; index++) {
             if (listiviris[index].type != "radio") {
                 objeto[listiviris[index][0]] = listiviris[index][1];
@@ -1881,11 +1988,8 @@ var clases = {
         asignatura: "Ingeniería de Software"
     }
 };
-var cantidadProyectos = 0;
-var proyectos = {  };
-var equipos = {
-    AA: { nombre: "AA", mision: "misi", vision: "visi", objetivo: "obje", necesidad: "nece" },
-};
+var carteraDeProyectos = { cantidadProyectos: 0, proyectos: {} };
+var equipos = {};
 
 var representantes = {
     "José José": {
@@ -1939,7 +2043,7 @@ var problemas = {
     Postobon: {
         actor: "Cliente",
         causa: "Las máquinas no proveen la bebida correcta",
-        descripcion: "Debido a un error en el software, muchas máquinas no proveen la bebida adecuada",
+        descripcionProblema: "Debido a un error en el software, muchas máquinas no proveen la bebida adecuada",
         empresa: "Postobon",
         impacto: "Alto",
         proceso: "no c"
@@ -1948,7 +2052,7 @@ var problemas = {
         actor: "Los esclavos, digo clientes",
         causa: "Cajeros automáticos funcionando incorrectamente, perdemos mucho dinero",
         comentario: "Este problema es Perfecto y tiene muy buenas intenciones, apenas pa la guaracha, mero ki, que level, que FUA!, zukistrukis lulu.",
-        descripcion: "Se requiere de una inteligencia artificial lo suficientemente poderoxa como para que cada cajero automático sea capaz de proveerle al usuario con una sutil cantidad de billetes falsos, de tal manera que perdamos menos dinero. Pero ojo, debe ser sutíl pa q no estén jodiendo la vida luego.",
+        descripcionProblema: "Se requiere de una inteligencia artificial lo suficientemente poderoxa como para que cada cajero automático sea capaz de proveerle al usuario con una sutil cantidad de billetes falsos, de tal manera que perdamos menos dinero. Pero ojo, debe ser sutíl pa q no estén jodiendo la vida luego.",
         empresa: "Bancolombia Medellín",
         impacto: "Poderoxo",
         proceso: "Retiro de Dinero",
