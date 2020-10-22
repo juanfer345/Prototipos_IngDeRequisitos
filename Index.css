@@ -18,6 +18,10 @@
 	color: #05d1ff;
 }
 
+.subsubtituloForm {
+	margin: 4px;
+}
+
 .divForm {
 	/* Escondido por default */
 	display: none;
