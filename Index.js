@@ -133,6 +133,10 @@ function expansionTextAreaDisabled(lista) {
 
 function formularioDisenaAsignatura(input) {
 
+    
+    // Identificador contenido
+    var identificador = 0;
+
     // Obteniendo los valores preestablecidos para llenar el formulario
     const profesoresHTML = obtenerDatosSelect("profesor", "Profesor", profesores);
 
@@ -150,7 +154,7 @@ function formularioDisenaAsignatura(input) {
 
         <button id="agregarContenido" type="button" class="botonAgregar"> Agregar Contenido </button>
 
-        <div id="contenidoAsignatura" class="campos"></div>
+        <div id="contenidoAsignatura" class="tabla"></div>
 
         <div class="botones">
             <button id="confirmarForm1" type="button" class="botonConfirmar"> Diseñar </button>
@@ -167,9 +171,6 @@ function formularioDisenaAsignatura(input) {
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("agregarContenido").addEventListener("click",
         () => {
-
-            // Identificador contenido
-            var identificador = 0;
 
             var div = document.getElementById("contenidoAsignatura");
 
@@ -1205,7 +1206,6 @@ function formularioCalificaInformeInicial(input) {
             <button id="confirmarForm1" type="button" class="botonConfirmar"> Calificar </button>
             <button type="reset" class="botonBorrar"> Limpiar Campos </button>
         </div>
-        
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
     document.getElementById("columnas").style.gridTemplateColumns = "repeat(6, minmax(0, 1fr))";
@@ -1836,31 +1836,60 @@ function LlenarTablaSelect(llave, nombreContenedorCampos, arreglo, caso) {
     document.getElementById(nombreContenedorCampos).innerHTML = acumulador;
 }
 
-function LlenarBotonesExpansibles(idBotonDisparo, idDivContenido, tipoInputs, nombreBotonRemover, objetoInformacion, prefijoID = undefined, objetoLista = undefined,
+function LlenarBotonesExpansibles(idBotonDisparo, idDivContenido, tipoInputs, cantidadColumnas, prefijoID, objetoInformacion, nombreBotonRemover, 
+    objetoLista = undefined,
     nombreBotonExtra = undefined, funcionBotonExtra = undefined) {
 
     document.getElementById(idBotonDisparo).addEventListener("click",
         () => {
 
-            var identificador = 0;
-            var div = document.getElementById("contenidoAsignatura");
+            var identificador = 1;
             
             if (objetoInformacion == undefined){
+                var auxiliar = document.querySelector(`#${idDivContenido}`).querySelectorAll("input, select");
                 
+                Array.from(auxiliar).forEach(
+                    (campo) => {
+                        if (campo.id == prefijoID + '_' +identificador){
+                            identificador++;
+                        }
+                        else{
+                            break;
+                        }
+                    }
+                );
                 
+            }
+            else{
+                for (var key of Object.keys(objetoInformacion)) {
+                    if (key == prefijoID + '_' +identificador){
+                        identificador++;
+                    }
+                    else{
+                        break;
+                    }
+                }
+            }
+            
+            var div = document.getElementById(idDivContenido);
+            div.style.gridTemplateColumns = `repeat(${cantidadColumnas}, minmax(0, 1fr))`;
+            
+            if (tipoInputs == "input"){
             var campo = document.createElement("input");
             campo.setAttribute("type", "text");
-            campo.setAttribute("id", identificador);
+            campo.setAttribute("id", prefijoID + '_' +identificador);}
+
+            else if(tipoInputs == "select"){
+                var campo = document.createElement("select")
+            }
 
             var boton = document.createElement("button");
-            boton.setAttribute("id", identificador);
             boton.setAttribute("type", "button");
             boton.setAttribute("class", "botonRemover");
-            boton.innerHTML = "Remover Contenido"
-            boton.addEventListener("click", () => { campo.remove(); boton.remove(); }, false)
+            boton.innerHTML = nombreBotonRemover
+            boton.addEventListener("click", () => { campo.remove(); boton.remove(); })
 
             div.appendChild(campo); div.appendChild(boton); identificador++;
-            }
         }
     );
 }

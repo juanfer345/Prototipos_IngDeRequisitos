@@ -23,7 +23,8 @@
 	display: none;
 	position: absolute;
 	text-align: center;
-	width: min-content;
+	/* width: min-content; */
+	width: fit-content;
 	background: rgb(35, 35, 35);
 	border: 3px solid #0a1e33;
 	color: rgb(255, 255, 255);
