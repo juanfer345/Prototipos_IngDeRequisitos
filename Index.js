@@ -165,13 +165,11 @@ function formularioDisenaAsignatura(input) {
     mostracionFormulario(input, divform)
 
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
-    //idboton de disparo, id div contenido, tipo inputs,nombre boton remover,  prefijo id opcional, opcional si input lista el objeto pa llenarla,
-    // nombre boton extra opcional, funcion boton extra opcional
     document.getElementById("agregarContenido").addEventListener("click",
         () => {
 
-    // Identificador contenido
-    var identificador = 0;
+            // Identificador contenido
+            var identificador = 0;
 
             var div = document.getElementById("contenidoAsignatura");
 
@@ -391,7 +389,7 @@ function formularioDisenaClase(input) {
 function formularioDefineCriterioEvaluacion(input) {
 
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const rubricaHTML = obtenerDatosSelect("rubrica", "Nombre Rubrica", {Informe_Inicial: {}, Informe_de_Progreso: {}, Informe_Final: {}, Prototipo_Alfa: {}, Prototipo_Beta: {} }); 
+    const rubricaHTML = obtenerDatosSelect("rubrica", "Nombre Rubrica", { Informe_Inicial: {}, Informe_de_Progreso: {}, Informe_Final: {}, Prototipo_Alfa: {}, Prototipo_Beta: {} });
     //Deben ser los objetos pero ajá, para ensayar
 
     // Llenando los datos del formulario
@@ -433,9 +431,10 @@ function formularioDefineCriterioEvaluacion(input) {
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
     document.getElementById("verCriterio").addEventListener("click", () => { verCriterio(event) }, false);
 }
-function verCriterio(input){
 
-    const rubricaHTML = obtenerDatosSelect("rubrica", "Nombre Rubrica", {Informe_Inicial: {}, Informe_de_Progreso: {}, Informe_Final: {}, Prototipo_Alfa: {}, Prototipo_Beta: {} }); 
+function verCriterio(input) {
+
+    const rubricaHTML = obtenerDatosSelect("rubrica", "Nombre Rubrica", { Informe_Inicial: {}, Informe_de_Progreso: {}, Informe_Final: {}, Prototipo_Alfa: {}, Prototipo_Beta: {} });
 
     document.getElementById("barraForm2").innerHTML = `<h1 class='tituloForm'> Ver Crtierio </h1>`
 
@@ -473,13 +472,13 @@ function verCriterio(input){
     document.getElementById("cerrarForm2").onclick = () => { divform.style.display = "none" };
 
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-   // document.getElementById("equipoVer").addEventListener("change",
+    // document.getElementById("equipoVer").addEventListener("change",
     //    () => {
     //        actualizarCamposSelect("equipoVer", "datosVerCalificacion", informePrototipo)
-     //       LlenarTablaSelect(equipoSeleccionado, "datosCriteriosCalif", Criterios)
+    //       LlenarTablaSelect(equipoSeleccionado, "datosCriteriosCalif", Criterios)
     //    }, false);
     //actualizarCamposSelect("equipoVer", "datosVerCalificacion", informePrototipo)
-   // LlenarTablaSelect(equipoSeleccionado, "datosCriteriosCalif", Criterios, "criterios")
+    // LlenarTablaSelect(equipoSeleccionado, "datosCriteriosCalif", Criterios, "criterios")
 }
 
 function formularioRegistraEmpresa(input) {
@@ -1178,7 +1177,11 @@ function formularioCalificaInformeInicial(input) {
 
             ${estadoHTML}
 
-            <h2 class='subtituloForm'> Rúbrica Informe Inicial </h2>
+        </div>
+
+        <h2 class='subtituloForm'> Rúbrica Informe Inicial </h2>
+
+        <div id="datosCalificarRubrica" class="campos">
 
             <label for="nota"> Nota de la Rúbrica </label>
             <input type="text" id="nota">
@@ -1205,8 +1208,8 @@ function formularioCalificaInformeInicial(input) {
         
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
-    document.getElementById("columnas").style.gridTemplateColumns = "20px 20px 20px 20px 20px 20px";
-    document.getElementById("datosCriteriosEval").style.gridTemplateColumns = "20px 20px 20px 20px 20px 20px";
+    document.getElementById("columnas").style.gridTemplateColumns = "repeat(6, minmax(0, 1fr))";
+    document.getElementById("datosCriteriosEval").style.gridTemplateColumns = "repeat(6, minmax(0, 1fr))";
 
     // Obteniendo el equipo seleccionado
     equipoSeleccionado = document.getElementById("equipoVer").value
@@ -1228,8 +1231,8 @@ function formularioCalificaInformeInicial(input) {
             actualizarCamposSelect("equipoVer", "datosVerCalificacion", informesIniciales);
             LlenarTablaSelect(equipoSeleccionado, "datosCriteriosEval", criteriosEvaluacionInfInicial, "Criterios llenar");
         }, false);
-        actualizarCamposSelect("equipoVer", "datosVerCalificacion", informesIniciales);
-        LlenarTablaSelect(equipoSeleccionado, "datosCriteriosEval", criteriosEvaluacionInfInicial, "Criterios llenar")
+    actualizarCamposSelect("equipoVer", "datosVerCalificacion", informesIniciales);
+    LlenarTablaSelect(equipoSeleccionado, "datosCriteriosEval", criteriosEvaluacionInfInicial, "Criterios llenar")
 }
 
 function formularioEntregaInformeProgreso(input) {
@@ -1833,6 +1836,35 @@ function LlenarTablaSelect(llave, nombreContenedorCampos, arreglo, caso) {
     document.getElementById(nombreContenedorCampos).innerHTML = acumulador;
 }
 
+function LlenarBotonesExpansibles(idBotonDisparo, idDivContenido, tipoInputs, nombreBotonRemover, objetoInformacion, prefijoID = undefined, objetoLista = undefined,
+    nombreBotonExtra = undefined, funcionBotonExtra = undefined) {
+
+    document.getElementById(idBotonDisparo).addEventListener("click",
+        () => {
+
+            var identificador = 0;
+            var div = document.getElementById("contenidoAsignatura");
+            
+            if (objetoInformacion == undefined){
+                
+                
+            var campo = document.createElement("input");
+            campo.setAttribute("type", "text");
+            campo.setAttribute("id", identificador);
+
+            var boton = document.createElement("button");
+            boton.setAttribute("id", identificador);
+            boton.setAttribute("type", "button");
+            boton.setAttribute("class", "botonRemover");
+            boton.innerHTML = "Remover Contenido"
+            boton.addEventListener("click", () => { campo.remove(); boton.remove(); }, false)
+
+            div.appendChild(campo); div.appendChild(boton); identificador++;
+            }
+        }
+    );
+}
+
 function obtenerDatosSelect(id, display, arreglo, seleccionado = "") {
 
     var salidaHTML = `<label for='${id}'> ${display} </label> <select id='${id}'>`;
@@ -1986,7 +2018,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega, AgregaCo
                 cadenaAux1 = `La rubrica ${input[1].value}`; cadenaAux2 = "almacenada"
                 rubricaProgreso[llave] = crearObjeto(input);
                 break;
-    
+
             case "Nota Rubrica Progreso":
                 if (rubricaProgreso[llave] != undefined) {
                     cadenaAux1 = `La nota de la rubrica ${rubricaProgreso[llave][1].value}`; cadenaAux2 = "almacenado"
