@@ -60,9 +60,35 @@ function inicializarPagina() {
 
     document.getElementById("entregaPrototipoBeta").addEventListener("click", formularioEntregaPrototipoBeta)
     document.getElementById("entregaPrototipoBetaText").addEventListener("click", formularioEntregaPrototipoBeta)
-    calificaPrototipoBetaText
+    
     document.getElementById("calificaPrototipoBeta").addEventListener("click", formulariocCalificaPrototipoBeta)
     document.getElementById("calificaPrototipoBetaText").addEventListener("click", formulariocCalificaPrototipoBeta)
+
+    //Factores criticos de exito
+    
+    document.getElementById("promoverCompetencia").addEventListener("click", formularioPromoverCompetencia)
+    document.getElementById("promoverCompetenciaText").addEventListener("click", formularioPromoverCompetencia)
+
+    document.getElementById("desarrollarProyecto").addEventListener("click", formularioDesarrollarProyecto)
+    document.getElementById("desarrollarProyectoText").addEventListener("click", formularioDesarrollarProyecto)
+
+    document.getElementById("fomentarParticipacion").addEventListener("click", formularioFomentarParticipacion)
+    document.getElementById("fomentarParticipacionText").addEventListener("click", formularioFomentarParticipacion)
+
+    document.getElementById("reconocerProgreso").addEventListener("click", formularioReconocerProgreso)
+    document.getElementById("reconocerProgresoText").addEventListener("click", formularioReconocerProgreso)
+
+    document.getElementById("reconocerCausa").addEventListener("click", formularioReconocerCausa)
+    document.getElementById("reconocerCausaText").addEventListener("click", formularioReconocerCausa)
+
+    document.getElementById("garantizarEquipoProyecto").addEventListener("click", formulariocGarantizarEquipoProyecto)
+    document.getElementById("garantizarEquipoProyectoText").addEventListener("click", formulariocGarantizarEquipoProyecto)
+
+    document.getElementById("garantizarEquipoEstudiante").addEventListener("click", formularioGarantizarEquipoEstudiante)
+    document.getElementById("garantizarEquipoEstudianteText").addEventListener("click", formularioGarantizarEquipoEstudiante)
+
+    document.getElementById("incrementarCartera").addEventListener("click", formularioIncrementarCartera)
+    document.getElementById("incrementarCarteraText").addEventListener("click", formularioIncrementarCartera)
 
     // Haciendo que cada formulario sea arrastrable
     asignarArrastracion(document.getElementById("divForm1"), document.getElementById("barraForm1"));
@@ -2099,7 +2125,7 @@ function LlenarBotonesExpansibles(idBotonDisparo, idDivContenido, tipoInputs, ca
                             identificador++;
                         }
                         else{
-                            break;
+                         //   break;
                         }
                     }
                 );
@@ -2375,6 +2401,161 @@ function adicionarAobjeto(objeto, listiviris) {
         }
     }
 }
+
+//formularios factores criticos de exito
+
+function formularioPromoverCompetencia(input){
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Porcentaje de prototipos beta y prototipos alpha con calidad alta </h1>"
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosPromoverCompetencia" class="campos">
+
+            <label for="formula"> ((Número de prototipos beta con calidad alta + Número de prototipos alpha con calidad alta) / (Número de prototipos beta + Número de prototipos alpha))*100 </label>
+            <input type="text" id="formula">
+
+        </div>
+
+        <div class="botones">
+            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+        </div>
+    `;
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+}
+
+function formularioDesarrollarProyecto(input){
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Porcentaje de proyectos con calidad alta </h1>"
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosPromoverCompetencia" class="campos">
+
+            <label for="formula"> (Número de proyectos con calidad alta / Número de proyectos)*100 </label>
+            <input type="text" id="formula">
+
+        </div>
+
+        <div class="botones">
+            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+        </div>
+    `;
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+}
+
+function formularioFomentarParticipacion(input){
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Promedio de las notas de los estudiantes </h1>"
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosPromoverCompetencia" class="campos">
+
+            <label for="formula"> Nota de informes y prototipos entregados / Número de informes y prototipos entregados </label>
+            <input type="text" id="formula">
+
+        </div>
+
+        <div class="botones">
+            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+        </div>
+    `;
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+}
+
+function formularioReconocerProgreso(input){
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Porcentaje de entrega de informes y prototipos </h1>"
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosPromoverCompetencia" class="campos">
+
+            <label for="formula"> (Número de informes y prototipos entregados/ Número total de informes y prototipos) * 100 </label>
+            <input type="text" id="formula">
+
+        </div>
+
+        <div class="botones">
+            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+        </div>
+    `;
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+}
+
+function formularioReconocerCausa(input){
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Porcentaje de problemas trabajados </h1>"
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosPromoverCompetencia" class="campos">
+
+            <label for="formula"> (Número de equipos conformados / Número de problemas validados) * 100 </label>
+            <input type="text" id="formula">
+
+        </div>
+
+        <div class="botones">
+            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+        </div>
+    `;
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+}
+
+function formulariocGarantizarEquipoProyecto(input){
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Porcentaje de problemas validados </h1>"
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosPromoverCompetencia" class="campos">
+
+            <label for="formula"> (Número de problemas validados/ Número de empresas registradas) * 100 </label>
+            <input type="text" id="formula">
+
+        </div>
+
+        <div class="botones">
+            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+        </div>
+    `;
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+}
+
+function formularioGarantizarEquipoEstudiante(input){
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Proporción de estudiantes por equipo </h1>"
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosPromoverCompetencia" class="campos">
+
+            <label for="formula"> Número de estudiantes / Número de equipos conformados </label>
+            <input type="text" id="formula">
+
+        </div>
+
+        <div class="botones">
+            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+        </div>
+    `;
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+}
+
+function formularioIncrementarCartera(input){
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Proporción de equipos por proyecto </h1>"
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosPromoverCompetencia" class="campos">
+
+            <label for="formula"> Número de equipos conformados / Número de proyectos en la cartera de proyectos </label>
+            <input type="text" id="formula">
+
+        </div>
+
+        <div class="botones">
+            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+        </div>
+    `;
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+}
+
 
 var criteriosEvaluacionInfInicial = { 0: { nombre: "Presentación", descripcion: "El estudiante presenta el Informe Inicial con una portada bien definida, las partes correctas del entregable y tabla de contenidos", peso: "0.05" } };
 var criteriosEvaluacionInfProgreso = {};
