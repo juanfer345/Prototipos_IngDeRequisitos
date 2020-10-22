@@ -383,7 +383,7 @@ function formularioDefineCriterioEvaluacion(input) {
     //Deben ser los objetos pero ajá, para ensayar
 
     // Llenando los datos del formulario
-    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Define Criterio de Evaluación </h1>"
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Define Criterios de Evaluación </h1>"
 
     document.getElementById("Form1").innerHTML = `
 
@@ -404,7 +404,7 @@ function formularioDefineCriterioEvaluacion(input) {
         <div class="botones">
             <button id="confirmarForm1" type="button" class="botonConfirmar"> Definir </button>
             <button type="reset" class="botonBorrar"> Limpiar Campos </button>
-            <button id="verCriterio" type="button" class="botonExtra"> Ver Criterio </button>
+            <button id="verCriterio" type="button" class="botonExtra"> Ver Criterios </button>
             <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
         </div>
     `;
@@ -2121,7 +2121,6 @@ function IndicesBotonesExpansibles(idDivContenido, arregloTipoInputs) {
     return identificador;
 }
 
-
 function obtenerDatosSelect(id, display, arreglo, seleccionado = "", atributo = undefined) {
 
     var salidaHTML = `<label for='${id}'> ${display} </label> <select id='${id}'>`;
@@ -2146,7 +2145,7 @@ function obtenerDatosSelect(id, display, arreglo, seleccionado = "", atributo = 
     return salidaHTML;
 }
 
-function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega, AgregaConCondicion) {
+function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefined, AgregaConCondicion = undefined) {
 
     var condicionCamposCompletos = true; var condicionAlertacion = true;
     var cadenaAux1, cadenaAux2;
@@ -2156,18 +2155,21 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega, AgregaCo
         if (valor.value == '') { condicionCamposCompletos = false; }
     });
 
+    if (nuevoAgrega != undefined){
+        nuevoAgrega.forEach((valor) => {
+            if (valor.value == '') { condicionCamposCompletos = false; }
+        });
+    }
+
     if (condicionCamposCompletos) {
         switch (caso) {
             case "Asignatura":
                 cadenaAux1 = `La asignatura ${llave}`; cadenaAux2 = "almacenada"
                 asignaturas[llave] = crearObjeto(input);
 
-                if (nuevoAgrega != undefined) {
-                    if (asignaturas[llave] != undefined) {
                         asignaturas[llave]["contenidos"] = {};
                         adicionarAobjeto(asignaturas[llave]["contenidos"], nuevoAgrega);
-                    }
-                }
+                    
                 asignaturas[llave].estado = "Diseñada"
                 break;
 
@@ -2402,19 +2404,19 @@ var criteriosEvaluacionProtBeta = {};
 
 var asignaturas = {
     "Ingeniería de Software": {
-        contenidos: { 0: "Esquema Preconceptual" },
+        contenidos: { contenido_1: "Esquema Preconceptual" },
         estado: "Diseñada",
         nombre: "Ingeniería de Software",
         profesor: "Carlos Lopez"
     },
     "Programación Orientada a Objetos": {
-        contenidos: { 0: "Clases", 1: "Objetos" },
+        contenidos: { contenido_1: "Clases", contenido_2: "Objetos" },
         nombre: "Programación Orientada a Objetos",
         profesor: "Daniel Delgado",
         estado: "Diseñada"
     },
     "Ingeniería de Requisitos": {
-        // contenidos: { 0: "Casos de Uso", 1: "Diagrama de Procesos" },
+        contenidos: { contenido_1: "Casos de Uso", contenido_2: "Diagrama de Procesos" },
         estado: "Diseñada",
         nombre: "Ingeniería de Requisitos",
         profesor: "Sara Berrio"
