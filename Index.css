@@ -16,6 +16,7 @@
 .subtituloForm {
 	text-align: center;
 	color: #05d1ff;
+	margin-top: 11px;
 }
 
 .subsubtituloForm {
@@ -164,4 +165,6 @@ select {
 .botonRemover {
 	background-color: rgb(206, 31, 22);
 	padding: 1px 12px;
+	justify-self: center;
+	max-width: 1px;
 }

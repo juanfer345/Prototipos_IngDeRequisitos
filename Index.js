@@ -176,14 +176,12 @@ function formularioDisenaAsignatura(input) {
     mostracionFormulario(input, divform)
 
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
-    LlenarBotonesExpansibles("agregarContenido", "contenidoAsignatura", ["input", "contenido"], 2, asignaturas[document.getElementById("nombre")]["contenidos"],
-        "Remover Contenido")
+    LlenarBotonesExpansibles("agregarContenido", "contenidoAsignatura", [["input", "contenido"]], "1.5fr 1fr", "Remover Contenido")
 
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
             guardarDatos(document.querySelector("#datosDiseñaAsignatura").querySelectorAll("input, select"), "Asignatura",
                 undefined, document.querySelector("#contenidoAsignatura").querySelectorAll("input"));
-            asignaturas[document.getElementById("nombre").value].estado = "Diseñada"
         }
     );
     document.getElementById("verAsignatura").addEventListener("click", () => { verAsignatura(event, "nombre") }, false);
@@ -994,9 +992,7 @@ function formularioRegistraHistoria(input) {
 
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     LlenarBotonesExpansibles("agregarAsignatura", "datosAgregaAsig",
-        [["input", "nombre"], ["input", "nota"], ["input", "semestre"]], 4,
-        historiasAcademicas[document.querySelector("#datosRegistraEstudiante").querySelectorAll("input")[1].value]["nombre"],
-        "Remover Asignatura");
+        [["input", "nombre"], ["input", "nota"], ["input", "semestre"]], 4, "Remover Asignatura");
 
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
@@ -1131,7 +1127,7 @@ function formularioConformaEquipo(input) {
     `;
 
     LlenarBotonesExpansibles("agregarEstudiante", "datosAgregaEst", ["select", "estudiante", estudiantes],
-        3, equipos.estudiantes, "Quitar Estudiante", "Ver Estudiante", verHistoria);
+        3, "Quitar Estudiante", "Ver Estudiante", verHistoria);
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm1");
@@ -1362,7 +1358,7 @@ function formularioEntregaInforme(input, tipoInfProt) {
 
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
-        LlenarBotonesExpansibles("agregarSeccion", "datosAgregaSecc", "input", 2, informePrototipo.secciones, "Remover Sección");
+        LlenarBotonesExpansibles("agregarSeccion", "datosAgregaSecc", "input", 2, "Remover Sección");
     }
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
@@ -1507,9 +1503,9 @@ function formularioCalificaInforme(input, tipoInfProt) {
         () => {
             guardarDatos(document.querySelector("#datosCalifica").querySelectorAll("select, input", "textarea"), "Califica" + tipoInfProt);
         }
-        );
-        document.getElementById("reset").onclick = 
-        () => { 
+    );
+    document.getElementById("reset").onclick =
+        () => {
             // FUNCION RESETEAR CONDICIONAL
         };
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
@@ -2053,57 +2049,32 @@ function LlenarTablaSelect(llave, nombreContenedorCampos, arreglo, caso) {
     document.getElementById(nombreContenedorCampos).innerHTML = acumulador;
 }
 
-function LlenarBotonesExpansibles(idBotonDisparo, idDivContenido, arregloTipoInputs, cantidadColumnas, objetoInformacion, nombreBotonRemover,
-    nombreBotonExtra = undefined, funcionBotonExtra = undefined) {
+function LlenarBotonesExpansibles(idBotonDisparo, idDivContenido, arregloTipoInputs, columnas, nombreBotonRemover, nombreBotonExtra = undefined,
+    funcionBotonExtra = undefined) {
 
     document.getElementById(idBotonDisparo).addEventListener("click",
         () => {
 
-            var identificador = 1;
-
-            if (objetoInformacion == undefined) {
-                var auxiliar = document.querySelector(`#${idDivContenido}`).querySelectorAll("input, select");
-
-                for (let index = 0; index < auxiliar.length; index++) {
-                    if (auxiliar[index].id == arregloTipoInputs[0][1] + '_' + identificador) {
-                        identificador++;
-                    }
-                    else {
-                        break;
-                    }
-                }
-
-            }
-            else {
-                for (var key of Object.keys(objetoInformacion)) {
-                    if (key == arregloTipoInputs[0][1] + '_' + identificador) {
-                        identificador++;
-                    }
-                    else {
-                        break;
-                    }
-                }
-            }
+            var identificador = IndicesBotonesExpansibles(idDivContenido, arregloTipoInputs);
 
             var div = document.getElementById(idDivContenido);
-            div.style.gridTemplateColumns = `repeat(${cantidadColumnas}, minmax(0, 1fr))`;
-
+            div.style.gridTemplateColumns = columnas;
 
             // [[tipo input, prefijoID, objetoLista], ]
-
+            var auxiliar = []
             arregloTipoInputs.forEach(
                 (input) => {
 
                     if (input[0] == "input") {
                         var campo = document.createElement("input");
                         campo.setAttribute("type", "text");
-                        campo.setAttribute("id", input[1] + '_' + identificadorinput[2]);
+                        campo.setAttribute("id", input[1] + '_' + identificador);
                     }
 
                     else if (input[0] == "select") {
                         var campo = obtenerDatosSelect(input[1] + '_' + identificador, "", input[2])
                     }
-                    div.appendChild(campo);
+                    div.appendChild(campo); auxiliar.push(campo);
                 }
             )
 
@@ -2111,15 +2082,19 @@ function LlenarBotonesExpansibles(idBotonDisparo, idDivContenido, arregloTipoInp
             boton.setAttribute("type", "button");
             boton.setAttribute("class", "botonRemover");
             boton.innerHTML = nombreBotonRemover
-            boton.addEventListener("click", () => { campo.remove(); boton.remove(); })
-
+            boton.addEventListener("click",
+                () => {
+                    auxiliar.forEach((campo) => { campo.remove(); });
+                    boton.remove();
+                    IndicesBotonesExpansibles(idDivContenido, arregloTipoInputs);
+                }
+            )
             if (nombreBotonExtra != undefined) {
                 var botonExtra = document.createElement("button");
                 boton.setAttribute("type", "button");
                 boton.setAttribute("class", "botonExtra");
                 boton.innerHTML = nombreBotonExtra;
                 boton.addEventListener("click", () => { funcionBotonExtra(event) })
-
                 div.appendChild(botonExtra); div.appendChild(boton);
             }
             else {
@@ -2128,6 +2103,24 @@ function LlenarBotonesExpansibles(idBotonDisparo, idDivContenido, arregloTipoInp
         }
     );
 }
+
+function IndicesBotonesExpansibles(idDivContenido, arregloTipoInputs) {
+
+    var identificador = 1;
+    var auxiliar = document.querySelector(`#${idDivContenido}`).querySelectorAll("input, select");
+
+    for (let index = 0; index < auxiliar.length; index = index) {
+        arregloTipoInputs.forEach(
+            (input) => {
+                auxiliar[index].id = input[1] + '_' + identificador
+                index++;
+            }
+        )
+        identificador++;
+    }
+    return identificador;
+}
+
 
 function obtenerDatosSelect(id, display, arreglo, seleccionado = "", atributo = undefined) {
 
@@ -2175,6 +2168,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega, AgregaCo
                         adicionarAobjeto(asignaturas[llave]["contenidos"], nuevoAgrega);
                     }
                 }
+                asignaturas[llave].estado = "Diseñada"
                 break;
 
             case "Clase":
@@ -2246,7 +2240,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega, AgregaCo
                 }
                 else {
                     condicionAlertacion = false;
-                    var asignaturas = {}; var tripleta = 1; var promedio;
+                    var asignaturasHist = {}; var tripleta = 1; var promedio;
                     for (let index = 0; index < input.length; index++) {
                         if (tripleta == 1) {
                             const nombre = input[index].id
@@ -2258,10 +2252,10 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega, AgregaCo
                             }
                             tripleta++;
                         }
-                        asignaturas[nombre][input[index].id] = input[index].value;
+                        asignaturasHist[nombre][input[index].id] = input[index].value;
 
                     }
-                    estudiantes[llave][nuevoAgrega[0]] = { promedio, asignaturas };
+                    estudiantes[llave][nuevoAgrega[0]] = { promedio, asignaturasHist };
                 }
                 break;
 
@@ -2420,7 +2414,7 @@ var asignaturas = {
         estado: "Diseñada"
     },
     "Ingeniería de Requisitos": {
-        contenidos: { 0: "Casos de Uso", 1: "Diagrama de Procesos" },
+        // contenidos: { 0: "Casos de Uso", 1: "Diagrama de Procesos" },
         estado: "Diseñada",
         nombre: "Ingeniería de Requisitos",
         profesor: "Sara Berrio"
