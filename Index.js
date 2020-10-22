@@ -46,14 +46,23 @@ function inicializarPagina() {
     document.getElementById("entregaPrototipoAlpha").addEventListener("click", formularioEntregaPrototipoAlpha)
     document.getElementById("entregaPrototipoAlphaText").addEventListener("click", formularioEntregaPrototipoAlpha)
 
+    document.getElementById("calificaPrototipoAlpha").addEventListener("click", formularioCalificaPrototipoAlpha)
+    document.getElementById("calificaPrototipoAlphaText").addEventListener("click", formularioCalificaPrototipoAlpha)
+
     document.getElementById("realizaRetroalimentacion").addEventListener("click", formularioRealizaRetroalimentacion)
     document.getElementById("realizaRetroalimentacionText").addEventListener("click", formularioRealizaRetroalimentacion)
 
     document.getElementById("entregaInformeFinal").addEventListener("click", formularioEntregaInformeFinal)
     document.getElementById("entregaInformeFinalText").addEventListener("click", formularioEntregaInformeFinal)
 
+    document.getElementById("calificaInformeFinal").addEventListener("click", formularioCalificaInformeFinal)
+    document.getElementById("calificaInformeFinalText").addEventListener("click", formularioCalificaInformeFinal)
+
     document.getElementById("entregaPrototipoBeta").addEventListener("click", formularioEntregaPrototipoBeta)
     document.getElementById("entregaPrototipoBetaText").addEventListener("click", formularioEntregaPrototipoBeta)
+    calificaPrototipoBetaText
+    document.getElementById("calificaPrototipoBeta").addEventListener("click", formulariocCalificaPrototipoBeta)
+    document.getElementById("calificaPrototipoBetaText").addEventListener("click", formulariocCalificaPrototipoBeta)
 
     // Haciendo que cada formulario sea arrastrable
     asignarArrastracion(document.getElementById("divForm1"), document.getElementById("barraForm1"));
@@ -169,6 +178,8 @@ function formularioDisenaAsignatura(input) {
     mostracionFormulario(input, divform)
 
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    var identificador = 0;
+
     document.getElementById("agregarContenido").addEventListener("click",
         () => {
 
@@ -390,7 +401,7 @@ function formularioDisenaClase(input) {
 function formularioDefineCriterioEvaluacion(input) {
 
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const rubricaHTML = obtenerDatosSelect("rubrica", "Nombre Rubrica", { Informe_Inicial: {}, Informe_de_Progreso: {}, Informe_Final: {}, Prototipo_Alfa: {}, Prototipo_Beta: {} });
+    const rubricaHTML = obtenerDatosSelect("rubrica", "Nombre Rubrica", { "Informe Inicial": {}, "Informe de Progreso": {}, "Informe Final": {}, "Prototipo Alfa": {}, "Prototipo Beta": {} });
     //Deben ser los objetos pero ajá, para ensayar
 
     // Llenando los datos del formulario
@@ -435,9 +446,9 @@ function formularioDefineCriterioEvaluacion(input) {
 
 function verCriterio(input) {
 
-    const rubricaHTML = obtenerDatosSelect("rubrica", "Nombre Rubrica", { Informe_Inicial: {}, Informe_de_Progreso: {}, Informe_Final: {}, Prototipo_Alfa: {}, Prototipo_Beta: {} });
+    const rubricaHTML = obtenerDatosSelect("rubrica", "Nombre Rubrica", { "Informe Inicial": {}, "Informe de Progreso": {}, "Informe Final": {}, "Prototipo Alfa": {}, "Prototipo Beta": {} });
 
-    document.getElementById("barraForm2").innerHTML = `<h1 class='tituloForm'> Ver Crtierio </h1>`
+    document.getElementById("barraForm2").innerHTML = `<h1 class='tituloForm'> Ver Criterio </h1>`
 
     document.getElementById("Form2").innerHTML = `
         <div id="datosVerCriterio" class="campos">
@@ -1336,8 +1347,8 @@ function formularioCalificaInformeDeProgreso(input) {
         
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
-    document.getElementById("columnas").style.gridTemplateColumns = "20px 20px 20px 20px 20px 20px";
-    document.getElementById("datosCriteriosEval").style.gridTemplateColumns = "20px 20px 20px 20px 20px 20px";
+    document.getElementById("columnas").style.gridTemplateColumns = "repeat(6, minmax(0, 1fr))";
+    document.getElementById("datosCriteriosEval").style.gridTemplateColumns = "repeat(6, minmax(0, 1fr))";
 
     // Obteniendo el equipo seleccionado
     equipoSeleccionado = document.getElementById("equipoVer").value
@@ -1409,6 +1420,82 @@ function formularioEntregaPrototipoAlpha(input) {
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
+function formularioCalificaPrototipoAlpha(input) {
+    // Obteniendo los valores preestablecidos para llenar el formulario
+    const equiposHTML = obtenerDatosSelect("equipoVer", "Código Equipo", equipos);
+    const calidadHTML = obtenerDatosSelect("calidad", "Calidad", { Baja: {}, Media: {}, Alta: {} });
+
+    // Llenando los datos del formulario
+    document.getElementById("barraForm1").innerHTML = `<h1 class='tituloForm'> Califica Prototipo Alpha </h1>`
+   
+
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosCalificacion" class="campos">
+
+            ${equiposHTML}
+            
+            <label for="link"> Link </label>
+            <input type="text" id="link" disabled>
+            
+            ${calidadHTML}
+
+            <label for="fecha"> Fecha </label>
+            <input type="text" id="fecha" disabled>
+
+            <h2 class='subtituloForm'> Rúbrica Prototipo Alpha </h2>
+
+            <label for="nota"> Nota de la Rúbrica </label>
+            <input type="text" id="nota">
+
+        </div>
+
+        <label> Criterios de Evaluación </label>
+
+        <div id="columnas" class="tabla">
+            <label class="tituloTabla""> Nombre </label>
+            <label class="tituloTabla""> Descripción </label>
+            <label class="tituloTabla""> Valoración </label>
+            <label class="tituloTabla""> Comentario </label>
+            <label class="tituloTabla""> Nota </label>
+            <label class="tituloTabla""> Peso </label>
+        </div>
+
+        <div id="datosCriteriosEval" class="tabla"> </div>
+
+        <div class="botones">
+            <button id="confirmarForm1" type="button" class="botonConfirmar"> Calificar </button>
+            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
+        </div>
+        
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+    `;
+    document.getElementById("columnas").style.gridTemplateColumns = "20px 20px 20px 20px 20px 20px";
+    document.getElementById("datosCriteriosEval").style.gridTemplateColumns = "20px 20px 20px 20px 20px 20px";
+
+    // Obteniendo el equipo seleccionado
+    equipoSeleccionado = document.getElementById("equipoVer").value
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("confirmarForm1").addEventListener("click",
+        () => {
+            guardarDatos(document.getElementById("nota"), "Nota Rubrica Beta");
+        }, false);
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+
+    // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
+    document.getElementById("equipoVer").addEventListener("change",
+        () => {
+            actualizarCamposSelect("equipoVer", "datosCalificacion", prototipoAlfa);
+            LlenarTablaSelect(equipoSeleccionado, "datosCriteriosEval", criteriosEvaluacionProtAlfa, "Criterios llenar");
+        }, false);
+    actualizarCamposSelect("equipoVer", "datosCalificacion", prototipoAlfa);
+    LlenarTablaSelect(equipoSeleccionado, "datosCriteriosEval", criteriosEvaluacionProtAlfa, "Criterios llenar")
+}
+
 function formularioEntregaInformeFinal(input) {
 
     // Obteniendo los valores preestablecidos para llenar el formulario
@@ -1458,6 +1545,88 @@ function formularioEntregaInformeFinal(input) {
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
+function formularioCalificaInformeFinal(input) {
+    // Obteniendo los valores preestablecidos para llenar el formulario
+    const equiposHTML = obtenerDatosSelect("equipoVer", "Código Equipo", equipos);
+    const estadoHTML = obtenerDatosSelect("estadoVer", "Estado", { Completo: {}, Incompleto: {} }, "Incompleto");
+
+    // Llenando los datos del formulario
+    document.getElementById("barraForm1").innerHTML = `<h1 class='tituloForm'> Califica Informe Final </h1>`
+
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosVerCalificacion" class="campos">
+
+            ${equiposHTML}
+            
+            <label for="tema"> Tema </label>
+            <input type="text" id="tema" disabled>
+            
+            <label for="secciones"> Secciones </label>
+            <input type="text" id="secciones" disabled>
+
+            <label for="conclusion"> Conclusión </label>
+            <input type="text" id="conclusion" disabled>
+
+            ${estadoHTML}
+
+        </div>
+
+        <h2 class='subtituloForm'> Rúbrica Informe Final </h2>
+
+        <div id="datosCalificarRubrica" class="campos">
+
+            <label for="nota"> Nota de la Rúbrica </label>
+            <input type="text" id="nota">
+
+        </div>
+
+        <label> Criterios de Evaluación </label>
+
+        <div id="columnas" class="tabla">
+            <label class="tituloTabla""> Nombre </label>
+            <label class="tituloTabla""> Descripción </label>
+            <label class="tituloTabla""> Valoración </label>
+            <label class="tituloTabla""> Comentario </label>
+            <label class="tituloTabla""> Nota </label>
+            <label class="tituloTabla""> Peso </label>
+        </div>
+
+        <div id="datosCriteriosEval" class="tabla"> </div>
+
+        <div class="botones">
+            <button id="confirmarForm1" type="button" class="botonConfirmar"> Calificar </button>
+            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
+        </div>
+        
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+    `;
+    document.getElementById("columnas").style.gridTemplateColumns = "repeat(6, minmax(0, 1fr))";
+    document.getElementById("datosCriteriosEval").style.gridTemplateColumns = "repeat(6, minmax(0, 1fr))";
+
+    // Obteniendo el equipo seleccionado
+    equipoSeleccionado = document.getElementById("equipoVer").value
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("confirmarForm1").addEventListener("click",
+        () => {
+            guardarDatos(document.getElementById("nota"), "Nota Rubrica Final");
+        }, false);
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+
+    // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
+    document.getElementById("equipoVer").addEventListener("change",
+        () => {
+            actualizarCamposSelect("equipoVer", "datosVerCalificacion", informesFinales);
+            LlenarTablaSelect(equipoSeleccionado, "datosCriteriosEval", criteriosEvaluacionInfFinal, "Criterios llenar");
+        }, false);
+    actualizarCamposSelect("equipoVer", "datosVerCalificacion", informesFinales);
+    LlenarTablaSelect(equipoSeleccionado, "datosCriteriosEval", criteriosEvaluacionInfFinal, "Criterios llenar")
+}
+
 function formularioEntregaPrototipoBeta(input) {
 
     // Obteniendo los valores preestablecidos para llenar el formulario
@@ -1502,6 +1671,82 @@ function formularioEntregaPrototipoBeta(input) {
     }, false);
 
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+}
+
+function formulariocCalificaPrototipoBeta(input) {
+    // Obteniendo los valores preestablecidos para llenar el formulario
+    const equiposHTML = obtenerDatosSelect("equipoVer", "Código Equipo", equipos);
+    const calidadHTML = obtenerDatosSelect("calidad", "Calidad", { Baja: {}, Media: {}, Alta: {} });
+
+    // Llenando los datos del formulario
+    document.getElementById("barraForm1").innerHTML = `<h1 class='tituloForm'> Califica Prototipo Beta </h1>`
+   
+
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosCalificacion" class="campos">
+
+            ${equiposHTML}
+            
+            <label for="link"> Link </label>
+            <input type="text" id="link" disabled>
+            
+            ${calidadHTML}
+
+            <label for="fecha"> Fecha </label>
+            <input type="text" id="fecha" disabled>
+
+            <h2 class='subtituloForm'> Rúbrica Prototipo Beta </h2>
+
+            <label for="nota"> Nota de la Rúbrica </label>
+            <input type="text" id="nota">
+
+        </div>
+
+        <label> Criterios de Evaluación </label>
+
+        <div id="columnas" class="tabla">
+            <label class="tituloTabla""> Nombre </label>
+            <label class="tituloTabla""> Descripción </label>
+            <label class="tituloTabla""> Valoración </label>
+            <label class="tituloTabla""> Comentario </label>
+            <label class="tituloTabla""> Nota </label>
+            <label class="tituloTabla""> Peso </label>
+        </div>
+
+        <div id="datosCriteriosEval" class="tabla"> </div>
+
+        <div class="botones">
+            <button id="confirmarForm1" type="button" class="botonConfirmar"> Calificar </button>
+            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
+        </div>
+        
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+    `;
+    document.getElementById("columnas").style.gridTemplateColumns = "repeat(6, minmax(0, 1fr))";
+    document.getElementById("datosCriteriosEval").style.gridTemplateColumns = "repeat(6, minmax(0, 1fr))";
+
+    // Obteniendo el equipo seleccionado
+    equipoSeleccionado = document.getElementById("equipoVer").value
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("confirmarForm1").addEventListener("click",
+        () => {
+            guardarDatos(document.getElementById("nota"), "Nota Rubrica Beta");
+        }, false);
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+
+    // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
+    document.getElementById("equipoVer").addEventListener("change",
+        () => {
+            actualizarCamposSelect("equipoVer", "datosCalificacion", prototipoBeta);
+            LlenarTablaSelect(equipoSeleccionado, "datosCriteriosEval", criteriosEvaluacionProtBeta, "Criterios llenar");
+        }, false);
+    actualizarCamposSelect("equipoVer", "datosCalificacion", prototipoBeta);
+    LlenarTablaSelect(equipoSeleccionado, "datosCriteriosEval", criteriosEvaluacionProtBeta, "Criterios llenar")
 }
 
 function formularioRealizaRetroalimentacion(input) {
@@ -2131,7 +2376,7 @@ function adicionarAobjeto(objeto, listiviris) {
     }
 }
 
-var criteriosEvaluacionInfInicial = { 1: { nombre: "A", descripcion: "AA", peso: "Alto" } };
+var criteriosEvaluacionInfInicial = { 0: { nombre: "Presentación", descripcion: "El estudiante presenta el Informe Inicial con una portada bien definida, las partes correctas del entregable y tabla de contenidos", peso: "0.05" } };
 var criteriosEvaluacionInfProgreso = {};
 var criteriosEvaluacionInfFinal = {};
 var criteriosEvaluacionProtAlfa = {};
@@ -2139,28 +2384,22 @@ var criteriosEvaluacionProtBeta = {};
 
 var asignaturas = {
     "Ingeniería de Software": {
-        contenidos: { 1: "Metodologías de Desarrollo", 2: "Conceptos UN-Lencep", 3: "Conceptos UML" },
+        contenidos: { 0: "Esquema Preconceptual" },
+        estado: "Diseñada",
         nombre: "Ingeniería de Software",
-        profesor: "Alan Brito Delgado",
-        estado: "Diseñada"
+        profesor: "Carlos Lopez"
     },
     "Programación Orientada a Objetos": {
-        contenidos: {},
+        contenidos: { 0: "Clases", 1: "Objetos" },
         nombre: "Programación Orientada a Objetos",
-        profesor: "Elma Riadito",
+        profesor: "Daniel Delgado",
         estado: "Diseñada"
     },
-    "Calidad del Software": {
-        contenidos: { 1: "Buena calidad", 2: "Mejor calidad" },
-        nombre: "Calidad del Software",
-        profesor: "Elsa Pato",
-        estado: "Diseñada"
-    },
-    "Calidad del Software II": {
-        contenidos: { 0: "Mucha mejor calidad", 1: "Muchísima mejor calidad", 2: "Muchisisisima mejor calidad" },
-        nombre: "Calidad del Software II",
-        profesor: "Alan Brito Delgado",
-        estado: "Diseñada"
+    "Ingeniería de Requisitos": {
+        contenidos: { 0: "Casos de Uso", 1: "Diagrama de Procesos" },
+        estado: "Diseñada",
+        nombre: "Ingeniería de Requisitos",
+        profesor: "Sara Berrio"
     }
 };
 
@@ -2168,12 +2407,12 @@ var clases = {
     "Calidad del código": {
         tematica: "Calidad del código",
         numero: "1",
-        asignatura: "Calidad del Software"
+        asignatura: "Programación Orientada a Objetos"
     },
     "Calidad de los casos de uso": {
         tematica: "Calidad de los casos de uso",
-        numero: "2",
-        asignatura: "Calidad del Software"
+        numero: "1",
+        asignatura: "Ingeniería de Requisitos"
     },
     Scrum: {
         tematica: "Scrum",
@@ -2200,71 +2439,59 @@ var carteraDeProyectos = { cantidadProyectos: 0, proyectos: {} };
 var equipos = {};
 
 var representantes = {
-    "José José": {
-        celular: "123",
-        correo: "j@j.com",
+    "Santiago Bolaños": {
+        celular: "3123044398",
+        correo: "sbols@gmail.com",
         disponibilidad: "mucha",
-        nombre: "José José",
+        nombre: "Santiago Bolaños",
         empresa: "Postobon"
     },
-    "Yola Prieto": {
-        celular: "34233",
-        correo: "yola@y.co",
+    "Juan Perez": {
+        celular: "3023139870",
+        correo: "perez.juan@gmail.com",
         disponibilidad: "poca",
         empresa: "EPM",
-        nombre: "Yola Prieto"
-    },
-    "Elba Calao": {
-        celular: "666",
-        correo: "Elbacalao@unal.co",
-        disponibilidad: "poca",
-        empresa: "Bancolombia Medellín",
-        nombre: "Elba Calao"
+        nombre: "Juan Perez"
     }
 };
 
 var empresas = {
     Postobon: {
-        mision: "Vender Gaseosa",
-        necesidad: "Software para mejorar la máquinas expendedoras automáticas",
+        mision: "Refrescar el mundo. Inspirar momentos de optimismo y felicidad. Crear valor y marcar la diferencia.",
+        necesidad: "Software para incrementar las ventas",
         nombre: "Postobon",
-        objetivo: "Optimizar la venta de gaseosa",
-        vision: "Ver como se vende la gaseosa"
+        objetivo: "Crear y satisfacer la demanda. Generar rentabilidad y agregar valor a la organización.",
+        vision: "Satisfacer con excelencia a los consumidores de bebidas"
     },
     EPM: {
-        mision: "Brindar servicios básicos",
+        mision: "Somos una empresa filial del Grupo Empresarial EPM que contribuye al mejoramiento de la calidad de vida de la población a través de servicios de agua y energía con sustentabilidad ambiental.",
         necesidad: "Aplicación para ubicación del personal en la ciudad",
         nombre: "EPM",
         objetivo: "Mejorar los servicios básicos",
-        vision: "no c"
-    },
-    "Bancolombia Medellín": {
-        mision: "Obtener mas dinero, y cada vez más y MÁS!!!",
-        necesidad: "tampoco",
-        nombre: "Bancolombia Medellín",
-        objetivo: "ño",
-        vision: "ño"
+        vision: "En 2022 Ticsa será una empresa líder en México en excelencia operativa, reputación y transparencia, ofreciendo a los clientes y al mercado un portafolio integral de soluciones hídricas y energéticas, fundamentada en prácticas socialmente responsables con todos los grupos de ínteres y contribuyendo a la consolidación multilatina del Grupo Empresarial EPM."
     }
 };
 
 var problemas = {
     Postobon: {
         actor: "Cliente",
-        causa: "Las máquinas no proveen la bebida correcta",
+        causa: "Mala manipulación de la base de datos",
+        comentario: "Se hace muy difícil trabajar con un proyecto tan grande",
         descripcionProblema: "Debido a un error en el software, muchas máquinas no proveen la bebida adecuada",
         empresa: "Postobon",
         impacto: "Alto",
-        proceso: "no c"
+        proceso: "Obtención de bebidas",
+        validacion: "No Aprobado"
     },
-    "Bancolombia Medellín": {
-        actor: "Los esclavos, digo clientes",
-        causa: "Cajeros automáticos funcionando incorrectamente, perdemos mucho dinero",
-        comentario: "Este problema es Perfecto y tiene muy buenas intenciones, apenas pa la guaracha, mero ki, que level, que FUA!, zukistrukis lulu.",
-        descripcionProblema: "Se requiere de una inteligencia artificial lo suficientemente poderoxa como para que cada cajero automático sea capaz de proveerle al usuario con una sutil cantidad de billetes falsos, de tal manera que perdamos menos dinero. Pero ojo, debe ser sutíl pa q no estén jodiendo la vida luego.",
-        empresa: "Bancolombia Medellín",
-        impacto: "Poderoxo",
-        proceso: "Retiro de Dinero",
-        validacion: "Aprobado Sin Ajustes"
+    EPM: {
+        actor: "Administración",
+        causa: "Mala manipulación de la base de datos y resto del código",
+        comentario: "Buen problema para trabajar en el curso, pero se va a evitar la parte que involucra a los usuarios",
+        descripcionProblema: "No se puede accedder correctamente a la información y cuentas de algunos usuarios",
+        empresa: "EPM",
+        impacto: "Bajo",
+        proceso: "Obtención de información",
+        validacion: "Aprobado Con Ajustes"
     }
 };
 
@@ -2272,18 +2499,16 @@ var retroalimentaciones = {};
 var historiasAcademicas = {};
 var estudiantes = {};
 var profesores = {
-    "Elma Riadito": {
-        nombre: "Elma Riadito", correo: "Elma@elma.com", celular: "3173022932", direccion: "Calle falsa 123", identificacion: "1"
+    "Carlos Lopez": {
+        nombre: "Carlos Lopez", correo: "carlop@gmail.com", celular: "3173022932", direccion: "Cll 123A #12A-32", identificacion: "1"
     },
-    "Elsa Pato": {
-        nombre: "Elsa Pato", correo: "Elsa@elsa.ru", celular: "7823", direccion: "Carrera falsa 123", identificacion: "2"
+    "Daniel Delgado": {
+        nombre: "Daniel Delgado", correo: "dldelgado@unal.edu.co", celular: "3013215643", direccion: "Cra. 58 #32-12", identificacion: "2"
     },
-    "Alan Brito Delgado": {
-        nombre: "Alan Brito Delgado", correo: "Alan@Brito.delgado", celular: "", direccion: "Carrera falsa 456", identificacion: "3"
+    "Sara Berrio": {
+        nombre: "Sara Berrio", correo: "sraberr@gmail.com", celular: "3053876514", direccion: "Cll 93B #24-43", identificacion: "3"
     },
-    "Elsa Podiondo": {
-        nombre: "Elsa Podiondo", correo: "E@P.com", celular: "Mas de 8000!!!!", direccion: "El Hueco", identificacion: "4"
-    }
+
 };
 var metodologiasDesarrollo = {};
 var informesIniciales = {};
@@ -2308,3 +2533,10 @@ var rubricaBeta = {
 };
 
 window.addEventListener("load", inicializarPagina, false)
+
+
+
+// En construye cartera de proyectos, en el botón "Agregar Proyecto", la ventana que se abre seria buneno
+// o filtrar las empresas cuyos proyectos fueron validados, o que aparezca el atributo que dice si se aprobo o no
+
+// En construye cartera de proyectos, el botón de "Ver Proyectos" no funciona correctamente
