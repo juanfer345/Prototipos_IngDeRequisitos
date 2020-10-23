@@ -535,8 +535,8 @@ function formularioRegistraEmpresa(input) {
             <label for="vision"> Visión </label>
             <textarea id="vision"></textarea>
             
-            <label for="objetivo"> Objetivo Estratégico </label>
-            <textarea id="objetivo"></textarea>
+            <label for="objetivoEmpresa"> Objetivo Estratégico </label>
+            <textarea id="objetivoEmpresa"></textarea>
             
             <label for="necesidad"> Necesidad </label>
             <textarea id="necesidad"></textarea>
@@ -753,8 +753,8 @@ function verEmpresa(input, selectEmpresa) {
             <label for="vision"> Visión </label>
             <textarea id="vision" disabled></textarea>
             
-            <label for="objetivo"> Objetivo Estratégico </label>
-            <textarea id="objetivo" disabled></textarea>
+            <label for="objetivoEmpresa"> Objetivo Estratégico </label>
+            <textarea id="objetivoEmpresa" disabled></textarea>
             
             <label for="necesidad"> Necesidad </label>
             <textarea id="necesidad" disabled></textarea>
@@ -849,8 +849,8 @@ function agregarProyecto(input) {
 
             ${empresasHTML}
 
-            <label for="objetivo"> Objetivo Estratégico </label>
-            <textarea id="objetivo" disabled></textarea>
+            <label for="objetivoProyecto"> Objetivo Estratégico </label>
+            <textarea id="objetivoProyecto"></textarea>
 
             <label for="descripcionProyecto"> Descripción </label>
             <textarea id="descripcionProyecto"></textarea>
@@ -875,11 +875,13 @@ function agregarProyecto(input) {
     var divform = document.getElementById("divForm2");
     mostracionFormulario(input, divform)
 
+    // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+    AsignacionExpansionTextArea(document.querySelector("#datosProyecto").querySelectorAll("textarea"));
+
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("confirmarForm2").addEventListener("click",
         () => {
-            guardarDatos(document.querySelector("#datosProyecto").querySelectorAll("select, textarea"), "Proyecto",
-                undefined, undefined, [true, false, true]);
+            guardarDatos(document.querySelector("#datosProyecto").querySelectorAll("select, textarea"), "Proyecto");
             document.getElementById("cantidad").value = carteraDeProyectos.cantidadProyectos;
         }
     );
@@ -889,15 +891,9 @@ function agregarProyecto(input) {
     document.getElementById("empresa").addEventListener("change",
         () => {
             actualizarCamposSelect("empresa", "datosProyecto", empresas);
-
-            // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
-            expansionTextAreaDisabled(document.querySelector("#datosProyecto").querySelectorAll("textarea"));
         }
     );
     actualizarCamposSelect("empresa", "datosProyecto", empresas);
-
-    // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
-    expansionTextAreaDisabled(document.querySelector("#datosProyecto").querySelectorAll("textarea"));
 }
 
 function verProyecto(input) {
@@ -914,32 +910,14 @@ function verProyecto(input) {
 
             ${proyectosHTML}
 
-            <label for="objetivo"> Objetivo Estratégico </label>
-            <textarea id="objetivo" disabled></textarea>
+            <label for="objetivoProyecto"> Objetivo Estratégico </label>
+            <textarea id="objetivoProyecto" disabled></textarea>
 
             <label for="descripcion"> Descripción </label>
             <textarea id="descripcion" disabled></textarea>
 
             <label for="codigo"> Código </label>
             <input type="text" id="codigo" disabled>
-
-            <label for="calidad"> Calidad </label>
-            <input type="text" id="calidad" disabled>
-            
-            <label for="informeInicial"> Informe Inicial </label>
-            <input type="text" id="informeInicial" disabled>
-            
-            <label for="informeProgreso"> Informe de Progreso </label>
-            <input type="text" id="informeProgreso" disabled>
-            
-            <label for="informeFinal"> Informe Final </label>
-            <input type="text" id="informeFinal" disabled>
-            
-            <label for="prototipoAlpha"> Prototipo Alpha </label>
-            <input type="text" id="prototipoAlpha" disabled>
-            
-            <label for="prototipoBeta"> Prototipo Beta </label>
-            <input type="text" id="prototipoBeta" disabled>
 
         </div>
         
@@ -1866,7 +1844,7 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
 function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, buscaAtributo = undefined, devuelveAtributo = undefined) {
 
     const llave = document.getElementById(nombreSelect).value;
-    var campos = document.querySelector("#" + nombreContenedorCampos).querySelectorAll("input, textarea");
+    var campos = document.querySelector("#" + nombreContenedorCampos).querySelectorAll("input, textarea, select");
     var condicionalEncontracion = false;
 
     // Poniendo iniialmente todos los valores vacíos
@@ -1887,11 +1865,22 @@ function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, b
                             }
                         );
                         if (element != undefined) {
-                            if (devuelveAtributo == undefined) {
-                                element.value = value2;
+
+                            if (element.type != "select-one") {
+                                if (devuelveAtributo == undefined) {
+                                    element.value = value2;
+                                }
+                                else {
+                                    element.value = value2[devuelveAtributo];
+                                }
                             }
                             else {
-                                element.value = value2[devuelveAtributo];
+                                var element = Array.from(element).find(
+                                    (campo) => {
+                                        return campo.value == value2;
+                                    }
+                                );
+                                element.selected = true;
                             }
                         }
                     }
@@ -1910,11 +1899,21 @@ function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, b
                             }
                         );
                         if (element != undefined) {
-                            if (devuelveAtributo == undefined) {
-                                element.value = value2;
+                            if (element.type != "select-one") {
+                                if (devuelveAtributo == undefined) {
+                                    element.value = value2;
+                                }
+                                else {
+                                    element.value = value2[devuelveAtributo];
+                                }
                             }
                             else {
-                                element.value = value2[devuelveAtributo];
+                                var element = Array.from(element).find(
+                                    (campo) => {
+                                        return campo.value == value2;
+                                    }
+                                );
+                                element.selected = true;
                             }
                         }
                     }
@@ -2184,10 +2183,12 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
         if (valor.value == '') { condicionCamposCompletos = false; }
     });
 
-    if (nuevoAgrega != undefined) {
-        nuevoAgrega.forEach((valor) => {
-            if (valor.value == '') { condicionCamposCompletos = false; }
-        });
+    if (NodeList.prototype.isPrototypeOf(nuevoAgrega)) {
+        if (nuevoAgrega != undefined) {
+            nuevoAgrega.forEach((valor) => {
+                if (valor.value == '') { condicionCamposCompletos = false; }
+            });
+        }
     }
 
     if (condicionCamposCompletos) {
@@ -2277,7 +2278,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                     total++;
                 }
 
-                carteraDeProyectos.proyectos[llave] = crearObjeto(input, AgregaConCondicion);
+                carteraDeProyectos.proyectos[llave] = crearObjeto(input);
                 carteraDeProyectos.proyectos[llave].codigo = aux;
                 carteraDeProyectos.cantidadProyectos = total;
 
@@ -2703,14 +2704,14 @@ var empresas = {
         mision: "Refrescar el mundo. Inspirar momentos de optimismo y felicidad. Crear valor y marcar la diferencia.",
         necesidad: "Software para incrementar las ventas",
         nombre: "Postobon",
-        objetivo: "Crear y satisfacer la demanda. Generar rentabilidad y agregar valor a la organización.",
+        objetivoEmpresa: "Crear y satisfacer la demanda. Generar rentabilidad y agregar valor a la organización.",
         vision: "Satisfacer con excelencia a los consumidores de bebidas"
     },
     EPM: {
         mision: "Somos una empresa filial del Grupo Empresarial EPM que contribuye al mejoramiento de la calidad de vida de la población a través de servicios de agua y energía con sustentabilidad ambiental.",
         necesidad: "Aplicación para ubicación del personal en la ciudad",
         nombre: "EPM",
-        objetivo: "Mejorar los servicios básicos",
+        objetivoEmpresa: "Mejorar los servicios básicos",
         vision: "En 2022 Ticsa será una empresa líder en México en excelencia operativa, reputación y transparencia, ofreciendo a los clientes y al mercado un portafolio integral de soluciones hídricas y energéticas, fundamentada en prácticas socialmente responsables con todos los grupos de ínteres y contribuyendo a la consolidación multilatina del Grupo Empresarial EPM."
     }
 };
