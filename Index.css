@@ -105,6 +105,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 select {
 	cursor: pointer;
+	text-align-last: center;
 }
 
 .tabla {
@@ -116,7 +117,25 @@ select {
 }
 
 .tabla label {
+	font-size: 7px;
 	margin: 1px 0px;
+}
+
+.tabla textarea[disabled] {
+	text-align: justify;
+	padding: 0px;
+    margin: 4px 8px;
+	background: transparent;
+	border: transparent;
+    color: white;
+	resize: none;
+}
+
+.tabla textarea {
+	text-align: justify;
+	padding: 0px;
+    margin: 4px 8px;
+	resize: none;
 }
 
 .tituloTabla {
