@@ -478,9 +478,6 @@ function verCriterios(input, selectRubrica) {
         <div id="columnas" class="tabla">
             <label class="tituloTabla"> Nombre </label>
             <label class="tituloTabla"> Descripción </label>
-            <label class="tituloTabla"> Valoración </label>
-            <label class="tituloTabla"> Comentario </label>
-            <label class="tituloTabla"> Nota </label>
             <label class="tituloTabla"> Peso </label>
         </div>
 
@@ -490,8 +487,10 @@ function verCriterios(input, selectRubrica) {
             <button id="cerrarForm2" type="button" class="botonCerrar"> Cerrar </button>
         </div>
     `;
-    document.getElementById("columnas").style.gridTemplateColumns = "1.5fr 4fr 1.2fr 4fr 1.2fr 1.2fr";
-    document.getElementById("datosCriteriosVer").style.gridTemplateColumns = "1.5fr 4fr 1.2fr 4fr 1.2fr 1.2fr";
+    document.getElementById("columnas").style.gridTemplateColumns = "1.5fr 2.3fr 1.2fr";
+    document.getElementById("datosCriteriosVer").style.gridTemplateColumns = "1.5fr 2.3fr 1.2fr";
+    
+    // document.getElementById("columnas").style.gridTemplateColumns = "1.5fr 4fr 1.2fr 4fr 1.2fr 1.2fr";
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm2");
@@ -1654,85 +1653,6 @@ function verSecciones(input, SelectEquipo) {
     llenarTablaSelect(equipoSeleccionado, "datosCriteriosEval", criteriosEvaluacionInfInicial, "Criterios llenar")
 }
 
-function formularioCalificaInformeDeProgreso(input) {
-
-    // Obteniendo los valores preestablecidos para llenar el formulario
-    const equiposHTML = obtenerDatosSelect("equipoVer", "Código Equipo", equipos);
-    const estadoHTML = obtenerDatosSelect("estadoVer", "Estado", { Completo: {}, Incompleto: {} }, "Incompleto");
-
-    // Llenando los datos del formulario
-    document.getElementById("barraForm1").innerHTML = `<h1 class='tituloForm'> Califica Informe de Progreso </h1>`
-
-    document.getElementById("Form1").innerHTML = `
-        <div id="datosCalificacion" class="campos">
-
-            ${equiposHTML}
-            
-            <label for="tema"> Tema </label>
-            <input type="text" id="tema" disabled>
-            
-            <label for="secciones"> Secciones </label>
-            <input type="text" id="secciones" disabled>
-
-            <label for="idea"> Avance </label>
-            <input type="text" id="idea" disabled>
-
-            ${estadoHTML}
-
-            <h2 class='subtituloForm'> Rúbrica Informe de Progreso </h2>
-
-            <label for="nota"> Nota de la Rúbrica </label>
-            <input type="text" id="nota">
-
-        </div>
-
-        <label> Criterios de Evaluación </label>
-
-        <div id="columnas" class="tabla">
-            <label class="tituloTabla"> Nombre </label>
-            <label class="tituloTabla"> Descripción </label>
-            <label class="tituloTabla"> Valoración </label>
-            <label class="tituloTabla"> Comentario </label>
-            <label class="tituloTabla"> Nota </label>
-            <label class="tituloTabla"> Peso </label>
-        </div>
-
-        <div id="datosCriteriosEval" class="tabla"> </div>
-
-        <div class="botones">
-            <button id="confirmarForm1" type="button" class="botonConfirmar"> Calificar </button>
-            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
-        </div>
-        
-        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
-    `;
-    document.getElementById("columnas").style.gridTemplateColumns = "repeat(6, minmax(0, 1fr))";
-    document.getElementById("datosCriteriosEval").style.gridTemplateColumns = "repeat(6, minmax(0, 1fr))";
-
-    // Obteniendo el equipo seleccionado
-    equipoSeleccionado = document.getElementById("equipoVer").value
-
-    // Mostrando el formulario y ubicándolo en la posición adecuada
-    var divform = document.getElementById("divForm1");
-    mostracionFormulario(input, divform)
-
-    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
-    document.getElementById("confirmarForm1").addEventListener("click",
-        () => {
-            guardarDatos(document.getElementById("nota"), "Nota Rubrica Progreso");
-        }, false);
-    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
-
-    // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-    document.getElementById("equipoVer").addEventListener("change",
-        () => {
-            actualizarCamposSelect("equipoVer", "datosCalificacion", informesProgreso);
-            llenarTablaSelect(equipoSeleccionado, "datosCriteriosEval", criteriosEvaluacionInfProgreso, "Criterios llenar");
-        }, false);
-    actualizarCamposSelect("equipoVer", "datosCalificacion", informesProgreso);
-    llenarTablaSelect(equipoSeleccionado, "datosCriteriosEval", criteriosEvaluacionInfProgreso, "Criterios llenar")
-}
-
 function formularioRealizaRetroalimentacion(input) {
     // Obteniendo los valores preestablecidos para llenar el formulario
     const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
@@ -2057,8 +1977,10 @@ function llenarTablaSelect(llave, nombreContenedorCampos, arreglo = undefined, c
                         break;
                 }
 
-                const llaves = [["nombre", "label", ""], ["descripcion", "textarea", "disabled"], ["valoracion", "label", ""],
-                ["comentario", "textarea", "disabled"], ["nota", "label", ""], ["peso", "label", ""]]
+                // const llaves = [["nombre", "label", ""], ["descripcion", "textarea", "disabled"], ["valoracion", "label", ""],
+                // ["comentario", "textarea", "disabled"], ["nota", "label", ""], ["peso", "label", ""]]
+
+                const llaves = [["nombre", "label", ""], ["descripcion", "textarea", "disabled"], ["peso", "label", ""]]
 
                 // Recorre todos los criterios
                 for (var value of Object.values(Objeto)) {
