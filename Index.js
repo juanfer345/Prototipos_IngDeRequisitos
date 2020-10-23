@@ -913,11 +913,8 @@ function verProyecto(input) {
             <label for="objetivoProyecto"> Objetivo Estratégico </label>
             <textarea id="objetivoProyecto" disabled></textarea>
 
-            <label for="descripcion"> Descripción </label>
-            <textarea id="descripcion" disabled></textarea>
-
-            <label for="codigo"> Código </label>
-            <input type="text" id="codigo" disabled>
+            <label for="descripcionProyecto"> Descripción </label>
+            <textarea id="descripcionProyecto" disabled></textarea>
 
         </div>
         
@@ -999,7 +996,7 @@ function formularioRegistraHistoria(input) {
             <label class="tituloTabla"> Nombre </label>
             <label class="tituloTabla"> Nota </label>
             <label class="tituloTabla"> Semestre </label>
-            <label class="tituloTabla"></label>
+            <label class="tituloTabla"> Borrar </label>
         </div>
 
         <div id="datosAgregaAsig" class="tabla"> </div>
@@ -1012,7 +1009,8 @@ function formularioRegistraHistoria(input) {
         </div>
     `;
     // Cambiando el número de columnas de la tabla (ya que por defecto son 2)
-    document.getElementById("columnas").style.gridTemplateColumns = "repeat(4, minmax(0, 1fr))";
+    document.getElementById("titulosColumnas").style.gridTemplateColumns = "repeat(4, minmax(0, 1fr))";
+    document.getElementById("datosAgregaAsig").style.gridTemplateColumns = "repeat(4, minmax(0, 1fr))";
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm1");
@@ -1850,7 +1848,9 @@ function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, b
     // Poniendo iniialmente todos los valores vacíos
     campos.forEach(
         (campo) => {
-            campo.value = "";
+            if (campo.type != "select-one") {
+                campo.value = "";
+            }
         }
     );
 
@@ -1926,9 +1926,11 @@ function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, b
     if (!condicionalEncontracion) {
         campos.forEach(
             (campo) => {
-                campo.value = ""
+                if (campo.type != "select-one") {
+                    campo.value = "";
+                }
             }
-        )
+        );
     }
 }
 
@@ -2259,30 +2261,15 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
 
                 cadenaAux1 = `El proyecto de la empresa ${llave}`;
 
-                var aux = 1; var total = 1; var encontradoCodigo = false;
-                for (var [undefined, value] of Object.entries(carteraDeProyectos.proyectos)) {
-                    if (!encontradoCodigo) {
-                        for (var [key1, value2] of Object.entries(value)) {
-                            if (key1 == "codigo") {
-                                if (value2 != aux) {
-                                    encontradoCodigo = true;
-                                    break;
-                                }
-                                else {
-                                    aux++;
-                                    break;
-                                }
-                            }
-                        }
-                    }
+                var total = 0; 
+                for (var value of Object.values(carteraDeProyectos.proyectos)) {
                     total++;
                 }
 
                 carteraDeProyectos.proyectos[llave] = crearObjeto(input);
-                carteraDeProyectos.proyectos[llave].codigo = aux;
                 carteraDeProyectos.cantidadProyectos = total;
 
-                cadenaAux2 = `agregado con código ${aux}`
+                cadenaAux2 = `agregado`
                 break;
 
             case "Estudiante":
