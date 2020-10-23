@@ -837,7 +837,8 @@ function formularioConstruyeCartera(input) {
 
 function agregarProyecto(input) {
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const empresasHTML = obtenerDatosSelect("empresa", "Nombre Empresa", empresas);
+    const empresasHTML = obtenerDatosSelect("empresa", "Nombre Empresa Validada", empresas, undefined, undefined, "validacion",
+        ["Aprobado Sin Ajustes", "Aprobado Con Ajustes"], problemas);
 
     // Llenando los datos del formulario
     document.getElementById("barraForm2").innerHTML = "<h1 class='tituloForm'> Agregar Proyecto </h1>"
@@ -2124,24 +2125,49 @@ function indicesBotonesExpansibles(idDivContenido, arregloTipoInputs) {
     return identificador;
 }
 
-function obtenerDatosSelect(id, display, arreglo, seleccionado = "", atributo = undefined) {
+function obtenerDatosSelect(id, display, arreglo, seleccionado = "", atributoPorMostrar = undefined, atributoCondicional = undefined, valoresAtributoCondicional = undefined,
+    arregloComparacion = undefined) {
 
     var salidaHTML = `<label for='${id}'> ${display} </label> <select id='${id}'>`;
     var aux;
 
     for (var [key, value] of Object.entries(arreglo)) {
 
-        if (atributo == undefined) {
+        if (atributoPorMostrar == undefined) {
             aux = key
         }
         else {
-            aux = value[atributo];
+            aux = value[atributoPorMostrar];
         }
-        if (key == seleccionado) {
-            salidaHTML += `<option value='${key}' selected> ${aux} </option>`;
+        if (atributoCondicional == undefined) {
+            if (key == seleccionado) {
+                salidaHTML += `<option value='${key}' selected> ${aux} </option>`;
+            }
+            else {
+                salidaHTML += `<option value='${key}'> ${aux} </option>`;
+            }
         }
         else {
-            salidaHTML += `<option value='${key}'> ${aux} </option>`;
+            if (arregloComparacion == undefined) {
+                if (valoresAtributoCondicional.find((opcion) => opcion == value[atributoCondicional])) {
+                    if (key == seleccionado) {
+                        salidaHTML += `<option value='${key}' selected> ${aux} </option>`;
+                    }
+                    else {
+                        salidaHTML += `<option value='${key}'> ${aux} </option>`;
+                    }
+                }
+            }
+            else {
+                if (valoresAtributoCondicional.find((opcion) => opcion == arregloComparacion[key][atributoCondicional])) {
+                    if (key == seleccionado) {
+                        salidaHTML += `<option value='${key}' selected> ${aux} </option>`;
+                    }
+                    else {
+                        salidaHTML += `<option value='${key}'> ${aux} </option>`;
+                    }
+                }
+            }
         }
     }
     salidaHTML += "</select>";
@@ -2750,11 +2776,8 @@ var rubricaBeta = {
 
 window.addEventListener("load", inicializarPagina, false)
 
-// En construye cartera de proyectos, en el botón "Agregar Proyecto", la ventana que se abre seria buneno
-// o filtrar las empresas cuyos proyectos fueron validados, o que aparezca el atributo que dice si se aprobo o no
-
 // En construye cartera de proyectos, el botón de "Ver Proyectos" no funciona correctamente
-// Doble mensaje en registra empresas
+
 // Código equipo igual a código proyecto, pero no igual a código Empresa
 
 // Quitar rol estudiante
