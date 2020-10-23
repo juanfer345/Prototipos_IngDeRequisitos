@@ -489,7 +489,7 @@ function verCriterios(input, selectRubrica) {
     `;
     document.getElementById("columnas").style.gridTemplateColumns = "1.5fr 2.3fr 1.2fr";
     document.getElementById("datosCriteriosVer").style.gridTemplateColumns = "1.5fr 2.3fr 1.2fr";
-    
+
     // document.getElementById("columnas").style.gridTemplateColumns = "1.5fr 4fr 1.2fr 4fr 1.2fr 1.2fr";
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
@@ -584,10 +584,15 @@ function formularioRegistraEmpresa(input) {
         () => {
             const llaveEmpresa = document.querySelector("#datosRegistraEmpresa").querySelectorAll("input")[0].value;
 
-            guardarDatos(document.querySelector("#datosRegistraEmpresa").querySelectorAll("input, textarea"), "Empresa");
-            guardarDatos(document.querySelector("#datosRegistraRepresentante").querySelectorAll("input"), "Representante",
-                undefined, [["empresa", empresas[llaveEmpresa].nombre]]);
-        }, false);
+            const condicionalDatosIngresados = guardarDatos(document.querySelector("#datosRegistraEmpresa").querySelectorAll("input, textarea"), "Empresa", undefined,
+                document.querySelector("#datosRegistraRepresentante").querySelectorAll("input"));
+
+            if (condicionalDatosIngresados) {
+                guardarDatos(document.querySelector("#datosRegistraRepresentante").querySelectorAll("input"), "Representante",
+                    undefined, [["empresa", empresas[llaveEmpresa].nombre]]);
+            }
+        }
+    );
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
@@ -1860,11 +1865,11 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
 function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, buscaAtributo = undefined, devuelveAtributo = undefined) {
 
     const llave = document.getElementById(nombreSelect).value;
-    const campos = document.querySelector("#" + nombreContenedorCampos).querySelectorAll("input, textarea");
+    var campos = document.querySelector("#" + nombreContenedorCampos).querySelectorAll("input, textarea");
     var condicionalEncontracion = false;
 
     // Poniendo iniialmente todos los valores vacíos
-    Array.from(campos).forEach(
+    campos.forEach(
         (campo) => {
             campo.value = "";
         }
@@ -1919,7 +1924,7 @@ function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, b
         }
     }
     if (!condicionalEncontracion) {
-        Array.from(campos).forEach(
+        campos.forEach(
             (campo) => {
                 campo.value = ""
             }
@@ -2334,9 +2339,11 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                 break;
         }
         if (condicionAlertacion) { alert(`${cadenaAux1} ha sido ${cadenaAux2}`); }
+        return true;
     }
     else if (caso != "Contenido Asignatura") {
         alert("Por favor llenar todos los campos")
+        return false;
     }
 }
 

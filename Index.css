@@ -119,7 +119,6 @@ select {
 .tabla label {
 	font-size: 7px;
 	margin: 1px 0px;
-	margin-top: 8px;
 }
 
 .tabla textarea[disabled] {
@@ -141,6 +140,7 @@ select {
 
 .tituloTabla {
 	color: #05d1ff;
+	margin-top: 8px;
 }
 
 .botones {
