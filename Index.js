@@ -58,7 +58,6 @@ function inicializarPagina() {
     document.getElementById("calificaInformeFinal").addEventListener("click", () => { formularioCalificaInforme(event, "Informe Final") })
     document.getElementById("calificaInformeFinalText").addEventListener("click", () => { formularioCalificaInforme(event, "Informe Final") })
 
-
     document.getElementById("entregaPrototipoBeta").addEventListener("click", () => { formularioEntregaInforme(event, "Prototipo Beta") })
     document.getElementById("entregaPrototipoBetaText").addEventListener("click", () => { formularioEntregaInforme(event, "Prototipo Beta") })
 
@@ -1249,14 +1248,11 @@ function formularioDefineMetodologia(input) {
             <input type="text" id="nombre">
             
             <label for="pasos"> Pasos </label>
-            <input type="text" id="paso">
+            <input type="text" id="pasos">
 
             <label for="roles"> Roles </label>         
             <input type="text" id="roles">
 
-            <label for="entregables"> Entregables </label>
-            <input type="text" id="entregables">
-            
         </div>
 
         <div class="botones">
@@ -2384,7 +2380,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                                 }
                             }
                             llave += ` ${nuevoNumero}`;
-                            equipos[llave]= {};
+                            equipos[llave] = {};
                             equipos[llave]["cantidad"] = input[1].value;
                             [equipos[llave]["integrantes"], cadenaAux1] = crearObjeto(nuevoAgrega, undefined, estudiantes, "nombre");
 
@@ -2406,6 +2402,12 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                     errorIngresoDatos = true
                     cadenaAux1 = "Por favor agregar estudiantes";
                 }
+                break;
+
+            case "Metodologia":
+
+                cadenaAux1 = `La metodología del equipo ${llave}`; cadenaAux2 = "definida";
+                equipos[llave].metodologia = crearObjeto(Array.from(input).slice(1, input.length));
                 break;
 
             case "Informe Progreso":
@@ -2436,11 +2438,6 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
             case "PrototipoBeta":
                 cadenaAux1 = `El prototipo Beta del equipo ${llave}`; cadenaAux2 = "almacenado"
                 prototipoBeta[llave] = crearObjeto(input);
-                break;
-
-            case "Metodologia":
-                cadenaAux1 = `La metodologia del equipo ${llave}`; cadenaAux2 = "almacenada"
-                metodologiasDesarrollo[llave] = crearObjeto(input);
                 break;
 
             case "Nota Rubrica Inicial":
@@ -2930,7 +2927,14 @@ var estudiantes = {
     }
 };
 
-var equipos = {};
+var equipos = {
+    "EPM 1": {
+        cantidad: "1",
+        integrantes: {
+            estudiante_1: "123"
+        }
+    }
+};
 
 var metodologiasDesarrollo = {};
 
@@ -2960,10 +2964,10 @@ var retroalimentaciones = {};
 
 window.addEventListener("load", inicializarPagina, false)
 
-// quitar entregables
-// Pasos y roles un solo string
-
-// Es paso o pasos?
 // En conforma equipo solo aparecen las empresas que fueron agregadas a un proyecto
-// No debería aparece la descripción del proyecto en la creación de equipos?
-// Existe un mínimo de estudiantes por equipo?
+
+// Existe un mínimo de estudiantes por equipo?-Máximo 6 minimo 1
+
+// Debería poderse ver medología de desarrollo en ver equipo?
+
+// Poner tabla de secciones debajo de codigo en califica
