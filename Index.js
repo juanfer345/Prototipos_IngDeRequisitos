@@ -288,9 +288,9 @@ function verClases(input, nombreSelect = "") {
             ${asignaturasHTML}
         </div>
 
-        <div class="tabla">
-            <label class="tituloTabla"> Número </label>
-            <label class="tituloTabla"> Temática </label>
+        <div class="titulosTabla">
+            <label> Número </label>
+            <label> Temática </label>
         </div>
 
         <div id="datosVerClases" class="tabla"> </div>
@@ -333,8 +333,8 @@ function verContenidos(input, nombreSelect) {
             ${asignaturasHTML}
         </div>
 
-        <div class="tabla" id="tituloTabla">
-            <label class="tituloTabla"> Contenido </label>
+        <div class="titulosTabla" id="tituloTabla">
+            <label> Contenido </label>
         </div>
 
         <div class="tabla" id="contenidoTabla"> </div>
@@ -475,10 +475,10 @@ function verCriterios(input, selectRubrica) {
             ${rubricaHTML}
         </div>
 
-        <div id="columnas" class="tabla">
-            <label class="tituloTabla"> Nombre </label>
-            <label class="tituloTabla"> Descripción </label>
-            <label class="tituloTabla"> Peso </label>
+        <div id="columnas" class="titulosTabla">
+            <label> Nombre </label>
+            <label> Descripción </label>
+            <label> Peso </label>
         </div>
 
         <div id="datosCriteriosVer" class="tabla"> </div>
@@ -989,11 +989,11 @@ function formularioRegistraHistoria(input) {
 
         <button id="agregarAsignatura" type="button" class="botonAgregar"> Agregar Asignatura </button>
         
-        <div id="titulosColumnas" class="tabla">
-            <label class="tituloTabla"> Nombre </label>
-            <label class="tituloTabla"> Nota </label>
-            <label class="tituloTabla"> Semestre </label>
-            <label class="tituloTabla"> Borrar </label>
+        <div id="titulosColumnas" class="titulosTabla">
+            <label> Nombre </label>
+            <label> Nota </label>
+            <label> Semestre </label>
+            <label> Borrar </label>
         </div>
 
         <div id="datosAgregaAsig" class="tabla"> </div>
@@ -1017,8 +1017,8 @@ function formularioRegistraHistoria(input) {
     AsignacionExpansionTextArea(document.querySelector("#datosRegistraEstudiante").querySelectorAll("textarea"));
 
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
-    llenarBotonesExpansibles("agregarAsignatura", "datosAgregaAsig",
-        [["input", "nombre"], ["input", "nota"], ["input", "semestre"]], "100px 30px 50px 70px", "Remover Asignatura");
+    llenarBotonesExpansibles("agregarAsignatura", "datosAgregaAsig", [["input", "nombre"], ["input", "nota", "number"], ["input", "semestre"]],
+        "100px 30px 50px 70px", "Remover Asignatura");
 
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
@@ -1082,10 +1082,10 @@ function verHistoria(input, inputDocumento) {
     
         <h2 class='subtituloForm'> Asignaturas </h2>
 
-        <div id="titulosColumnasVer" class="tabla">
-            <label class="tituloTabla"> Nombre </label>
-            <label class="tituloTabla"> Nota </label>
-            <label class="tituloTabla"> Semestre </label>
+        <div id="titulosColumnasVer" class="titulosTabla">
+            <label> Nombre </label>
+            <label> Nota </label>
+            <label> Semestre </label>
         </div>
 
         <div id="datosVerHistoria" class="tabla"> </div>
@@ -1202,9 +1202,9 @@ function verEquipo(input, inputEmpresa) {
     
         <h2 class='subtituloForm'> Estudiantes </h2>
 
-        <div id="titulosColumnasVer" class="tabla">
-            <label class="tituloTabla"> Nombre </label>
-            <label class="tituloTabla"> Identificación </label>
+        <div id="titulosColumnasVer" class="titulosTabla">
+            <label> Nombre </label>
+            <label> Identificación </label>
         </div>
 
         <div id="datosVerIntegrantes" class="tabla"> </div>
@@ -1500,13 +1500,13 @@ function formularioCalificaInforme(input, tipoInfProt) {
 
         <label class="subsubtituloForm"> Criterios de Evaluación </label>
 
-        <div id="columnas" class="tabla">
-            <label class="tituloTabla"> Nombre </label>
-            <label class="tituloTabla"> Descripción </label>
-            <label class="tituloTabla"> Valoración </label>
-            <label class="tituloTabla"> Comentario </label>
-            <label class="tituloTabla"> Nota </label>
-            <label class="tituloTabla"> Peso </label>
+        <div id="columnas" class="titulosTabla">
+            <label> Nombre </label>
+            <label> Descripción </label>
+            <label> Valoración </label>
+            <label> Comentario </label>
+            <label> Nota </label>
+            <label> Peso </label>
         </div>
 
         <div id="datosCriteriosEval" class="tabla"> </div>
@@ -1586,13 +1586,13 @@ function verSecciones(input, SelectEquipo) {
 
         <label> Criterios de Evaluación </label>
 
-        <div id="columnas" class="tabla">
-            <label class="tituloTabla"> Nombre </label>
-            <label class="tituloTabla"> Descripción </label>
-            <label class="tituloTabla"> Valoración </label>
-            <label class="tituloTabla"> Comentario </label>
-            <label class="tituloTabla"> Nota </label>
-            <label class="tituloTabla"> Peso </label>
+        <div id="columnas" class="titulosTabla">
+            <label> Nombre </label>
+            <label> Descripción </label>
+            <label> Valoración </label>
+            <label> Comentario </label>
+            <label> Nota </label>
+            <label> Peso </label>
         </div>
 
         <div id="datosCriteriosEval" class="tabla"> </div>
@@ -1797,13 +1797,13 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
 
             <label> Criterios de Evaluación </label>
 
-            <div id="columnas" class="tabla">
-                <label class="tituloTabla"> Nombre </label>
-                <label class="tituloTabla"> Descripción </label>
-                <label class="tituloTabla"> Valoración </label>
-                <label class="tituloTabla"> Comentario </label>
-                <label class="tituloTabla"> Nota </label>
-                <label class="tituloTabla"> Peso </label>
+            <div id="columnas" class="titulosTabla">
+                <label> Nombre </label>
+                <label> Descripción </label>
+                <label> Valoración </label>
+                <label> Comentario </label>
+                <label> Nota </label>
+                <label> Peso </label>
             </div>
 
             <div id="datosCriteriosCalif" class="tabla"> </div>
@@ -2067,7 +2067,7 @@ function llenarBotonesExpansibles(idBotonDisparo, idDivContenido, arregloTipoInp
 
                     if (input[0] == "input") {
                         var campo = document.createElement("input");
-                        campo.setAttribute("type", "text");
+                        campo.setAttribute("type", input[2]);
                         campo.setAttribute("id", input[1] + '_' + identificador);
                     }
 
@@ -2273,25 +2273,15 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                 cadenaAux2 = `registrados`; cadenaAux3 = "han sido"
                 condicionPlural = true;
 
-                estudiantes = crearObjeto(input);
+                estudiantes[llave] = crearObjeto(input);
 
-                if (AgregaConCondicion != undefined) {
-                    condicionAlertacion = false;
-                    var asignaturasHist = {}; var tripleta = 1; var promedio;
-                    for (let index = 0; index < input.length; index++) {
-                        if (tripleta == 1) {
-                            const nombre = input[index].id
-                        }
-                        else {
-                            if (tripleta == 2) {
-                                promedio += input[index].value * 3 / input.length
-                            }
-                            tripleta++;
-                        }
-                        asignaturasHist[nombre][input[index].id] = input[index].value;
-
+                if (nuevoAgrega != undefined) {
+                    var asignaturasHist = {}; var promedio = 0;
+                    for (let index = 0; index < nuevoAgrega.length; index += 3) {
+                        asignaturasHist[nuevoAgrega[index].id] = crearObjeto(Array.from(nuevoAgrega).slice(index, index + 3));
+                        promedio += nuevoAgrega[index + 1].value * 3 / nuevoAgrega.length
                     }
-                    estudiantes[llave][nuevoAgrega[0]] = { promedio, asignaturasHist };
+                    estudiantes[llave]["historia"] = { promedio, asignaturasHist };
                 }
                 break;
 
@@ -2347,7 +2337,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
             default:
                 break;
         }
-        if (!condicionPlural){ cadenaAux3 == "ha sido"}
+        if (!condicionPlural) { cadenaAux3 == "ha sido" }
         if (condicionAlertacion) { alert(`${cadenaAux1} ${cadenaAux3} ${cadenaAux2}`); }
         return true;
     }

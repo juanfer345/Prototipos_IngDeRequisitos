@@ -111,17 +111,25 @@ select {
 	text-align-last: center;
 }
 
-.tabla {
-	margin-top: 4px;
+.titulosTabla {
+	color: #05d1ff;
+	margin-top: 8px;
 	margin-bottom: 4px;
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	align-items: center;
 }
 
-.tituloTabla {
-	color: #05d1ff;
-	margin-top: 8px;
+.titulosTabla label {
+	margin: 0px;
+}
+
+.tabla {
+	margin-top: 4px;
+	margin-bottom: 8px;
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	align-items: center;
 }
 
 .tabla label {
