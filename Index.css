@@ -161,7 +161,7 @@ select {
 	grid-template-columns: auto auto;
 }
 
-.botonConfirmar, .botonBorrar, .botonCerrar, .botonExtra, .botonAgregar, .botonRemover {
+.botonConfirmar, .botonBorrar, .botonCerrar, .botonExtra, .botonAgregar, .botonRemover, .botonExtraTabla {
 	font-size: 8px;
 	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 	color: rgb(255, 255, 255);
@@ -210,4 +210,11 @@ select {
 	padding: 1px 12px;
 	justify-self: center;
 	max-width: 1px;
+}
+
+.botonExtraTabla {
+	background-color: rgb(15 144 204 / 66%);
+    border: 1.1px solid rgb(78 154 228);
+	padding: 1px 12px;
+	justify-self: center;
 }

@@ -584,10 +584,10 @@ function formularioRegistraEmpresa(input) {
         () => {
             const llaveEmpresa = document.querySelector("#datosRegistraEmpresa").querySelectorAll("input")[0].value;
 
-            const condicionalDatosIngresados = guardarDatos(document.querySelector("#datosRegistraEmpresa").querySelectorAll("input, textarea"), "Empresa", undefined,
+            const condicionDatosIngresados = guardarDatos(document.querySelector("#datosRegistraEmpresa").querySelectorAll("input, textarea"), "Empresa", undefined,
                 document.querySelector("#datosRegistraRepresentante").querySelectorAll("input"));
 
-            if (condicionalDatosIngresados) {
+            if (condicionDatosIngresados) {
                 guardarDatos(document.querySelector("#datosRegistraRepresentante").querySelectorAll("input"), "Representante",
                     undefined, [["empresa", empresas[llaveEmpresa].nombre]]);
             }
@@ -993,7 +993,7 @@ function formularioRegistraHistoria(input) {
             <label> Nombre </label>
             <label> Nota </label>
             <label> Semestre </label>
-            <label> Borrar </label>
+            <label> Remover </label>
         </div>
 
         <div id="datosAgregaAsig" class="tabla"> </div>
@@ -1007,7 +1007,6 @@ function formularioRegistraHistoria(input) {
     `;
     // Cambiando el número de columnas de la tabla (ya que por defecto son 2)
     document.getElementById("titulosColumnas").style.gridTemplateColumns = "100px 30px 50px 70px";
-    document.getElementById("datosAgregaAsig").style.gridTemplateColumns = "100px 30px 50px 70px";
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm1");
@@ -1028,18 +1027,12 @@ function formularioRegistraHistoria(input) {
                 document.querySelector("#datosAgregaAsig").querySelectorAll("input"));
         }
     );
-    document.getElementById("verHistoria").onclick = () => { verHistoria(event, "identificacion") };
+    document.getElementById("verHistoria").onclick = () => { verHistoria(event, document.getElementById("identificacion").value) };
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
-function verHistoria(input, inputDocumento) {
+function verHistoria(input, idEstudiante) {
 
-    if (inputDocumento != undefined) {
-        var idEstudiante = document.getElementById(inputDocumento).value;
-    }
-    else {
-        var idEstudiante = "";
-    }
     // Obteniendo los valores preestablecidos para llenar el formulario
     const estudiantesHTML = obtenerDatosSelect("estudiante", "Nombre Estudiante", estudiantes, idEstudiante, "nombre");
 
@@ -1105,7 +1098,7 @@ function verHistoria(input, inputDocumento) {
     document.getElementById("estudiante").addEventListener("change",
         () => {
             var idEstudiante = estudiantes[document.getElementById("estudiante").value].identificacion;
-            
+
             actualizarCamposSelect("estudiante", "datosEstudiante", estudiantes);
             llenarTablaSelect(idEstudiante, "datosVerHistoria", estudiantes, "Historia");
 
@@ -1121,8 +1114,9 @@ function verHistoria(input, inputDocumento) {
 }
 
 function formularioConformaEquipo(input) {
+
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const empresasHTML = obtenerDatosSelect("empresa", "Empresa Proyecto", empresas);
+    const empresasHTML = obtenerDatosSelect("empresa", "Empresa Proyecto", carteraDeProyectos.proyectos);
 
     // Llenando los datos del formulario
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Conforma Equipo </h1>"
@@ -1132,29 +1126,34 @@ function formularioConformaEquipo(input) {
         
             ${empresasHTML}
 
-            <label for="codigo"> Código </label>
-            <input type="number" id="codigo" disabled>
-
-            <label for="cantidad"> Cantidad </label>
-            <input type="number" id="cantidad" disabled>
+            <label for="cantidad"> Cantidad Estudiantes </label>
+            <input type="number" id="cantidad" value="0" disabled>
             
         </div>
         
         <h2 class='subtituloForm'> Estudiantes </h2>
-            
-        <button id="agregarEstudiante" type="button" class="botonExtra"> Agregar Estudiante </button>
+        
+        <button id="agregarEstudiante" type="button" class="botonAgregar"> Agregar Estudiante </button>
+
+        <div id="titulosColumnas" class="titulosTabla">
+            <label> Nombre </label>
+            <label> Ver </label>
+            <label> Remover </label>
+        </div>
 
         <div id="datosAgregaEst" class="tabla"> </div>
 
         <div class="botones">
             <button id="confirmarForm1" type="button" class="botonConfirmar"> Conformar </button>
             <button id="verEquipo" type="button" class="botonExtra"> Ver Equipo </button>
-            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
         </div>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
 
-    llenarBotonesExpansibles("agregarEstudiante", "datosAgregaEst", ["select", "estudiante", estudiantes],
-        3, "Quitar Estudiante", "Ver Estudiante", verHistoria);
+    document.getElementById("titulosColumnas").style.gridTemplateColumns = "100px 70px 70px";
+
+    llenarBotonesExpansibles("agregarEstudiante", "datosAgregaEst", [["select", "estudiante", estudiantes]], "100px 70px 70px", "Remover Estudiante",
+        "Ver Historia Académica", verHistoria, "cantidad");
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm1");
@@ -1163,7 +1162,8 @@ function formularioConformaEquipo(input) {
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
-            guardarDatos(document.querySelector("#datosEquipo").querySelectorAll("input, select, textarea"), "Equipo");
+            guardarDatos(document.querySelector("#datosEquipo").querySelectorAll("select"), "Equipo", undefined,
+                document.querySelector("#datosAgregaEst").querySelectorAll("select"));
         }
     );
     document.getElementById("verEquipo").addEventListener("click", () => { verEquipo(event, "empresa") }, false);
@@ -1179,7 +1179,7 @@ function verEquipo(input, inputEmpresa) {
         var idEquipo = "";
     }
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const empresasHTML = obtenerDatosSelect("empresa", "Empresa Proyecto", empresas);
+    const equiposHTML = obtenerDatosSelect("equipo", "Código", equipos);
 
     // Llenando los datos del formulario
     document.getElementById("barraForm2").innerHTML = "<h1 class='tituloForm'> Ver Equipo </h1>"
@@ -1190,10 +1190,7 @@ function verEquipo(input, inputEmpresa) {
 
         <div id="datosEquipo" class="campos">
 
-            ${empresasHTML}
-
-            <label for="codigo"> Código </label>
-            <input type="number" id="codigo" disabled>
+            ${equiposHTML}
 
             <label for="cantidad"> Cantidad </label>
             <input type="number" id="cantidad" disabled>
@@ -1541,11 +1538,11 @@ function formularioCalificaInforme(input, tipoInfProt) {
     document.getElementById("equipo").addEventListener("change",
         () => {
             actualizarCamposSelect("equipo", "datosVerCalificacion", informesIniciales);
-            llenarTablaSelect("none", "datosCriteriosEval", criteriosEvaluacionInfInicial, "Criterios llenar");
+            llenarTablaSelect("none", "datosCriteriosEval", criteriosInicial, "Criterios llenar");
         }
     );
     actualizarCamposSelect("equipo", "datosVerCalificacion", informesIniciales);
-    llenarTablaSelect("none", "datosCriteriosEval", criteriosEvaluacionInfInicial, "Criterios llenar")
+    llenarTablaSelect("none", "datosCriteriosEval", criteriosInicial, "Criterios llenar")
 
     // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
     expansionTextAreaDisabled(document.querySelector("#datosVerProyecto").querySelectorAll("textarea"));
@@ -1627,10 +1624,10 @@ function verSecciones(input, SelectEquipo) {
     document.getElementById("equipoVer").addEventListener("change",
         () => {
             actualizarCamposSelect("equipoVer", "datosVerCalificacion", informesIniciales);
-            llenarTablaSelect(equipoSeleccionado, "datosCriteriosEval", criteriosEvaluacionInfInicial, "Criterios llenar");
+            llenarTablaSelect(equipoSeleccionado, "datosCriteriosEval", criteriosInicial, "Criterios llenar");
         }, false);
     actualizarCamposSelect("equipoVer", "datosVerCalificacion", informesIniciales);
-    llenarTablaSelect(equipoSeleccionado, "datosCriteriosEval", criteriosEvaluacionInfInicial, "Criterios llenar")
+    llenarTablaSelect(equipoSeleccionado, "datosCriteriosEval", criteriosInicial, "Criterios llenar")
 }
 
 function formularioRealizaRetroalimentacion(input) {
@@ -1704,21 +1701,21 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
             avanceIdea = `<label for="idea"> Idea de Desarrollo </label>
                           <input type="text" id="idea" disabled></input>`
             var informePrototipo = informesIniciales;
-            var Criterios = criteriosEvaluacionInfInicial;
+            var Criterios = criteriosInicial;
             break;
 
         case "Informe de Progreso":
             avanceIdea = `<label for="avance"> Avance </label>
                           <input type="text" id="avance" disabled></input>`
             var informePrototipo = informesProgreso;
-            var Criterios = criteriosEvaluacionInfProgreso;
+            var Criterios = criteriosProgreso;
             break;
 
         case "Informe Final":
             avanceIdea = `<label for="conclusion"> Conclusión </label>
                           <input type="text" id="conclusion" disabled></input>`
             var informePrototipo = informesFinales;
-            var Criterios = criteriosEvaluacionInfFinal;
+            var Criterios = criteriosFinal;
             break;
 
         case "Prototipo Alpha":
@@ -1730,13 +1727,13 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
                     <input type="text" id="sugerencia" disabled></input>
                     `
             var informePrototipo = prototipoAlpha;
-            var Criterios = criteriosEvaluacionProtAlpha;
+            var Criterios = criteriosAlpha;
             break;
 
         case "Prototipo Beta":
             retroalimentacion = ``
             var informePrototipo = prototipoBeta;
-            var Criterios = criteriosEvaluacionProtBeta;
+            var Criterios = criteriosBeta;
             break;
         default:
             break;
@@ -1841,7 +1838,7 @@ function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, b
 
     const llave = document.getElementById(nombreSelect).value;
     var campos = document.querySelector("#" + nombreContenedorCampos).querySelectorAll("input, textarea, select");
-    var condicionalEncontracion = false;
+    var condicionEncontracion = false;
 
     // Poniendo iniialmente todos los valores vacíos
     campos.forEach(
@@ -1882,7 +1879,7 @@ function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, b
                             }
                         }
                     }
-                    condicionalEncontracion = true;
+                    condicionEncontracion = true;
                     break;
                 }
             }
@@ -1915,13 +1912,13 @@ function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, b
                             }
                         }
                     }
-                    condicionalEncontracion = true;
+                    condicionEncontracion = true;
                     break;
                 }
             }
         }
     }
-    if (!condicionalEncontracion) {
+    if (!condicionEncontracion) {
         campos.forEach(
             (campo) => {
                 if (campo.type != "select-one") {
@@ -1966,19 +1963,19 @@ function llenarTablaSelect(llave, nombreContenedorCampos, arreglo = undefined, c
 
                 switch (llave) {
                     case "Informe Inicial":
-                        Objeto = criteriosEvaluacionInfInicial;
+                        Objeto = criteriosInicial;
                         break;
                     case "Informe de Progreso":
-                        Objeto = criteriosEvaluacionInfProgreso;
+                        Objeto = criteriosProgreso;
                         break;
                     case "Informe Final":
-                        Objeto = criteriosEvaluacionInfFinal;
+                        Objeto = criteriosFinal;
                         break;
                     case "Prototipo Alpha":
-                        Objeto = criteriosEvaluacionProtAlpha;
+                        Objeto = criteriosAlpha;
                         break;
                     case "Prototipo Beta":
-                        Objeto = criteriosEvaluacionProtBeta;
+                        Objeto = criteriosBeta;
                         break;
                 }
 
@@ -1993,17 +1990,17 @@ function llenarTablaSelect(llave, nombreContenedorCampos, arreglo = undefined, c
                     // Recorre los atributos deseados de los criterios
                     for (let index = 0; index < llaves.length; index++) {
 
-                        var condicionalEncontracion = false;
+                        var condicionEncontracion = false;
 
                         // Recorre los atributos del criterio pa ver si estan o no definidos
                         for (var [key, value2] of Object.entries(value)) {
                             if (llaves[index][0] == key) {
                                 acumulador += `<${llaves[index][1]} ${llaves[index][2]}>${value2}</${llaves[index][1]}>`;
-                                condicionalEncontracion = true;
+                                condicionEncontracion = true;
                                 break;
                             }
                         }
-                        if (!condicionalEncontracion) { acumulador += `<label> ${" "} </label>`; }
+                        if (!condicionEncontracion) { acumulador += `<label> ${" "} </label>`; }
                     }
                 }
                 break;
@@ -2063,12 +2060,12 @@ function llenarTablaSelect(llave, nombreContenedorCampos, arreglo = undefined, c
 }
 
 function llenarBotonesExpansibles(idBotonDisparo, idDivContenido, arregloTipoInputs, columnas, nombreBotonRemover, nombreBotonExtra = undefined,
-    funcionBotonExtra = undefined) {
+    funcionBotonExtra = undefined, campoIncrementable = undefined) {
 
     document.getElementById(idBotonDisparo).addEventListener("click",
         () => {
 
-            var identificador = indicesBotonesExpansibles(idDivContenido, arregloTipoInputs);
+            const identificador = indicesBotonesExpansibles(idDivContenido, arregloTipoInputs);
 
             var div = document.getElementById(idDivContenido);
             div.style.gridTemplateColumns = columnas;
@@ -2082,14 +2079,29 @@ function llenarBotonesExpansibles(idBotonDisparo, idDivContenido, arregloTipoInp
                         var campo = document.createElement("input");
                         campo.setAttribute("type", input[2]);
                         campo.setAttribute("id", input[1] + '_' + identificador);
+                        div.appendChild(campo); auxiliar.push(campo);
                     }
 
                     else if (input[0] == "select") {
-                        var campo = obtenerDatosSelect(input[1] + '_' + identificador, "", input[2])
+                        var campo = document.createRange().createContextualFragment(obtenerDatosSelect(input[1] + '_' + identificador, "", input[2], undefined,
+                            "nombre"));
+                        div.appendChild(campo);
+                        auxiliar.push(document.querySelector(`#${input[1]}_${identificador}`));
                     }
-                    div.appendChild(campo); auxiliar.push(campo);
                 }
-            )
+            );
+
+            if (nombreBotonExtra != undefined) {
+                var botonExtra = document.createElement("button");
+                botonExtra.setAttribute("type", "button");
+                botonExtra.setAttribute("class", "botonExtraTabla");
+                botonExtra.innerHTML = nombreBotonExtra;
+                botonExtra.addEventListener("click",
+                    () => {
+                        funcionBotonExtra(event, auxiliar[0].value)
+                    }
+                )
+            }
 
             var boton = document.createElement("button");
             boton.setAttribute("type", "button");
@@ -2098,20 +2110,25 @@ function llenarBotonesExpansibles(idBotonDisparo, idDivContenido, arregloTipoInp
             boton.addEventListener("click",
                 () => {
                     auxiliar.forEach((campo) => { campo.remove(); });
+                    if (nombreBotonExtra != undefined) { botonExtra.remove(); }
                     boton.remove();
-                    indicesBotonesExpansibles(idDivContenido, arregloTipoInputs);
+
+                    const identificador = indicesBotonesExpansibles(idDivContenido, arregloTipoInputs);
+
+                    if (campoIncrementable != undefined) {
+                        document.getElementById(campoIncrementable).value = identificador - 1;
+                    }
                 }
             )
             if (nombreBotonExtra != undefined) {
-                var botonExtra = document.createElement("button");
-                boton.setAttribute("type", "button");
-                boton.setAttribute("class", "botonExtra");
-                boton.innerHTML = nombreBotonExtra;
-                boton.addEventListener("click", () => { funcionBotonExtra(event) })
                 div.appendChild(botonExtra); div.appendChild(boton);
             }
             else {
                 div.appendChild(boton);
+            }
+
+            if (campoIncrementable != undefined) {
+                document.getElementById(campoIncrementable).value = identificador;
             }
         }
     );
@@ -2137,7 +2154,13 @@ function indicesBotonesExpansibles(idDivContenido, arregloTipoInputs) {
 function obtenerDatosSelect(id, display, arreglo, seleccionado = "", atributoPorMostrar = undefined, atributoCondicional = undefined, valoresAtributoCondicional = undefined,
     arregloComparacion = undefined) {
 
-    var salidaHTML = `<label for='${id}'> ${display} </label> <select id='${id}'>`;
+    if (display != "") {
+        var salidaHTML = `<label for='${id}'> ${display} </label> <select id='${id}'>`;
+    }
+    else {
+        var salidaHTML = `<select id='${id}'>`;
+    }
+
     var aux;
 
     for (var [key, value] of Object.entries(arreglo)) {
@@ -2185,23 +2208,23 @@ function obtenerDatosSelect(id, display, arreglo, seleccionado = "", atributoPor
 
 function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefined, AgregaConCondicion = undefined) {
 
-    var condicionCamposCompletos = true; var condicionAlertacion = true; condicionPlural = false
+    var errorIngresoDatos = false; var condicionAlertacion = true; condicionPlural = false
     var cadenaAux1, cadenaAux2, cadenaAux3;
 
     // Esto es para comprobar que se hallan enviado todos los datos
     input.forEach((valor) => {
-        if (valor.value == '') { condicionCamposCompletos = false; }
+        if (valor.value == '') { errorIngresoDatos = true; }
     });
 
     if (NodeList.prototype.isPrototypeOf(nuevoAgrega)) {
         if (nuevoAgrega != undefined) {
             nuevoAgrega.forEach((valor) => {
-                if (valor.value == '') { condicionCamposCompletos = false; }
+                if (valor.value == '') { errorIngresoDatos = true; }
             });
         }
     }
 
-    if (condicionCamposCompletos) {
+    if (!errorIngresoDatos) {
         switch (caso) {
             case "Asignatura":
                 cadenaAux1 = `La asignatura ${llave}`; cadenaAux2 = "diseñada"
@@ -2223,19 +2246,19 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
 
                 switch (input[0].value) {
                     case "Informe Inicial":
-                        criteriosEvaluacionInfInicial[llave] = crearObjeto(input);
+                        criteriosInicial[llave] = crearObjeto(input);
                         break;
                     case "Informe de Progreso":
-                        criteriosEvaluacionInfProgreso[llave] = crearObjeto(input);
+                        criteriosProgreso[llave] = crearObjeto(input);
                         break;
                     case "Informe Final":
-                        criteriosEvaluacionInfFinal[llave] = crearObjeto(input);
+                        criteriosFinal[llave] = crearObjeto(input);
                         break;
                     case "Prototipo Alpha":
-                        criteriosEvaluacionProtAlpha[llave] = crearObjeto(input);
+                        criteriosAlpha[llave] = crearObjeto(input);
                         break;
                     case "Prototipo Beta":
-                        criteriosEvaluacionProtBeta[llave] = crearObjeto(input);
+                        criteriosBeta[llave] = crearObjeto(input);
                         break;
                 }
                 break;
@@ -2268,16 +2291,16 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
             case "Proyecto":
 
                 cadenaAux1 = `El proyecto de la empresa ${llave}`;
+                cadenaAux2 = `agregado`
+
+                carteraDeProyectos.proyectos[llave] = crearObjeto(input);
 
                 var total = 0;
                 for (var value of Object.values(carteraDeProyectos.proyectos)) {
                     total++;
                 }
-
-                carteraDeProyectos.proyectos[llave] = crearObjeto(input);
                 carteraDeProyectos.cantidadProyectos = total;
 
-                cadenaAux2 = `agregado`
                 break;
 
             case "Estudiante":
@@ -2288,13 +2311,85 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
 
                 estudiantes[llave] = crearObjeto(input);
 
-                if (nuevoAgrega != undefined) {
-                    var asignaturasHist = {}; var promedio = 0;
-                    for (let index = 0; index < nuevoAgrega.length; index += 3) {
-                        asignaturasHist[nuevoAgrega[index].id] = crearObjeto(Array.from(nuevoAgrega).slice(index, index + 3));
-                        promedio += nuevoAgrega[index + 1].value * 3 / nuevoAgrega.length
+                var asignaturasHist = {}; var promedio = 0;
+                for (let index = 0; index < nuevoAgrega.length; index += 3) {
+                    asignaturasHist[nuevoAgrega[index].id] = crearObjeto(Array.from(nuevoAgrega).slice(index, index + 3));
+                    promedio += nuevoAgrega[index + 1].value * 3 / nuevoAgrega.length
+                }
+                estudiantes[llave]["historia"] = { promedio, asignaturasHist };
+                break;
+
+            case "Equipo":
+
+                // Verificando que se halla ingresado al menos un estudiante
+                if (nuevoAgrega.length != 0) {
+                    var condicionEstudianteRepetidoEntrada = false; var estudianteRepetido;
+
+                    // Buscando estudiantes repetidos entre los valores ingresados
+                    Array.from(nuevoAgrega).forEach((estudianteNuevo) => {
+                        let dobleHallacion = 0;
+                        Array.from(nuevoAgrega).forEach(
+                            (estudianteNuevo2) => {
+                                if (estudianteNuevo.value == estudianteNuevo2.value) { dobleHallacion++; }
+                            }
+                        )
+                        if (dobleHallacion > 1) {
+                            estudianteRepetido = estudiantes[estudianteNuevo.value].nombre;
+                            condicionEstudianteRepetidoEntrada = true;
+                        }
+                    })
+
+                    // Verificando que se no existan estudiantes repetidos entre los valores ingresados
+                    if (!condicionEstudianteRepetidoEntrada) {
+                        var condicionEstudianteRepetidoEquipo = false; var equipoEstudianteRepetido;
+
+                        // Buscando estudiantes repetidos entre los equipos creados y los valores ingresados
+                        for (var [key, value] of Object.entries(equipos)) {
+                            for (var value2 of Object.values(value)) {
+                                if (Array.from(nuevoAgrega).find((estudianteNuevo) => estudianteNuevo.value == value2)) {
+                                    estudianteRepetido = estudiantes[value2].nombre;
+                                    equipoEstudianteRepetido = key;
+                                    condicionEstudianteRepetidoEquipo = true; break;
+                                }
+                            }
+                        }
+
+                        // Verificando que se no existanestudiantes repetidos entre los equipos creados y los valores ingresados
+                        if (!condicionEstudianteRepetidoEquipo) {
+                            var nuevoNumero = 1; var nombreLlave; var auxiliarNumeroLlave;
+
+                            // Buscando si la empresa relacionada al proyecto se encuentra adscrita a otro equipo para crear otro proyecto relacionada a ella
+                            for (var [key, value] of Object.entries(equipos)) {
+                                [nombreLlave, auxiliarNumeroLlave] = key.split(" ");
+                                if (nombreLlave == llave) {
+                                    if (nuevoNumero != auxiliarNumeroLlave) {
+                                        break;
+                                    }
+                                    else {
+                                        nuevoNumero++;
+                                    }
+                                }
+                            }
+                            llave += ` ${nuevoNumero}`;
+                            [equipos[llave], cadenaAux1] = crearObjeto(nuevoAgrega, undefined, estudiantes, "nombre");
+
+                            cadenaAux1 = `El equipo identificado con el código "${llave}" y compuesto por los estudiantes ${cadenaAux1}`;
+                            cadenaAux2 = `conformado`
+                        }
+                        else {
+                            errorIngresoDatos = true
+                            cadenaAux1 = `Un estudiante no puede pertenecer a mas de un equipo a la vez, el estudiante ${estudianteRepetido} ya se encuentra ` +
+                                         `inscrito en el equipo ${equipoEstudianteRepetido}`;
+                        }
                     }
-                    estudiantes[llave]["historia"] = { promedio, asignaturasHist };
+                    else {
+                        errorIngresoDatos = true
+                        cadenaAux1 = `Has ingresado al estudiante ${estudianteRepetido} mas de una vez`;
+                    }
+                }
+                else {
+                    errorIngresoDatos = true
+                    cadenaAux1 = "Por favor agregar estudiantes";
                 }
                 break;
 
@@ -2334,37 +2429,43 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                 break;
 
             case "Nota Rubrica Inicial":
-                if (rubricaInicial[llave] != undefined) {
-                    cadenaAux1 = `La nota de la rubrica ${rubricaInicial[llave][1].value}`; cadenaAux2 = "almacenado"
-                    rubricaInicial[llave]["nota"] = input.value;
+                if (criteriosInicial[llave] != undefined) {
+                    cadenaAux1 = `La nota de la rubrica ${criteriosInicial[llave][1].value}`; cadenaAux2 = "almacenado"
+                    criteriosInicial[llave]["nota"] = input.value;
                 }
                 break;
 
             case "Nota Rubrica Progreso":
-                if (rubricaProgreso[llave] != undefined) {
-                    cadenaAux1 = `La nota de la rubrica ${rubricaProgreso[llave][1].value}`; cadenaAux2 = "almacenado"
-                    rubricaProgreso[llave]["nota"] = input.value;
+                if (criteriosProgreso[llave] != undefined) {
+                    cadenaAux1 = `La nota de la rubrica ${criteriosProgreso[llave][1].value}`; cadenaAux2 = "almacenado"
+                    criteriosProgreso[llave]["nota"] = input.value;
                 }
                 break;
 
             default:
                 break;
         }
-        if (!condicionPlural) { cadenaAux3 == "ha sido" }
-        if (condicionAlertacion) { alert(`${cadenaAux1} ${cadenaAux3} ${cadenaAux2}`); }
-        return true;
+
+        if (!errorIngresoDatos) {
+            if (!condicionPlural) { cadenaAux3 = "ha sido" }
+            if (condicionAlertacion) { alert(`${cadenaAux1} ${cadenaAux3} ${cadenaAux2}`); }
+            return true;
+        }
+        else {
+            alert(cadenaAux1)
+            return false;
+        }
     }
-    else if (caso != "Contenido Asignatura") {
+    else {
         alert("Por favor llenar todos los campos")
         return false;
     }
 }
 
-function crearObjeto(listiviris, AgregaConCondicion) {
-    var objeto = {};
+function crearObjeto(listiviris, AgregaConCondicion = undefined, arregloCadenaValores = undefined, atributoCadenaValores = undefined) {
+    var objeto = {}; var cadena = "";
 
     if (AgregaConCondicion == undefined) {
-
         for (let index = 0; index < listiviris.length; index++) {
             if (listiviris[index].type != "radio") {
                 objeto[listiviris[index].id] = listiviris[index].value
@@ -2372,6 +2473,16 @@ function crearObjeto(listiviris, AgregaConCondicion) {
             else {
                 if (listiviris[index].checked) {
                     objeto[listiviris[index].id] = listiviris[index].value
+                }
+            }
+            if (arregloCadenaValores != undefined) {
+                if (index < listiviris.length - 2) {
+                    cadena += arregloCadenaValores[listiviris[index].value][atributoCadenaValores] + ", ";
+                }
+                else if (index < listiviris.length - 1) {
+                    cadena += arregloCadenaValores[listiviris[index].value][atributoCadenaValores] + " y ";
+                } else {
+                    cadena += arregloCadenaValores[listiviris[index].value][atributoCadenaValores]
                 }
             }
         }
@@ -2388,6 +2499,16 @@ function crearObjeto(listiviris, AgregaConCondicion) {
                         objeto[listiviris[index].id] = listiviris[index].value
                     }
                 }
+                if (arregloCadenaValores != undefined) {
+                    if (index < listiviris.length - 2) {
+                        cadena += arregloCadenaValores[listiviris[index].value][atributoCadenaValores] + ", ";
+                    }
+                    else if (index < listiviris.length - 1) {
+                        cadena += arregloCadenaValores[listiviris[index].value][atributoCadenaValores] + " y ";
+                    } else {
+                        cadena += arregloCadenaValores[listiviris[index].value][atributoCadenaValores]
+                    }
+                }
                 j++;
             }
             else {
@@ -2395,7 +2516,14 @@ function crearObjeto(listiviris, AgregaConCondicion) {
             }
         }
     }
-    return objeto;
+
+    if (arregloCadenaValores == undefined) {
+        return objeto;
+    }
+    else {
+        return [objeto, cadena];
+    }
+
 }
 
 function adicionarAobjeto(objeto, listiviris) {
@@ -2580,37 +2708,17 @@ function formularioIncrementarCartera(input) {
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
-var criteriosEvaluacionInfInicial = {
-    "Aproximación a los requisitos iniciales": {
-        descripcion: "Lo expuesto por el estudiante se aproxima lo suficiente a los intereses del representante",
-        nombre: "Aproximación a los requisitos iniciales",
-        peso: "70",
-        rubrica: "Informe Inicial"
+var profesores = {
+    "Carlos Lopez": {
+        nombre: "Carlos Lopez", correo: "carlop@gmail.com", celular: "3173022932", direccion: "Cll 123A #12A-32", identificacion: "1"
     },
-    Plenitud: {
-        descripcion: "Se describen todas las características necesarias para los objetos, actores y funciones encontradas",
-        nombre: "Plenitud",
-        peso: "30",
-        rubrica: "Informe Inicial"
-    }
-};
-var criteriosEvaluacionInfProgreso = {
-    "Avance en los requisitos": {
-        descripcion: "Se nota el avance entre definir el contexto, analizar el problema y empezar a modelar la solución",
-        nombre: "Avance en los requisitos",
-        peso: "50",
-        rubrica: "Informe de Progreso"
+    "Daniel Delgado": {
+        nombre: "Daniel Delgado", correo: "dldelgado@unal.edu.co", celular: "3013215643", direccion: "Cra. 58 #32-12", identificacion: "2"
     },
-    Plenitud: {
-        descripcion: "Se describen y se asocian los objetivos y problemas, se establecen todos los procesos",
-        nombre: "Plenitud",
-        peso: "50",
-        rubrica: "Informe de Progreso"
-    }
+    "Sara Berrio": {
+        nombre: "Sara Berrio", correo: "sraberr@gmail.com", celular: "3053876514", direccion: "Cll 93B #24-43", identificacion: "3"
+    },
 };
-var criteriosEvaluacionInfFinal = {};
-var criteriosEvaluacionProtAlpha = {};
-var criteriosEvaluacionProtBeta = {};
 
 var asignaturas = {
     "Ingeniería de Software": {
@@ -2665,25 +2773,40 @@ var clases = {
         asignatura: "Ingeniería de Software"
     }
 };
-var carteraDeProyectos = { cantidadProyectos: 0, proyectos: {} };
-var equipos = {};
 
-var representantes = {
-    "Santiago Bolaños": {
-        celular: "3123044398",
-        correo: "sbols@gmail.com",
-        disponibilidad: "Mucha",
-        nombre: "Santiago Bolaños",
-        empresa: "Postobon"
+var criteriosInicial = {
+    "Aproximación a los requisitos iniciales": {
+        descripcion: "Lo expuesto por el estudiante se aproxima lo suficiente a los intereses del representante",
+        nombre: "Aproximación a los requisitos iniciales",
+        peso: "70",
+        rubrica: "Informe Inicial"
     },
-    "Juan Perez": {
-        celular: "3023139870",
-        correo: "perez.juan@gmail.com",
-        disponibilidad: "Poca",
-        empresa: "EPM",
-        nombre: "Juan Perez"
+    Plenitud: {
+        descripcion: "Se describen todas las características necesarias para los objetos, actores y funciones encontradas",
+        nombre: "Plenitud",
+        peso: "30",
+        rubrica: "Informe Inicial"
     }
 };
+
+var criteriosProgreso = {
+    "Avance en los requisitos": {
+        descripcion: "Se nota el avance entre definir el contexto, analizar el problema y empezar a modelar la solución",
+        nombre: "Avance en los requisitos",
+        peso: "50",
+        rubrica: "Informe de Progreso"
+    },
+    Plenitud: {
+        descripcion: "Se describen y se asocian los objetivos y problemas, se establecen todos los procesos",
+        nombre: "Plenitud",
+        peso: "50",
+        rubrica: "Informe de Progreso"
+    }
+};
+
+var criteriosFinal = {};
+var criteriosAlpha = {};
+var criteriosBeta = {};
 
 var empresas = {
     Postobon: {
@@ -2699,6 +2822,23 @@ var empresas = {
         nombre: "EPM",
         objetivoEmpresa: "Mejorar los servicios básicos",
         vision: "En 2022 Ticsa será una empresa líder en México en excelencia operativa, reputación y transparencia, ofreciendo a los clientes y al mercado un portafolio integral de soluciones hídricas y energéticas, fundamentada en prácticas socialmente responsables con todos los grupos de ínteres y contribuyendo a la consolidación multilatina del Grupo Empresarial EPM."
+    }
+};
+
+var representantes = {
+    "Santiago Bolaños": {
+        celular: "3123044398",
+        correo: "sbols@gmail.com",
+        disponibilidad: "Mucha",
+        nombre: "Santiago Bolaños",
+        empresa: "Postobon"
+    },
+    "Juan Perez": {
+        celular: "3023139870",
+        correo: "perez.juan@gmail.com",
+        disponibilidad: "Poca",
+        empresa: "EPM",
+        nombre: "Juan Perez"
     }
 };
 
@@ -2725,7 +2865,16 @@ var problemas = {
     }
 };
 
-var retroalimentaciones = {};
+var carteraDeProyectos = {
+    cantidadProyectos: 0,
+    proyectos: {
+        EPM: {
+            descripcionProyecto: "Está bien dificil loks",
+            empresa: "EPM",
+            objetivoProyecto: "Solucionar el problema"
+        }
+    }
+};
 
 var estudiantes = {
     123: {
@@ -2766,47 +2915,39 @@ var estudiantes = {
     }
 };
 
-var profesores = {
-    "Carlos Lopez": {
-        nombre: "Carlos Lopez", correo: "carlop@gmail.com", celular: "3173022932", direccion: "Cll 123A #12A-32", identificacion: "1"
-    },
-    "Daniel Delgado": {
-        nombre: "Daniel Delgado", correo: "dldelgado@unal.edu.co", celular: "3013215643", direccion: "Cra. 58 #32-12", identificacion: "2"
-    },
-    "Sara Berrio": {
-        nombre: "Sara Berrio", correo: "sraberr@gmail.com", celular: "3053876514", direccion: "Cll 93B #24-43", identificacion: "3"
-    },
-};
+var equipos = {};
+
 var metodologiasDesarrollo = {};
+
+var rubricaInicial = {
+    "1": { nota: 0, equipo: 1, criterios: { descripcion: 2, valoracion: 2, nota: 2 } },
+};
+var rubricaProgreso = {
+    "1": { nota: 0, equipo: 1, criterios: { descripcion: 2, valoracion: 2, nota: 2 } },
+};
+var rubricaFinal = {
+    "1": { nota: 0, equipo: 1, criterios: { descripcion: 2, valoracion: 2, nota: 2 } },
+};
+var rubricaAlpha = {
+    "1": { nota: 0, equipo: 1, criterios: { descripcion: 2, valoracion: 2, nota: 2 } },
+};
+var rubricaBeta = {
+    "1": { nota: 0, equipo: 1, criterios: { descripcion: 2, valoracion: 2, nota: 2 } },
+};
+
 var informesIniciales = {};
 var informesProgreso = {};
 var informesFinales = {};
 var prototipoAlpha = {};
 var prototipoBeta = {};
-var rubricaInicial = {
-    "1": { nombre: "Rubrica de Informe Inicial", nota: 0, equipo: 1 },
-};
-var rubricaProgreso = {
-    "1": { nombre: "Rubrica de Informe Inicial", nota: 0, equipo: 1 },
-};
-var rubricaFinal = {
-    "1": { nombre: "Rubrica de Informe Inicial", nota: 0, equipo: 1 },
-};
-var rubricaAlpha = {
-    "1": { nombre: "Rubrica de Informe Inicial", nota: 0, equipo: 1 },
-};
-var rubricaBeta = {
-    "1": { nombre: "Rubrica de Informe Inicial", nota: 0, equipo: 1 },
-};
+
+var retroalimentaciones = {};
 
 window.addEventListener("load", inicializarPagina, false)
 
-// En construye cartera de proyectos, el botón de "Ver Proyectos" no funciona correctamente
-
-// Código equipo igual a código proyecto, pero no igual a código Empresa
-
-// Quitar rol estudiante
 // quitar entregables
 // Pasos y roles un solo string
 
-// arreglar obj estrategico de proyecto es editable
+// En conforma equipo solo aparecen las empresas que fueron agregadas a un proyecto
+// No debería aparece la descripción del proyecto en la creación de equipos?
+// Existe un mínimo de estudiantes por equipo?
