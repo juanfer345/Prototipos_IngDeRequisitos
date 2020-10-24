@@ -1189,9 +1189,20 @@ function verEquipo(input) {
             
             <label for="comunicacion"> Comunicación </label>
             <textarea id="comunicacion" disabled></textarea>
-
         </div>
-    
+
+        <div id="datosEquipoMetodologia" class="campos">
+
+            <label for="nombre"> Nombre </label>
+            <input type="text" id="nombre" disabled>
+
+            <label for="pasos"> Pasos </label>
+            <input type="text" id="pasos" disabled>
+
+            <label for="roles"> Roles </label>
+            <input type="text" id="roles" disabled>
+        </div>
+        
         <h2 class='subtituloForm'> Estudiantes </h2>
 
         <div id="titulosColumnasVer" class="titulosTabla">
@@ -1203,6 +1214,8 @@ function verEquipo(input) {
         
         <button id="cerrarForm2" type="button" class="botonCerrar"> Cerrar </button>
     `;
+    document.getElementById("datosEquipoVer").style.gridTemplateColumns = "60px 150px";
+    document.getElementById("datosEquipoMetodologia").style.gridTemplateColumns = "60px 150px";
     document.getElementById("titulosColumnasVer").style.gridTemplateColumns = "1fr 1fr";
     document.getElementById("datosVerIntegrantes").style.gridTemplateColumns = "1fr 1fr";
 
@@ -1216,9 +1229,10 @@ function verEquipo(input) {
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
     document.getElementById("equipo").addEventListener("change",
         () => {
-            var idEquipo = document.getElementById("equipo").value;
+            const idEquipo = document.getElementById("equipo").value
 
             actualizarCamposSelect("equipo", "datosEquipoVer", equipos);
+            actualizarCamposSelect("equipo", "datosEquipoMetodologia", metodologiasDesarrollo);
             llenarTablaSelect(idEquipo, "datosVerIntegrantes", equipos, "Equipo");
 
             // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
@@ -1226,6 +1240,7 @@ function verEquipo(input) {
         }
     );
     actualizarCamposSelect("equipo", "datosEquipoVer", equipos);
+    actualizarCamposSelect("equipo", "datosEquipoMetodologia", metodologiasDesarrollo);
     llenarTablaSelect(document.getElementById("equipo").value, "datosVerIntegrantes", equipos, "Equipo");
 
     // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
@@ -2407,7 +2422,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
             case "Metodologia":
 
                 cadenaAux1 = `La metodología del equipo ${llave}`; cadenaAux2 = "definida";
-                equipos[llave].metodologia = crearObjeto(Array.from(input).slice(1, input.length));
+                metodologiasDesarrollo[llave] = crearObjeto(Array.from(input).slice(1, input.length));
                 break;
 
             case "Informe Progreso":
