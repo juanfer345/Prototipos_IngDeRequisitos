@@ -973,9 +973,6 @@ function formularioRegistraHistoria(input) {
             <label for="semestre"> Semestre </label>
             <input type="text" id="semestre">
 
-            <label for="rol"> Rol </label>
-            <input type="text" id="rol">
-
             <label> Competencia </label>
 
             <div class="radios">
@@ -1027,10 +1024,8 @@ function formularioRegistraHistoria(input) {
         () => {
             const llaveEstudiante = document.querySelector("#datosRegistraEstudiante").querySelectorAll("input")[1].value;
 
-            guardarDatos(document.querySelector("#datosRegistraEstudiante").querySelectorAll("input, textarea"), "Estudiante");
-
-            guardarDatos(["historia", document.querySelector("#datosAgregaAsig").querySelectorAll("input")], "Estudiante",
-                llaveEstudiante, 0);
+            guardarDatos(document.querySelector("#datosRegistraEstudiante").querySelectorAll("input, textarea"), "Estudiante", llaveEstudiante,
+                document.querySelector("#datosAgregaAsig").querySelectorAll("input"));
         }
     );
     document.getElementById("verHistoria").onclick = () => { verHistoria(event, "documento") };
@@ -2177,8 +2172,8 @@ function obtenerDatosSelect(id, display, arreglo, seleccionado = "", atributoPor
 
 function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefined, AgregaConCondicion = undefined) {
 
-    var condicionCamposCompletos = true; var condicionAlertacion = true;
-    var cadenaAux1, cadenaAux2;
+    var condicionCamposCompletos = true; var condicionAlertacion = true; condicionPlural = false
+    var cadenaAux1, cadenaAux2, cadenaAux3;
 
     // Esto es para comprobar que se hallan enviado todos los datos
     input.forEach((valor) => {
@@ -2261,7 +2256,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
 
                 cadenaAux1 = `El proyecto de la empresa ${llave}`;
 
-                var total = 0; 
+                var total = 0;
                 for (var value of Object.values(carteraDeProyectos.proyectos)) {
                     total++;
                 }
@@ -2274,12 +2269,13 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
 
             case "Estudiante":
 
-                if (nuevoAgrega == undefined) {
-                    cadenaAux1 = `La historia académica`;
-                    cadenaAux2 = `registrada`
-                    estudiantes = crearObjeto(input);
-                }
-                else {
+                cadenaAux1 = `El estudiante ${input[0].value} y su historia académica`;
+                cadenaAux2 = `registrados`; cadenaAux3 = "han sido"
+                condicionPlural = true;
+
+                estudiantes = crearObjeto(input);
+
+                if (AgregaConCondicion != undefined) {
                     condicionAlertacion = false;
                     var asignaturasHist = {}; var tripleta = 1; var promedio;
                     for (let index = 0; index < input.length; index++) {
@@ -2288,7 +2284,6 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                         }
                         else {
                             if (tripleta == 2) {
-
                                 promedio += input[index].value * 3 / input.length
                             }
                             tripleta++;
@@ -2352,7 +2347,8 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
             default:
                 break;
         }
-        if (condicionAlertacion) { alert(`${cadenaAux1} ha sido ${cadenaAux2}`); }
+        if (!condicionPlural){ cadenaAux3 == "ha sido"}
+        if (condicionAlertacion) { alert(`${cadenaAux1} ${cadenaAux3} ${cadenaAux2}`); }
         return true;
     }
     else if (caso != "Contenido Asignatura") {
