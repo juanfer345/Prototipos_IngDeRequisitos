@@ -1389,12 +1389,19 @@ function formularioEntregaInforme(input, tipoInfProt) {
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
         llenarBotonesExpansibles("agregarSeccion", "datosAgregaSecc", [["textarea", "seccion"]], "100px 70px", "Remover Seccion");
+        document.getElementById("confirmarForm1").addEventListener("click",
+            () => {
+                guardarDatos(document.querySelector("#datosEntrega").querySelectorAll("select, input, textarea"), "Entrega_" + tipoInfProt,
+                    undefined, document.getElementById("datosAgregaSecc").querySelectorAll("textarea"));
+            }
+        );
+    } else {
+        document.getElementById("confirmarForm1").addEventListener("click",
+            () => {
+                guardarDatos(document.querySelector("#datosEntrega").querySelectorAll("select, input, textarea"), "Entrega_" + tipoInfProt);
+            }
+        );
     }
-    document.getElementById("confirmarForm1").addEventListener("click",
-        () => {
-            guardarDatos(document.querySelector("#datosEntrega").querySelectorAll("select, input", "textarea"), "Entrega " + tipoInfProt);
-        }
-    );
 
     document.getElementById("verCalificacion").addEventListener("click",
         () => {
@@ -1403,7 +1410,7 @@ function formularioEntregaInforme(input, tipoInfProt) {
     );
 
     if (tipoInfProt == "Prototipo Alpha") {
-        document.getElementById("verCalificacion").addEventListener("click",
+        document.getElementById("verRetroalimentacion").addEventListener("click",
             () => {
                 verRetroalimentacion(event, "equipo");
             }
@@ -2095,7 +2102,7 @@ function llenarBotonesExpansibles(idBotonDisparo, idDivContenido, arregloTipoInp
 
                         if (input[0] == "textarea") {
                             // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
-                            AsignacionExpansionTextArea(document.querySelector(`#${input[1]}_${identificador}`).querySelectorAll("textarea"));
+                            AsignacionExpansionTextArea(document.querySelector(`#${idDivContenido}`).querySelectorAll("textarea"));
                         }
                     }
 
@@ -2154,7 +2161,7 @@ function llenarBotonesExpansibles(idBotonDisparo, idDivContenido, arregloTipoInp
 function indicesBotonesExpansibles(idDivContenido, arregloTipoInputs) {
 
     var identificador = 1;
-    var auxiliar = document.querySelector(`#${idDivContenido}`).querySelectorAll("input, select");
+    var auxiliar = document.querySelector(`#${idDivContenido}`).querySelectorAll("input, select, textarea");
 
     for (let index = 0; index < auxiliar.length; index = index) {
         arregloTipoInputs.forEach(
@@ -2226,6 +2233,7 @@ function obtenerDatosSelect(id, display, arreglo, seleccionado = "", atributoPor
 function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefined, AgregaConCondicion = undefined) {
 
     var errorIngresoDatos = false; var condicionAlertacion = true; condicionPlural = false; var aparecenRadios = false; var conteoRadiosCheckeados = 0;
+    var casoMixto;
     var cadenaAux1, cadenaAux2, cadenaAux3;
 
     // Esto es para comprobar que se hallan enviado todos los datos
@@ -2252,6 +2260,8 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
             });
         }
     }
+
+    [caso, casoMixto] = caso.split("_")
 
     if (!errorIngresoDatos) {
         switch (caso) {
@@ -2420,7 +2430,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                 }
                 else {
                     errorIngresoDatos = true
-                    cadenaAux1 = "Por favor agregar estudiantes";
+                    cadenaAux1 = "Debe agregarse mínimo un estudiante";
                 }
                 break;
 
@@ -2430,34 +2440,50 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                 metodologiasDesarrollo[llave] = crearObjeto(Array.from(input).slice(1, input.length));
                 break;
 
-            case "Informe Progreso":
-                cadenaAux1 = `El Informe de Progreso del equipo ${llave}`; cadenaAux2 = "almacenado"
-                informesProgreso[llave] = crearObjeto(input);
-                break;
+            case "Entrega":
 
-            case "InformeInicial":
-                cadenaAux1 = `El informe inicial del equipo ${llave}`; cadenaAux2 = "almacenado"
-                informesIniciales[llave] = crearObjeto(input);
-                break;
+                if (casoMixto.split(" ")[0] == "Informe") {
+                    if (nuevoAgrega.length == 0) {
+                        errorIngresoDatos = true
+                        cadenaAux1 = "Debe agregarse mínimo una sección";
+                        break;
+                    }
+                }
 
-            case "InformeFinal":
-                cadenaAux1 = `El informe Final del equipo ${llave}`; cadenaAux2 = "almacenado"
-                informesFinales[llave] = crearObjeto(input);
-                break;
+                switch (casoMixto) {
+                    case "Informe Inicial":
+                        cadenaAux1 = `El informe inicial del equipo ${llave}`; cadenaAux2 = "entregado";
+                        informesIniciales[llave] = crearObjeto(Array.from(input).slice(1, input.length));
+                        informesIniciales[llave].secciones = crearObjeto(nuevoAgrega);
+                        break;
 
-            case "PrototipoAlpha":
-                cadenaAux1 = `El prototipo Alpha del equipo ${llave}`; cadenaAux2 = "almacenado"
-                prototipoAlpha[llave] = crearObjeto(input);
+                    case "Informe de Progreso":
+                        cadenaAux1 = `El informe de progreso del equipo ${llave}`; cadenaAux2 = "entregado";
+                        informesProgreso[llave] = crearObjeto(Array.from(input).slice(1, input.length));
+                        informesProgreso[llave].secciones = crearObjeto(nuevoAgrega);
+                        break;
+
+                    case "Informe Final":
+                        cadenaAux1 = `El informe de progreso del equipo ${llave}`; cadenaAux2 = "entregado";
+                        informesFinales[llave] = crearObjeto(Array.from(input).slice(1, input.length));
+                        informesProgreso[llave].secciones = crearObjeto(nuevoAgrega);
+                        break;
+
+                    case "Prototipo Alpha":
+                        cadenaAux1 = `El prototipo alpha del equipo ${llave}`; cadenaAux2 = "entregado";
+                        prototiposAlpha[llave] = crearObjeto(Array.from(input).slice(1, input.length));
+                        break;
+
+                    case "Prototipo Beta":
+                        cadenaAux1 = `El prototipo beta del equipo ${llave}`; cadenaAux2 = "entregado";
+                        prototiposBeta[llave] = crearObjeto(Array.from(input).slice(1, input.length));
+                        break;
+                }
                 break;
 
             case "Retroalimentacion":
                 cadenaAux1 = `La retroalimentación del prototipo Alpha del equipo ${input[0].value}`; cadenaAux2 = "almacenada"
                 retroalimentaciones[input[0].value] = crearObjeto(input);
-                break;
-
-            case "PrototipoBeta":
-                cadenaAux1 = `El prototipo Beta del equipo ${llave}`; cadenaAux2 = "almacenado"
-                prototipoBeta[llave] = crearObjeto(input);
                 break;
 
             case "Nota Rubrica Inicial":
@@ -2958,6 +2984,12 @@ var equipos = {
 
 var metodologiasDesarrollo = {};
 
+var informesIniciales = {};
+var informesProgreso = {};
+var informesFinales = {};
+var prototiposAlpha = {};
+var prototiposBeta = {};
+
 var rubricaInicial = {
     "1": { nota: 0, equipo: 1, criterios: { descripcion: 2, valoracion: 2, nota: 2 } },
 };
@@ -2974,17 +3006,11 @@ var rubricaBeta = {
     "1": { nota: 0, equipo: 1, criterios: { descripcion: 2, valoracion: 2, nota: 2 } },
 };
 
-var informesIniciales = {};
-var informesProgreso = {};
-var informesFinales = {};
-var prototipoAlpha = {};
-var prototipoBeta = {};
-
 var retroalimentaciones = {};
 
 window.addEventListener("load", inicializarPagina, false)
 
-// Existe un mínimo de estudiantes por equipo?-Máximo 6 minimo 1
+// Existe un mínimo de estudiantes por equipo?-Máximo 6 minimo 1 CAMBIAN LOS MENSAJES
 
 // Poner tabla de secciones debajo de codigo en califica
 
