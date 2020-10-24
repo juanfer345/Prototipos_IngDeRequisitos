@@ -2984,10 +2984,8 @@ var retroalimentaciones = {};
 
 window.addEventListener("load", inicializarPagina, false)
 
-// En conforma equipo solo aparecen las empresas que fueron agregadas a un proyecto
-
 // Existe un mínimo de estudiantes por equipo?-Máximo 6 minimo 1
 
-// Debería poderse ver medología de desarrollo en ver equipo?
-
 // Poner tabla de secciones debajo de codigo en califica
+
+// Cartera de proyectos cantidad es errónea
