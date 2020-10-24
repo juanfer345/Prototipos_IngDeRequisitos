@@ -557,10 +557,10 @@ function formularioRegistraEmpresa(input) {
             <label> Disponibilidad </label>
 
             <div class="radios">
-                <input type="radio" id="disponibilidad" name="disponibilidad" value="poca">
+                <input type="radio" id="disponibilidad" name="disponibilidad" value="Poca">
                 <label> Poca </label>
 
-                <input type="radio" id="disponibilidad" name="disponibilidad" value="mucha">
+                <input type="radio" id="disponibilidad" name="disponibilidad" value="Mucha">
                 <label> Mucha </label>
             </div>
         </div>
@@ -976,10 +976,10 @@ function formularioRegistraHistoria(input) {
             <label> Competencia </label>
 
             <div class="radios">
-                <input type="radio" id="competencia" name="competencia" value="tecnica">
+                <input type="radio" id="competencia" name="competencia" value="Técnica">
                 <label> Técnica </label>
 
-                <input type="radio" id="competencia" name="competencia" value="social">
+                <input type="radio" id="competencia" name="competencia" value="Social">
                 <label> Social </label>
             </div>
 
@@ -1028,7 +1028,7 @@ function formularioRegistraHistoria(input) {
                 document.querySelector("#datosAgregaAsig").querySelectorAll("input"));
         }
     );
-    document.getElementById("verHistoria").onclick = () => { verHistoria(event, "documento") };
+    document.getElementById("verHistoria").onclick = () => { verHistoria(event, "identificacion") };
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
@@ -1072,9 +1072,6 @@ function verHistoria(input, inputDocumento) {
             <label for="semestre"> Semestre </label>
             <input type="text" id="semestre" disabled>
 
-            <label for="rol"> Rol </label>
-            <input type="text" id="rol" disabled>
-
             <label for="competencia"> Competencia </label>
             <input type="text" id="competencia" disabled>
 
@@ -1093,6 +1090,10 @@ function verHistoria(input, inputDocumento) {
         <button id="cerrarForm2" type="button" class="botonCerrar"> Cerrar </button>
     `;
 
+    // Cambiando el número de columnas de la tabla (ya que por defecto son 2)
+    document.getElementById("titulosColumnasVer").style.gridTemplateColumns = "repeat(3, minmax(0, 1fr)";
+    document.getElementById("datosVerHistoria").style.gridTemplateColumns = "repeat(3, minmax(0, 1fr)";
+
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm2");
     mostracionFormulario(input, divform)
@@ -1103,17 +1104,19 @@ function verHistoria(input, inputDocumento) {
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
     document.getElementById("estudiante").addEventListener("change",
         () => {
-            actualizarCamposSelect("estudiante", "datosEstudiante", estudiantes, undefined, "nombre");
-            llenarTablaSelect(idEstudiante, "datosVerHistoria", estudiantes[idEstudiante].historia.asignaturas, "Historia");
+            var idEstudiante = estudiantes[document.getElementById("estudiante").value].identificacion;
+            
+            actualizarCamposSelect("estudiante", "datosEstudiante", estudiantes);
+            llenarTablaSelect(idEstudiante, "datosVerHistoria", estudiantes, "Historia");
 
             // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
             expansionTextAreaDisabled(document.querySelector("#datosEstudiante").querySelectorAll("textarea"));
         }
     );
-    actualizarCamposSelect("estudiante", "datosEstudiante", estudiantes, undefined, "nombre");
+    actualizarCamposSelect("estudiante", "datosEstudiante", estudiantes);
+    llenarTablaSelect(idEstudiante, "datosVerHistoria", estudiantes, "Historia");
 
     // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
-    llenarTablaSelect(idEstudiante, "datosVerHistoria", estudiantes[idEstudiante].historia.asignaturas, "Historia");
     expansionTextAreaDisabled(document.querySelector("#datosEstudiante").querySelectorAll("textarea"));
 }
 
@@ -2026,12 +2029,22 @@ function llenarTablaSelect(llave, nombreContenedorCampos, arreglo = undefined, c
 
             case "Historia":
 
-                for (var [key, value] of Object.entries(arreglo)) {
-                    acumulador += `
-                        <label> ${value.nombre} </label>
-                        <label> ${value.nota} </label>
-                        <label> ${value.semestre} </label>
-                    `;
+                if (llave == "") {
+                    llave = Object.keys(arreglo)[0];
+                }
+
+                if (arreglo[llave].historia != undefined) {
+
+                    var id = 1;
+                    for (var [key, value] of Object.entries(arreglo[llave].historia.asignaturasHist)) {
+
+                        acumulador += `
+                            <label> ${value["nombre_" + id]} </label>
+                            <label> ${value["nota_" + id]} </label>
+                            <label> ${value["semestre_" + id]} </label>
+                        `;
+                        id++;
+                    }
                 }
                 break;
 
@@ -2659,14 +2672,14 @@ var representantes = {
     "Santiago Bolaños": {
         celular: "3123044398",
         correo: "sbols@gmail.com",
-        disponibilidad: "mucha",
+        disponibilidad: "Mucha",
         nombre: "Santiago Bolaños",
         empresa: "Postobon"
     },
     "Juan Perez": {
         celular: "3023139870",
         correo: "perez.juan@gmail.com",
-        disponibilidad: "poca",
+        disponibilidad: "Poca",
         empresa: "EPM",
         nombre: "Juan Perez"
     }
@@ -2713,8 +2726,46 @@ var problemas = {
 };
 
 var retroalimentaciones = {};
-var historiasAcademicas = {};
-var estudiantes = {};
+
+var estudiantes = {
+    123: {
+        carrera: "Enfriación de Ladrillos",
+        celular: "456",
+        competencia: "Social",
+        correo: "elber@elber.com",
+        direccion: "Calle falsa 123",
+        historia: {
+            promedio: 3.5666666666666664,
+            asignaturasHist: {
+                nombre_1: { nombre_1: "Ladrillos I", nota_1: "2.3", semestre_1: "2015-I" },
+                nombre_2: { nombre_2: "Ladrillos II", nota_2: "3.4", semestre_2: "2016-III" },
+                nombre_3: { nombre_3: "Enfriación II", nota_3: "5", semestre_3: "2017" }
+            }
+        },
+        identificacion: "123",
+        nombre: "Elber Galarga",
+        semestre: "2020-III"
+    },
+    456: {
+        carrera: "Actuación Erotica",
+        celular: "89339",
+        competencia: "Técnica",
+        correo: "onlyfans.com/EstebitanBB",
+        direccion: "La vuelta negra",
+        historia: {
+            asignaturasHist: {
+                nombre_1: { nombre_1: "Poses I", nota_1: "5", semestre_1: "2013-I" },
+                nombre_2: { nombre_2: "Kamasutra IV", nota_2: "4.8", semestre_2: "2013-I" },
+                nombre_3: { nombre_3: "Perreo IX", nota_3: "9000", semestre_3: "2015-II" }
+            },
+            promedio: 3003.266666666667
+        },
+        identificacion: "456",
+        nombre: "Esteban Dido",
+        semestre: "el último"
+    }
+};
+
 var profesores = {
     "Carlos Lopez": {
         nombre: "Carlos Lopez", correo: "carlop@gmail.com", celular: "3173022932", direccion: "Cll 123A #12A-32", identificacion: "1"
