@@ -2261,7 +2261,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                 break;
 
             case "Clase":
-                cadenaAux1 = `La clase ${llave} de la asignatura ${input[2].value}`; cadenaAux2 = "diseñada"
+                cadenaAux1 = `La clase número ${input[2].value} de la asignatura ${input[0].value}`; cadenaAux2 = "diseñada"
                 clases[llave] = crearObjeto(input);
                 break;
 
