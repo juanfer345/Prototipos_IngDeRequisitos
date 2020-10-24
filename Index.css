@@ -49,18 +49,21 @@
 
 .radios {
 	display: grid;
-	grid-template-columns: repeat(4, minmax(0, 1fr));
-	align-items: center;
+	grid-template-columns: 0.21fr 1fr 0.21fr 1fr;
+    align-items: center;
 }
 
 .radios label {
 	margin: 0px;
+    text-align: left;
 }
 
 label {
 	width: auto;
 	font-size: 8px;
-	margin: 4.7px 2px;
+	margin: 4.8px 0px;
+    margin-right: 8px;
+    margin-left: 2px;
 }
 
 input, select, textarea {
@@ -116,6 +119,11 @@ select {
 	align-items: center;
 }
 
+.tituloTabla {
+	color: #05d1ff;
+	margin-top: 8px;
+}
+
 .tabla label {
 	font-size: 7px;
 	margin: 1px 0px;
@@ -138,10 +146,6 @@ select {
 	resize: none;
 }
 
-.tituloTabla {
-	color: #05d1ff;
-	margin-top: 8px;
-}
 
 .botones {
 	margin-top: 2px;

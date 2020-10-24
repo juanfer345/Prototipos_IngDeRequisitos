@@ -987,7 +987,7 @@ function formularioRegistraHistoria(input) {
 
         <h2 class='subtituloForm'> Historia Académica </h2>
 
-        <button id="agregarAsignatura" type="button" class="botonExtra"> Agregar Asignatura </button>
+        <button id="agregarAsignatura" type="button" class="botonAgregar"> Agregar Asignatura </button>
         
         <div id="titulosColumnas" class="tabla">
             <label class="tituloTabla"> Nombre </label>
@@ -1006,8 +1006,8 @@ function formularioRegistraHistoria(input) {
         </div>
     `;
     // Cambiando el número de columnas de la tabla (ya que por defecto son 2)
-    document.getElementById("titulosColumnas").style.gridTemplateColumns = "repeat(4, minmax(0, 1fr))";
-    document.getElementById("datosAgregaAsig").style.gridTemplateColumns = "repeat(4, minmax(0, 1fr))";
+    document.getElementById("titulosColumnas").style.gridTemplateColumns = "100px 30px 50px 70px";
+    document.getElementById("datosAgregaAsig").style.gridTemplateColumns = "100px 30px 50px 70px";
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm1");
@@ -1018,7 +1018,7 @@ function formularioRegistraHistoria(input) {
 
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     llenarBotonesExpansibles("agregarAsignatura", "datosAgregaAsig",
-        [["input", "nombre"], ["input", "nota"], ["input", "semestre"]], 4, "Remover Asignatura");
+        [["input", "nombre"], ["input", "nota"], ["input", "semestre"]], "100px 30px 50px 70px", "Remover Asignatura");
 
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
@@ -1103,14 +1103,14 @@ function verHistoria(input, inputDocumento) {
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
     document.getElementById("estudiante").addEventListener("change",
         () => {
-            actualizarCamposSelect("estudiante", "datosEmpresa", estudiantes, undefined, "nombre");
+            actualizarCamposSelect("estudiante", "datosEstudiante", estudiantes, undefined, "nombre");
             llenarTablaSelect(idEstudiante, "datosVerHistoria", estudiantes[idEstudiante].historia.asignaturas, "Historia");
 
             // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
             expansionTextAreaDisabled(document.querySelector("#datosEstudiante").querySelectorAll("textarea"));
         }
     );
-    actualizarCamposSelect("estudiante", "datosEmpresa", estudiantes, undefined, "nombre");
+    actualizarCamposSelect("estudiante", "datosEstudiante", estudiantes, undefined, "nombre");
 
     // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
     llenarTablaSelect(idEstudiante, "datosVerHistoria", estudiantes[idEstudiante].historia.asignaturas, "Historia");
@@ -2060,7 +2060,7 @@ function llenarBotonesExpansibles(idBotonDisparo, idDivContenido, arregloTipoInp
             var div = document.getElementById(idDivContenido);
             div.style.gridTemplateColumns = columnas;
 
-            // [[tipo input, prefijoID, objetoLista], ]
+            // [[tipo input, prefijoID, objetoLista]]
             var auxiliar = []
             arregloTipoInputs.forEach(
                 (input) => {
