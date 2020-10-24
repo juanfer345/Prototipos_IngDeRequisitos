@@ -1149,7 +1149,6 @@ function formularioConformaEquipo(input) {
         </div>
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
-
     document.getElementById("titulosColumnas").style.gridTemplateColumns = "100px 70px 70px";
 
     llenarBotonesExpansibles("agregarEstudiante", "datosAgregaEst", [["select", "estudiante", estudiantes]], "100px 70px 70px", "Remover Estudiante",
@@ -1162,22 +1161,16 @@ function formularioConformaEquipo(input) {
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
-            guardarDatos(document.querySelector("#datosEquipo").querySelectorAll("select"), "Equipo", undefined,
+            guardarDatos(document.querySelector("#datosEquipo").querySelectorAll("select, input"), "Equipo", undefined,
                 document.querySelector("#datosAgregaEst").querySelectorAll("select"));
         }
     );
-    document.getElementById("verEquipo").addEventListener("click", () => { verEquipo(event, "empresa") }, false);
+    document.getElementById("verEquipo").addEventListener("click", () => { verEquipo(event) }, false);
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
-function verEquipo(input, inputEmpresa) {
+function verEquipo(input) {
 
-    if (inputEmpresa != undefined) {
-        var idEquipo = document.getElementById(inputEmpresa).value;
-    }
-    else {
-        var idEquipo = "";
-    }
     // Obteniendo los valores preestablecidos para llenar el formulario
     const equiposHTML = obtenerDatosSelect("equipo", "Código", equipos);
 
@@ -1188,7 +1181,7 @@ function verEquipo(input, inputEmpresa) {
     
         <h2 class='subtituloForm'> Datos Equipo </h2>
 
-        <div id="datosEquipo" class="campos">
+        <div id="datosEquipoVer" class="campos">
 
             ${equiposHTML}
 
@@ -1211,6 +1204,8 @@ function verEquipo(input, inputEmpresa) {
         
         <button id="cerrarForm2" type="button" class="botonCerrar"> Cerrar </button>
     `;
+    document.getElementById("titulosColumnasVer").style.gridTemplateColumns = "1fr 1fr";
+    document.getElementById("datosVerIntegrantes").style.gridTemplateColumns = "1fr 1fr";
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm2");
@@ -1220,22 +1215,22 @@ function verEquipo(input, inputEmpresa) {
     document.getElementById("cerrarForm2").onclick = () => { divform.style.display = "none" };
 
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-    document.getElementById("empresa").addEventListener("change",
+    document.getElementById("equipo").addEventListener("change",
         () => {
-            var idEquipo = document.getElementById("empresa").value;
+            var idEquipo = document.getElementById("equipo").value;
 
-            actualizarCamposSelect("empresa", "datosEquipo", equipos);
-            llenarTablaSelect(idEquipo, "datosVerIntegrantes", equipos[idEquipo].estudiantes, "Equipo");
+            actualizarCamposSelect("equipo", "datosEquipoVer", equipos);
+            llenarTablaSelect(idEquipo, "datosVerIntegrantes", equipos, "Equipo");
 
             // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
-            expansionTextAreaDisabled(document.querySelector("#datosEquipo").querySelectorAll("textarea"));
+            expansionTextAreaDisabled(document.querySelector("#datosEquipoVer").querySelectorAll("textarea"));
         }
     );
-    actualizarCamposSelect("estudiante", "datosVerIntegrantes", estudiantes, undefined, "nombre");
-    llenarTablaSelect(idEquipo, "datosVerIntegrantes", equipos[idEquipo].estudiantes, "Equipo");
+    actualizarCamposSelect("equipo", "datosEquipoVer", equipos);
+    llenarTablaSelect(document.getElementById("equipo").value, "datosVerIntegrantes", equipos, "Equipo");
 
     // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
-    expansionTextAreaDisabled(document.querySelector("#datosEquipo").querySelectorAll("textarea"));
+    expansionTextAreaDisabled(document.querySelector("#datosEquipoVer").querySelectorAll("textarea"));
 }
 
 function formularioDefineMetodologia(input) {
@@ -2047,11 +2042,17 @@ function llenarTablaSelect(llave, nombreContenedorCampos, arreglo = undefined, c
 
             case "Equipo":
 
-                for (var [key, value] of Object.entries(arreglo)) {
+                if (llave == "") {
+                    llave = Object.keys(arreglo)[0];
+                }
+
+                for (var [key, value] of Object.entries(arreglo[llave].integrantes)) {
+
                     acumulador += `
-                        <label> ${value.nombre} </label>
-                        <label> ${value.identificacion} </label>
+                        <label> ${estudiantes[value].nombre} </label>
+                        <label> ${value} </label>
                     `;
+                    id++;
                 }
                 break;
         }
@@ -2208,13 +2209,25 @@ function obtenerDatosSelect(id, display, arreglo, seleccionado = "", atributoPor
 
 function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefined, AgregaConCondicion = undefined) {
 
-    var errorIngresoDatos = false; var condicionAlertacion = true; condicionPlural = false
+    var errorIngresoDatos = false; var condicionAlertacion = true; condicionPlural = false; var aparecenRadios = false; var conteoRadiosCheckeados = 0;
     var cadenaAux1, cadenaAux2, cadenaAux3;
 
     // Esto es para comprobar que se hallan enviado todos los datos
     input.forEach((valor) => {
-        if (valor.value == '') { errorIngresoDatos = true; }
+        if (valor.type != "radio") {
+            if (valor.value == '') { errorIngresoDatos = true; }
+        }
+        else {
+            aparecenRadios = true;
+            if (valor.checked == true) {
+                conteoRadiosCheckeados++;
+            }
+        }
     });
+
+    if (conteoRadiosCheckeados != 1 && aparecenRadios) {
+        errorIngresoDatos = true;
+    }
 
     if (NodeList.prototype.isPrototypeOf(nuevoAgrega)) {
         if (nuevoAgrega != undefined) {
@@ -2345,7 +2358,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
 
                         // Buscando estudiantes repetidos entre los equipos creados y los valores ingresados
                         for (var [key, value] of Object.entries(equipos)) {
-                            for (var value2 of Object.values(value)) {
+                            for (var value2 of Object.values(value.integrantes)) {
                                 if (Array.from(nuevoAgrega).find((estudianteNuevo) => estudianteNuevo.value == value2)) {
                                     estudianteRepetido = estudiantes[value2].nombre;
                                     equipoEstudianteRepetido = key;
@@ -2371,7 +2384,9 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                                 }
                             }
                             llave += ` ${nuevoNumero}`;
-                            [equipos[llave], cadenaAux1] = crearObjeto(nuevoAgrega, undefined, estudiantes, "nombre");
+                            equipos[llave]= {};
+                            equipos[llave]["cantidad"] = input[1].value;
+                            [equipos[llave]["integrantes"], cadenaAux1] = crearObjeto(nuevoAgrega, undefined, estudiantes, "nombre");
 
                             cadenaAux1 = `El equipo identificado con el código "${llave}" y compuesto por los estudiantes ${cadenaAux1}`;
                             cadenaAux2 = `conformado`
@@ -2379,7 +2394,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                         else {
                             errorIngresoDatos = true
                             cadenaAux1 = `Un estudiante no puede pertenecer a mas de un equipo a la vez, el estudiante ${estudianteRepetido} ya se encuentra ` +
-                                         `inscrito en el equipo ${equipoEstudianteRepetido}`;
+                                `inscrito en el equipo ${equipoEstudianteRepetido}`;
                         }
                     }
                     else {
@@ -2948,6 +2963,7 @@ window.addEventListener("load", inicializarPagina, false)
 // quitar entregables
 // Pasos y roles un solo string
 
+// Es paso o pasos?
 // En conforma equipo solo aparecen las empresas que fueron agregadas a un proyecto
 // No debería aparece la descripción del proyecto en la creación de equipos?
 // Existe un mínimo de estudiantes por equipo?
