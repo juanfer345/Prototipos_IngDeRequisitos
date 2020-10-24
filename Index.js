@@ -1345,7 +1345,7 @@ function formularioEntregaInforme(input, tipoInfProt) {
         }
         contenido += `
             <h2 class='subtituloForm'> Secciones </h2>
-            <button id="agregarSeccion" type="button" class="botonExtra"> Agregar Sección </button>
+            <button id="agregarSeccion" type="button" class="botonAgregar"> Agregar Sección </button>
             <div id="datosAgregaSecc" class="tabla"> </div>
         `
     }
@@ -1388,11 +1388,11 @@ function formularioEntregaInforme(input, tipoInfProt) {
 
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
-        llenarBotonesExpansibles("agregarSeccion", "datosAgregaSecc", "input", 2, "Remover Sección");
+        llenarBotonesExpansibles("agregarSeccion", "datosAgregaSecc", [["textarea", "seccion"]], "100px 70px", "Remover Seccion");
     }
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
-            guardarDatos(document.querySelector("#datosEntrega").querySelectorAll("select, input", "textarea"), "Entrega" + tipoInfProt);
+            guardarDatos(document.querySelector("#datosEntrega").querySelectorAll("select, input", "textarea"), "Entrega " + tipoInfProt);
         }
     );
 
@@ -1410,6 +1410,149 @@ function formularioEntregaInforme(input, tipoInfProt) {
         );
     }
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+}
+
+function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
+
+    // Parámetros que cambian dependiendo del tipo de informe y prototipo
+    var avanceIdea; var retroalimentacion;
+
+    switch (tipoInfProt) {
+        case "Informe Inicial":
+            avanceIdea = `<label for="idea"> Idea de Desarrollo </label>
+                          <input type="text" id="idea" disabled></input>`
+            var informePrototipo = informesIniciales;
+            var Criterios = criteriosInicial;
+            break;
+
+        case "Informe de Progreso":
+            avanceIdea = `<label for="avance"> Avance </label>
+                          <input type="text" id="avance" disabled></input>`
+            var informePrototipo = informesProgreso;
+            var Criterios = criteriosProgreso;
+            break;
+
+        case "Informe Final":
+            avanceIdea = `<label for="conclusion"> Conclusión </label>
+                          <input type="text" id="conclusion" disabled></input>`
+            var informePrototipo = informesFinales;
+            var Criterios = criteriosFinal;
+            break;
+
+        case "Prototipo Alpha":
+            retroalimentacion = `
+                    <label for="valoracion"> Valoración </label>
+                    <input type="text" id="valoracion" disabled></input>
+
+                    <label for="sugerencia"> Sugerencia </label>
+                    <input type="text" id="sugerencia" disabled></input>
+                    `
+            var informePrototipo = prototipoAlpha;
+            var Criterios = criteriosAlpha;
+            break;
+
+        case "Prototipo Beta":
+            retroalimentacion = ``
+            var informePrototipo = prototipoBeta;
+            var Criterios = criteriosBeta;
+            break;
+        default:
+            break;
+    }
+    var contenido
+    if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
+        contenido = `
+            <label for="tema"> Tema </label>
+            <input type="text" id="tema" disabled>
+            
+            <label for="secciones"> Secciones </label>
+            <input type="text" id="secciones" disabled>
+
+            ${avanceIdea}
+            
+            <label for="estado"> Estado </label>
+            <input type="text" id="estado" disabled>
+
+            <label for="rubrica"> Rúbrica </label>
+            <input type="text" id="rubrica" disabled>
+            
+            <label for="notaRubrica"> Nota de la Rubrica </label>
+            <input type="text" id="notaRubrica" disabled>
+            `
+    }
+    else {
+        contenido = `
+            <label for="link"> Link </label>
+            <input type="text" id="link" disabled>
+            
+            <label for="calidad"> Calidad </label>
+            <input type="text" id="calidad" disabled>
+
+            <label for="fecha"> Fecha de Entrega </label>
+            <input type="text" id="fecha" disabled>
+            
+            <label for="rubrica"> Rúbrica </label>
+            <input type="text" id="rubrica" disabled>
+
+            <label for="notaRubrica"> Nota de la Rubrica </label>
+            <input type="text" id="notaRubrica" disabled>
+
+            ${retroalimentacion}`
+    }
+
+    // Asignatura seleccionada antes de dar click a ver clases¿
+    var equipoSeleccionado = document.getElementById(IDequipoSeleccionado).value;
+
+    // Obteniendo los valores preestablecidos para llenar el formulario
+    const equiposHTML = obtenerDatosSelect("equipoVer", "Código Equipo", equipos, equipoSeleccionado);
+
+    // Llenando los datos del formulario
+    document.getElementById("barraForm2").innerHTML = `<h1 class='tituloForm'> Ver Calificación ${tipoInfProt}</h1>`
+
+    document.getElementById("Form2").innerHTML = `
+        <div id="datosVerCalificacion" class="campos">
+
+            ${equiposHTML}
+
+            ${contenido}
+
+            <label> Criterios de Evaluación </label>
+
+            <div id="columnas" class="titulosTabla">
+                <label> Nombre </label>
+                <label> Descripción </label>
+                <label> Valoración </label>
+                <label> Comentario </label>
+                <label> Nota </label>
+                <label> Peso </label>
+            </div>
+
+            <div id="datosCriteriosCalif" class="tabla"> </div>
+
+        </div>
+
+        <div>
+            <button id="cerrarForm2" type="button" class="botonCerrar"> Cerrar </button>
+        </div>
+    `;
+    document.getElementById("columnas").style.gridTemplateColumns = "20px 20px 20px 20px 20px 20px";
+    document.getElementById("datosCriteriosCalif").style.gridTemplateColumns = "20px 20px 20px 20px 20px 20px";
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm2");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("cerrarForm2").onclick = () => { divform.style.display = "none" };
+
+    // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
+    document.getElementById("equipoVer").addEventListener("change",
+        () => {
+            actualizarCamposSelect("equipoVer", "datosVerCalificacion", informePrototipo)
+            llenarTablaSelect(equipoSeleccionado, "datosCriteriosCalif", Criterios)
+        }, false);
+    actualizarCamposSelect("equipoVer", "datosVerCalificacion", informePrototipo)
+    llenarTablaSelect(equipoSeleccionado, "datosCriteriosCalif", Criterios, "criterios")
 }
 
 function formularioCalificaInforme(input, tipoInfProt) {
@@ -1697,149 +1840,6 @@ function formularioRealizaRetroalimentacion(input) {
 
 }
 
-function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
-
-    // Parámetros que cambian dependiendo del tipo de informe y prototipo
-    var avanceIdea; var retroalimentacion;
-
-    switch (tipoInfProt) {
-        case "Informe Inicial":
-            avanceIdea = `<label for="idea"> Idea de Desarrollo </label>
-                          <input type="text" id="idea" disabled></input>`
-            var informePrototipo = informesIniciales;
-            var Criterios = criteriosInicial;
-            break;
-
-        case "Informe de Progreso":
-            avanceIdea = `<label for="avance"> Avance </label>
-                          <input type="text" id="avance" disabled></input>`
-            var informePrototipo = informesProgreso;
-            var Criterios = criteriosProgreso;
-            break;
-
-        case "Informe Final":
-            avanceIdea = `<label for="conclusion"> Conclusión </label>
-                          <input type="text" id="conclusion" disabled></input>`
-            var informePrototipo = informesFinales;
-            var Criterios = criteriosFinal;
-            break;
-
-        case "Prototipo Alpha":
-            retroalimentacion = `
-                    <label for="valoracion"> Valoración </label>
-                    <input type="text" id="valoracion" disabled></input>
-
-                    <label for="sugerencia"> Sugerencia </label>
-                    <input type="text" id="sugerencia" disabled></input>
-                    `
-            var informePrototipo = prototipoAlpha;
-            var Criterios = criteriosAlpha;
-            break;
-
-        case "Prototipo Beta":
-            retroalimentacion = ``
-            var informePrototipo = prototipoBeta;
-            var Criterios = criteriosBeta;
-            break;
-        default:
-            break;
-    }
-    var contenido
-    if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
-        contenido = `
-            <label for="tema"> Tema </label>
-            <input type="text" id="tema" disabled>
-            
-            <label for="secciones"> Secciones </label>
-            <input type="text" id="secciones" disabled>
-
-            ${avanceIdea}
-            
-            <label for="estado"> Estado </label>
-            <input type="text" id="estado" disabled>
-
-            <label for="rubrica"> Rúbrica </label>
-            <input type="text" id="rubrica" disabled>
-            
-            <label for="notaRubrica"> Nota de la Rubrica </label>
-            <input type="text" id="notaRubrica" disabled>
-            `
-    }
-    else {
-        contenido = `
-            <label for="link"> Link </label>
-            <input type="text" id="link" disabled>
-            
-            <label for="calidad"> Calidad </label>
-            <input type="text" id="calidad" disabled>
-
-            <label for="fecha"> Fecha de Entrega </label>
-            <input type="text" id="fecha" disabled>
-            
-            <label for="rubrica"> Rúbrica </label>
-            <input type="text" id="rubrica" disabled>
-
-            <label for="notaRubrica"> Nota de la Rubrica </label>
-            <input type="text" id="notaRubrica" disabled>
-
-            ${retroalimentacion}`
-    }
-
-    // Asignatura seleccionada antes de dar click a ver clases¿
-    var equipoSeleccionado = document.getElementById(IDequipoSeleccionado).value;
-
-    // Obteniendo los valores preestablecidos para llenar el formulario
-    const equiposHTML = obtenerDatosSelect("equipoVer", "Código Equipo", equipos, equipoSeleccionado);
-
-    // Llenando los datos del formulario
-    document.getElementById("barraForm2").innerHTML = `<h1 class='tituloForm'> Ver Calificación ${tipoInfProt}</h1>`
-
-    document.getElementById("Form2").innerHTML = `
-        <div id="datosVerCalificacion" class="campos">
-
-            ${equiposHTML}
-
-            ${contenido}
-
-            <label> Criterios de Evaluación </label>
-
-            <div id="columnas" class="titulosTabla">
-                <label> Nombre </label>
-                <label> Descripción </label>
-                <label> Valoración </label>
-                <label> Comentario </label>
-                <label> Nota </label>
-                <label> Peso </label>
-            </div>
-
-            <div id="datosCriteriosCalif" class="tabla"> </div>
-
-        </div>
-
-        <div>
-            <button id="cerrarForm2" type="button" class="botonCerrar"> Cerrar </button>
-        </div>
-    `;
-    document.getElementById("columnas").style.gridTemplateColumns = "20px 20px 20px 20px 20px 20px";
-    document.getElementById("datosCriteriosCalif").style.gridTemplateColumns = "20px 20px 20px 20px 20px 20px";
-
-    // Mostrando el formulario y ubicándolo en la posición adecuada
-    var divform = document.getElementById("divForm2");
-    mostracionFormulario(input, divform)
-
-    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
-    document.getElementById("cerrarForm2").onclick = () => { divform.style.display = "none" };
-
-    // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-    document.getElementById("equipoVer").addEventListener("change",
-        () => {
-            actualizarCamposSelect("equipoVer", "datosVerCalificacion", informePrototipo)
-            llenarTablaSelect(equipoSeleccionado, "datosCriteriosCalif", Criterios)
-        }, false);
-    actualizarCamposSelect("equipoVer", "datosVerCalificacion", informePrototipo)
-    llenarTablaSelect(equipoSeleccionado, "datosCriteriosCalif", Criterios, "criterios")
-}
-
 function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, buscaAtributo = undefined, devuelveAtributo = undefined) {
 
     const llave = document.getElementById(nombreSelect).value;
@@ -2087,11 +2087,16 @@ function llenarBotonesExpansibles(idBotonDisparo, idDivContenido, arregloTipoInp
             arregloTipoInputs.forEach(
                 (input) => {
 
-                    if (input[0] == "input") {
-                        var campo = document.createElement("input");
-                        campo.setAttribute("type", input[2]);
+                    if (input[0] == "input" || input[0] == "textarea") {
+                        var campo = document.createElement(input[0]);
+                        if (input[0] == "input") { campo.setAttribute("type", input[2]); }
                         campo.setAttribute("id", input[1] + '_' + identificador);
                         div.appendChild(campo); auxiliar.push(campo);
+
+                        if (input[0] == "textarea") {
+                            // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+                            AsignacionExpansionTextArea(document.querySelector(`#${input[1]}_${identificador}`).querySelectorAll("textarea"));
+                        }
                     }
 
                     else if (input[0] == "select") {
