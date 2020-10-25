@@ -3036,7 +3036,7 @@ var problemas = {
 };
 
 var carteraDeProyectos = {
-    cantidadProyectos: 0,
+    cantidadProyectos: 1,
     proyectos: {
         EPM: {
             descripcionProyecto: "Está bien dificil loks",
@@ -3136,7 +3136,6 @@ var retroalimentaciones = {};
 
 window.addEventListener("load", inicializarPagina, false)
 
-// Existe un mínimo de estudiantes por equipo?-Máximo 6 minimo 1 CAMBIAN LOS MENSAJES
 // Cartera de proyectos cantidad es errónea
 // comprobar que criterios sumen 100% en define criterios
 // Cambiar fórmulas por imágenes
@@ -3144,3 +3143,4 @@ window.addEventListener("load", inicializarPagina, false)
 
 // Se añade metodología en ver equipo para evitar ambigüedad
 // peso en tablas tiene ahora simbolo porcentaje
+// Nuevo mensaje de máximo 6 integrantes al dar click en agregar estudiante
