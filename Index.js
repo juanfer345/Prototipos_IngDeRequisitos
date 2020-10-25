@@ -1186,13 +1186,13 @@ function verEquipo(input) {
 
         <div id="datosEquipoMetodologia" class="campos">
 
-            <label for="nombre"> Nombre </label>
+            <label for="nombre"> Nombre Metodología </label>
             <input type="text" id="nombre" disabled>
 
-            <label for="pasos"> Pasos </label>
+            <label for="pasos"> Pasos Metodología </label>
             <input type="text" id="pasos" disabled>
 
-            <label for="roles"> Roles </label>
+            <label for="roles"> Roles Metodología </label>
             <input type="text" id="roles" disabled>
         </div>
         
@@ -1553,7 +1553,11 @@ function verCalificacion(input, campoEquipoSelect, tipoInfProt) {
         }
     );
     actualizarCamposSelect("equipoVer", "datosVerCalificacion", informePrototipo);
-    if (informePrototipo[equipoSeleccionado] != undefined) { document.getElementById("nota").value = informePrototipo[equipoSeleccionado].rubrica.nota.toFixed(2); }
+    if (informePrototipo[equipoSeleccionado] != undefined) {
+        if (informePrototipo[equipoSeleccionado].rubrica != undefined) {
+            document.getElementById("nota").value = informePrototipo[equipoSeleccionado].rubrica.nota.toFixed(2);
+        }
+    }
     llenarTablaSelect(document.getElementById("equipoVer").value, "datosCriteriosVer", informePrototipo, "CriteriosVerCalifica", criterios);
 
     if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
@@ -1563,6 +1567,67 @@ function verCalificacion(input, campoEquipoSelect, tipoInfProt) {
     // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
     expansionTextAreaDisabled(document.querySelector("#datosVerCalificacion").querySelectorAll("textarea"));
     expansionTextAreaDisabled(document.querySelector("#datosCriteriosVer").querySelectorAll("textarea"));
+}
+
+function verRetroalimentacion(input, campoEquipoSelect) {
+
+    // Equipo seleccionado antes de dar click a ver calificación
+    var equipoSeleccionado = document.getElementById(campoEquipoSelect).value;
+
+    // Obteniendo los valores preestablecidos para llenar el formulario
+    const equiposHTML = obtenerDatosSelect("equipoVer", "Código Equipo", equipos, equipoSeleccionado);
+
+    // Llenando los datos del formulario
+    document.getElementById("barraForm2").innerHTML = "<h1 class='tituloForm'> Ver Retroalimentación </h1>"
+
+    document.getElementById("Form2").innerHTML = `
+        <div id="datosPrototipoAlpha" class="campos">
+
+            ${equiposHTML}
+
+            <label for="link"> Link </label>
+            <input type="text" id="link" disabled>
+            
+            <label for="fecha"> Fecha de Entrega </label>
+            <input type="text" id="fecha" disabled>
+
+            <label for="calidad"> Calidad </label>
+            <input type="text" id="calidad" disabled>
+            
+        </div>
+
+        <div id="datosRetroalimentacion" class="campos">
+
+            <label for="valoracion"> Valoración </label>
+            <textarea id="valoracion" disabled></textarea>
+
+            <label for="sugerencia"> Sugerencia </label>
+            <textarea id="sugerencia" disabled></textarea>
+
+        </div>
+
+        <button id="cerrarForm2" type="button" class="botonCerrar"> Cerrar </button>
+    `;
+    document.getElementById("datosPrototipoAlpha").style.gridTemplateColumns = "60px 150px";
+    document.getElementById("datosRetroalimentacion").style.gridTemplateColumns = "60px 150px";
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm2");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("cerrarForm2").onclick = () => { divform.style.display = "none" };
+    document.getElementById("equipo").addEventListener("change",
+        () => {
+            actualizarCamposSelect("equipo", "datosPrototipoAlpha", prototiposAlpha);
+            actualizarCamposSelect("equipo", "datosRetroalimentacion", retroalimentaciones);
+        }
+    );
+    actualizarCamposSelect("equipo", "datosPrototipoAlpha", prototiposAlpha);
+    actualizarCamposSelect("equipo", "datosRetroalimentacion", retroalimentaciones);
+
+    // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+    expansionTextAreaDisabled(document.querySelector("#datosRetroalimentacion").querySelectorAll("textarea"));
 }
 
 function formularioCalificaInforme(input, tipoInfProt) {
@@ -1763,7 +1828,7 @@ function formularioRealizaRetroalimentacion(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Realiza Retroalimentación </h1>"
 
     document.getElementById("Form1").innerHTML = `
-        <div id="datosPrototipoAlpha" class="campos">
+        <div id="datosRetroalimentacion" class="campos">
 
             ${equiposHTML}
 
@@ -1773,25 +1838,20 @@ function formularioRealizaRetroalimentacion(input) {
             <label for="calidad"> Calidad </label>
             <input type="text" id="calidad" disabled>
 
-            <label for="fechaEntrega"> Fecha de Entrega </label>
-            <input type="text" id="fechaEntrega" disabled>
-
-        </div>
-
-        <div id="datosRealizaRetro" class="campos">
+            <label for="fecha"> Fecha de Entrega </label>
+            <input type="text" id="fecha" disabled>
 
             <label for="valoracion"> Valoración </label>
-            <input type="text" id="valoracion">
+            <textarea id="valoracion"></textarea>
 
             <label for="sugerencia"> Sugerencia </label>
-            <input type="text" id="sugerencia">
+            <textarea id="sugerencia"></textarea>
 
         </div>
 
         <div class="botones">
             <button id="confirmarForm1" type="button" class="botonConfirmar"> Realizar </button>
             <button type="reset" class="botonBorrar"> Limpiar Campos </button>
-            
         </div>
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
@@ -1800,17 +1860,21 @@ function formularioRealizaRetroalimentacion(input) {
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
 
+    // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+    AsignacionExpansionTextArea(document.querySelector("#datosRetroalimentacion").querySelectorAll("textarea"));
+
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("equipo").addEventListener("change",
         () => {
-            actualizarCamposSelect("equipo", "datosPrototipoAlpha", equipos);
+            actualizarCamposSelect("equipo", "datosRetroalimentacion", prototiposAlpha);
         }
     );
-    actualizarCamposSelect("equipo", "datosPrototipoAlpha", equipos);
+    actualizarCamposSelect("equipo", "datosRetroalimentacion", prototiposAlpha);
 
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
-            guardarDatos(document.querySelector("#datosRealizaRetro").querySelectorAll("select, input"), "Retroalimentacion");
+            guardarDatos(document.querySelector("#datosRetroalimentacion").querySelectorAll("select, input"), "Retroalimentacion", undefined, undefined,
+                [false, false, false, false, true, true]);
         }
     );
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
@@ -1834,7 +1898,7 @@ function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, b
     if (llave != "") {
         if (buscaAtributo == undefined) {
             for (var [key, value] of Object.entries(arreglo)) {
-                if (llave == key) {
+                if (llave == key) {//ARREGLAR ESTO
                     for (var [key, value2] of Object.entries(value)) {
                         var element = Array.from(campos).find(
                             (campo) => {
@@ -2446,7 +2510,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                 if (casoMixto.split(" ")[0] == "Informe") {
                     if (nuevoAgrega.length == 0) {
                         errorIngresoDatos = true
-                        cadenaAux1 = "Debe agregarse mínimo una sección";
+                        cadenaAux1 = "Debe agregarse por lo menos una sección";
                         break;
                     }
                 }
@@ -2486,7 +2550,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
 
                 if (nuevoAgrega.length == 0) {
                     errorIngresoDatos = true
-                    cadenaAux1 = "Debe agregarse mínimo un criterio de evaluación";
+                    cadenaAux1 = "Debe agregarse por lo menos un criterio de evaluación";
                     break;
                 }
 
@@ -2538,7 +2602,13 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                 objeto[llave].rubrica = {}
                 objeto[llave].rubrica.criterios = {}
                 objeto[llave].rubrica.nota = notaRubrica;
-                objeto[llave].estado = input[0].value;
+
+                if (casoMixto.split(" ")[0] == "Informe") {
+                    objeto[llave].estado = input[0].value;
+                }
+                else {
+                    objeto[llave].calidad = input[0].value;
+                }
                 document.getElementById(input[1].id).value = notaRubrica.toFixed(2);
 
                 for (let index = 0; index < auxCriterios.length; index += 4) {
@@ -2547,8 +2617,8 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                 break;
 
             case "Retroalimentacion":
-                cadenaAux1 = `La retroalimentación del prototipo Alpha del equipo ${input[0].value}`; cadenaAux2 = "almacenada"
-                retroalimentaciones[input[0].value] = crearObjeto(input);
+                cadenaAux1 = `La retroalimentación del prototipo alpha del equipo ${llave}`; cadenaAux2 = "realizada"
+                retroalimentaciones[llave] = crearObjeto(input, AgregaConCondicion);
                 break;
         }
 
@@ -3080,3 +3150,5 @@ window.addEventListener("load", inicializarPagina, false)
 // peso en tablas tiene ahora simbolo porcentaje
 
 // comprobar que criterios sumen 100% en define criterios
+
+// Se añada metodología en ver equipo para evitar ambigüedad
