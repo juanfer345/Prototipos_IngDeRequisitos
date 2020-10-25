@@ -1381,7 +1381,7 @@ function formularioEntregaInforme(input, tipoInfProt) {
 
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
-        llenarBotonesExpansibles("agregarSeccion", "datosAgregaSecc", [["textarea", "seccion"]], "100px 70px", "Remover Seccion");
+        llenarBotonesExpansibles("agregarSeccion", "datosAgregaSecc", [["textarea", "seccion"]], "140px 70px", "Remover Seccion");
         document.getElementById("confirmarForm1").addEventListener("click",
             () => {
                 guardarDatos(document.querySelector("#datosEntrega").querySelectorAll("select, input, textarea"), "Entrega_" + tipoInfProt,
@@ -2149,75 +2149,84 @@ function llenarBotonesExpansibles(idBotonDisparo, idDivContenido, arregloTipoInp
     document.getElementById(idBotonDisparo).addEventListener("click",
         () => {
 
-            const identificador = indicesBotonesExpansibles(idDivContenido, arregloTipoInputs);
+            var condicionMaximo = false;
+            if (campoIncrementable != undefined) {
+                if (parseInt(document.getElementById(campoIncrementable).value) + 1 > 6) {
+                    condicionMaximo = true;
+                    alert("Se debe registrar un máximo de 6 estudiates por equipo");
+                }
+            }
+            if (!condicionMaximo) {
+                const identificador = indicesBotonesExpansibles(idDivContenido, arregloTipoInputs);
 
-            var div = document.getElementById(idDivContenido);
-            div.style.gridTemplateColumns = columnas;
+                var div = document.getElementById(idDivContenido);
+                div.style.gridTemplateColumns = columnas;
 
-            // [[tipo input, prefijoID, objetoLista]]
-            var auxiliar = []
-            arregloTipoInputs.forEach(
-                (input) => {
+                // [[tipo input, prefijoID, objetoLista]]
+                var auxiliar = []
+                arregloTipoInputs.forEach(
+                    (input) => {
 
-                    if (input[0] == "input" || input[0] == "textarea") {
-                        var campo = document.createElement(input[0]);
-                        if (input[0] == "input") { campo.setAttribute("type", input[2]); }
-                        campo.setAttribute("id", input[1] + '_' + identificador);
-                        div.appendChild(campo); auxiliar.push(campo);
+                        if (input[0] == "input" || input[0] == "textarea") {
+                            var campo = document.createElement(input[0]);
+                            if (input[0] == "input") { campo.setAttribute("type", input[2]); }
+                            campo.setAttribute("id", input[1] + '_' + identificador);
+                            div.appendChild(campo); auxiliar.push(campo);
 
-                        if (input[0] == "textarea") {
-                            // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
-                            AsignacionExpansionTextArea(document.querySelector(`#${idDivContenido}`).querySelectorAll("textarea"));
+                            if (input[0] == "textarea") {
+                                // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+                                AsignacionExpansionTextArea(document.querySelector(`#${idDivContenido}`).querySelectorAll("textarea"));
+                            }
+                        }
+
+                        else if (input[0] == "select") {
+                            var campo = document.createRange().createContextualFragment(obtenerDatosSelect(input[1] + '_' + identificador, "", input[2], undefined,
+                                "nombre"));
+                            div.appendChild(campo);
+                            auxiliar.push(document.querySelector(`#${input[1]}_${identificador}`));
                         }
                     }
+                );
 
-                    else if (input[0] == "select") {
-                        var campo = document.createRange().createContextualFragment(obtenerDatosSelect(input[1] + '_' + identificador, "", input[2], undefined,
-                            "nombre"));
-                        div.appendChild(campo);
-                        auxiliar.push(document.querySelector(`#${input[1]}_${identificador}`));
-                    }
+                if (nombreBotonExtra != undefined) {
+                    var botonExtra = document.createElement("button");
+                    botonExtra.setAttribute("type", "button");
+                    botonExtra.setAttribute("class", "botonExtraTabla");
+                    botonExtra.innerHTML = nombreBotonExtra;
+                    botonExtra.addEventListener("click",
+                        () => {
+                            funcionBotonExtra(event, auxiliar[0].value)
+                        }
+                    )
                 }
-            );
 
-            if (nombreBotonExtra != undefined) {
-                var botonExtra = document.createElement("button");
-                botonExtra.setAttribute("type", "button");
-                botonExtra.setAttribute("class", "botonExtraTabla");
-                botonExtra.innerHTML = nombreBotonExtra;
-                botonExtra.addEventListener("click",
+                var boton = document.createElement("button");
+                boton.setAttribute("type", "button");
+                boton.setAttribute("class", "botonRemover");
+                boton.innerHTML = nombreBotonRemover
+                boton.addEventListener("click",
                     () => {
-                        funcionBotonExtra(event, auxiliar[0].value)
+                        auxiliar.forEach((campo) => { campo.remove(); });
+                        if (nombreBotonExtra != undefined) { botonExtra.remove(); }
+                        boton.remove();
+
+                        const identificador = indicesBotonesExpansibles(idDivContenido, arregloTipoInputs);
+
+                        if (campoIncrementable != undefined) {
+                            document.getElementById(campoIncrementable).value = identificador - 1;
+                        }
                     }
                 )
-            }
-
-            var boton = document.createElement("button");
-            boton.setAttribute("type", "button");
-            boton.setAttribute("class", "botonRemover");
-            boton.innerHTML = nombreBotonRemover
-            boton.addEventListener("click",
-                () => {
-                    auxiliar.forEach((campo) => { campo.remove(); });
-                    if (nombreBotonExtra != undefined) { botonExtra.remove(); }
-                    boton.remove();
-
-                    const identificador = indicesBotonesExpansibles(idDivContenido, arregloTipoInputs);
-
-                    if (campoIncrementable != undefined) {
-                        document.getElementById(campoIncrementable).value = identificador - 1;
-                    }
+                if (nombreBotonExtra != undefined) {
+                    div.appendChild(botonExtra); div.appendChild(boton);
                 }
-            )
-            if (nombreBotonExtra != undefined) {
-                div.appendChild(botonExtra); div.appendChild(boton);
-            }
-            else {
-                div.appendChild(boton);
-            }
+                else {
+                    div.appendChild(boton);
+                }
 
-            if (campoIncrementable != undefined) {
-                document.getElementById(campoIncrementable).value = identificador;
+                if (campoIncrementable != undefined) {
+                    document.getElementById(campoIncrementable).value = identificador;
+                }
             }
         }
     );
