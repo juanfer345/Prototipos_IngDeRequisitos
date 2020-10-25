@@ -1838,9 +1838,6 @@ function formularioRealizaRetroalimentacion(input) {
             <label for="link"> Link </label>
             <input type="text" id="link" disabled>
             
-            <label for="calidad"> Calidad </label>
-            <input type="text" id="calidad" disabled>
-
             <label for="fecha"> Fecha de Entrega </label>
             <input type="text" id="fecha" disabled>
 
@@ -2384,14 +2381,16 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                         break;
                 }
 
-                objeto[llave] = crearObjeto(input);
-
-                var totalPeso = 0;
+                var totalPeso = parseFloat(input[3].value);
                 for (var value of Object.values(objeto)) {
-                    totalPeso += value.peso;
+                    totalPeso += parseFloat(value.peso);
                 }
                 if (totalPeso > 100) {
-                    alert(`Advertencia, la suma del peso de los criterios de evaluacón de la rubrica del ${input[0].value} supera el 100%`)
+                    cadenaAux1 = "La suma de los pesos de los criterios no puede pasar el 100%"
+                    errorIngresoDatos = true;
+                }
+                else{
+                    objeto[llave] = crearObjeto(input);
                 }
                 break;
 
