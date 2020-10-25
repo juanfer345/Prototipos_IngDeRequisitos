@@ -1395,12 +1395,7 @@ function formularioEntregaInforme(input, tipoInfProt) {
             }
         );
     }
-
-    document.getElementById("verCalificacion").addEventListener("click",
-        () => {
-            verCalificacion(event, "equipo", tipoInfProt)
-        }
-    );
+    document.getElementById("verCalificacion").addEventListener("click", () => { verCalificacion(event, "equipo", tipoInfProt) });
 
     if (tipoInfProt == "Prototipo Alpha") {
         document.getElementById("verRetroalimentacion").addEventListener("click",
@@ -1412,101 +1407,102 @@ function formularioEntregaInforme(input, tipoInfProt) {
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
-function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
+function verCalificacion(input, campoEquipoSelect, tipoInfProt) {
 
-    // Asignatura seleccionada antes de dar click a ver clases¿
-    var equipoSeleccionado = document.getElementById(IDequipoSeleccionado).value;
+    // Equipo seleccionado antes de dar click a ver calificación
+    var equipoSeleccionado = document.getElementById(campoEquipoSelect).value;
 
     // Obteniendo los valores preestablecidos para llenar el formulario
     const equiposHTML = obtenerDatosSelect("equipoVer", "Código Equipo", equipos, equipoSeleccionado);
 
     // Parámetros que cambian dependiendo del tipo de informe y prototipo
-    var avanceIdea;
+    var contenido; var informePrototipo; var criterios;
 
-    //     <div id="datosVerCalificacion" class="campos">
-
-    //     ${equiposHTML}
-
-    //     ${contenido}
-
-    // </div>
-
-    switch (tipoInfProt) {
-        case "Informe Inicial":
-            avanceIdea = `<label for="idea"> Idea de Desarrollo </label>
-                          <input type="text" id="idea" disabled></input>`
-            var informePrototipo = informesIniciales;
-            var Criterios = criteriosInicial;
-            break;
-
-        case "Informe de Progreso":
-            avanceIdea = `<label for="avance"> Avance </label>
-                          <input type="text" id="avance" disabled></input>`
-            var informePrototipo = informesProgreso;
-            var Criterios = criteriosProgreso;
-            break;
-
-        case "Informe Final":
-            avanceIdea = `<label for="conclusion"> Conclusión </label>
-                          <input type="text" id="conclusion" disabled></input>`
-            var informePrototipo = informesFinales;
-            var Criterios = criteriosFinal;
-            break;
-
-        case "Prototipo Alpha":
-            var informePrototipo = prototiposAlpha;
-            var Criterios = criteriosAlpha;
-            break;
-
-        case "Prototipo Beta":
-            var informePrototipo = prototiposBeta;
-            var Criterios = criteriosBeta;
-            break;
-        default:
-            break;
-    }
-    var contenido
     if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
-        contenido = `
-            <label for="tema"> Tema </label>
-            <input type="text" id="tema" disabled>
-            
-            <label for="secciones"> Secciones </label>
-            <input type="text" id="secciones" disabled>
 
-            ${avanceIdea}
-            
+        contenido = `
+         <div id="datosEquipos" class="campos">
+             ${equiposHTML}
+         </div>
+
+         <h2 class="subtituloForm"> Secciones </h2>
+         <div id="datosSeccionesVer" class="tabla"> </div>
+
+         <div id="datosVerCalificacion" class="campos">
+
+             <label for="tema"> Tema </label>
+             <textarea id="tema" disabled></textarea>
+     `
+        switch (tipoInfProt) {
+            case "Informe Inicial":
+                contenido += `
+                 <label for="idea"> Idea de Desarrollo </label>
+                 <textarea id="idea" disabled></textarea>
+             `
+                informePrototipo = informesIniciales;
+                criterios = criteriosInicial;
+                break;
+
+            case "Informe de Progreso":
+                contenido += `
+                 <label for="avance"> Avance </label>
+                 <textarea id="avance" disabled></textarea>
+             `
+                informePrototipo = informesProgreso;
+                criterios = criteriosProgreso;
+                break;
+
+            case "Informe Final":
+                contenido += `
+                 <label for="conclusion"> Conclusión </label>
+                 <textarea id="conclusion" disabled></textarea>
+             `
+                informePrototipo = informesFinales;
+                criterios = criteriosFinal;
+                break;
+        }
+        contenido += `
             <label for="estado"> Estado </label>
             <input type="text" id="estado" disabled>
-
-            <label for="notaRubrica"> Nota de la Rubrica </label>
-            <input type="text" id="notaRubrica" disabled>
-            `
+        </div>`
     }
     else {
         contenido = `
-            <label for="link"> Link </label>
-            <input type="text" id="link" disabled>
-            
-            <label for="calidad"> Calidad </label>
-            <input type="text" id="calidad" disabled>
+         <div id="datosVerCalificacion" class="campos">
+         
+             ${equiposHTML}
 
-            <label for="fecha"> Fecha de Entrega </label>
-            <input type="text" id="fecha" disabled>
-            
-            <label for="notaRubrica"> Nota de la Rubrica </label>
-            <input type="text" id="notaRubrica" disabled>
+             <label for="link"> Link </label>
+             <input type="url" id="link" disabled>
+
+             <label for="fecha"> Fecha de Entrega </label>
+             <input type="date" id="fecha" disabled>
+
+             <label for="calidad"> Calidad </label>
+             <input type="text" id="calidad" disabled>
+             
+         </div>
         `
+        if (tipoInfProt == "Prototipo Alpha") {
+            informePrototipo = prototiposAlpha;
+            criterios = criteriosAlpha;
+        } else {
+            informePrototipo = prototiposBeta;
+            criterios = criteriosBeta;
+        }
     }
 
-    // Llenando los datos del formulario
-    document.getElementById("barraForm2").innerHTML = `<h1 class='tituloForm'> Ver Calificación ${tipoInfProt}</h1>`
+    contenido += `
+        <h2 class='subtituloForm'> Rubrica ${tipoInfProt} </h2>
+        
+        <div id="datosCalificarRubrica" class="campos">
 
-    document.getElementById("Form2").innerHTML = `
+            <label for="nota"> Nota de la Rúbrica </label>
+            <input type="number" id="nota" min="0" disabled>
 
-        ${contenido}
+        </div>
 
-        <label> Criterios de Evaluación </label>
+        <h3 class="subsubtituloForm"> Criterios de Evaluación </h3>
 
         <div id="columnas" class="titulosTabla">
             <label> Nombre </label>
@@ -1514,18 +1510,23 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
             <label> Valoración </label>
             <label> Comentario </label>
             <label> Nota </label>
-            <label> Peso </label>
+            <label> Peso (%) </label>
         </div>
 
-        <div id="datosCriteriosCalif" class="tabla"> </div>
+        <div id="datosCriteriosVer" class="tablaCriterios"> </div>
 
-        <div>
-            <button id="cerrarForm2" type="button" class="botonCerrar"> Cerrar </button>
-        </div>
-    `;
+        <button id="cerrarForm2" type="button" class="botonCerrar"> Cerrar </button>
+    `
+    // Juntando los datos del formulario
+    document.getElementById("barraForm2").innerHTML = `<h1 class='tituloForm'> Ver Calificación ${tipoInfProt} </h1>`
+    document.getElementById("Form2").innerHTML = `${contenido}`;
 
-    document.getElementById("columnas").style.gridTemplateColumns = "1.5fr 2.3fr 1.2fr";
-    document.getElementById("datosCriteriosCalif").style.gridTemplateColumns = "1.5fr 2.3fr 1.2fr";
+    if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
+        document.getElementById("datosSeccionesVer").style.gridTemplateColumns = "1fr";
+    }
+
+    document.getElementById("columnas").style.gridTemplateColumns = "60px 100px 70px 100px 30px 32px";
+    document.getElementById("datosCriteriosVer").style.gridTemplateColumns = "60px 100px 70px 100px 30px 32px";
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm2");
@@ -1535,13 +1536,33 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
     document.getElementById("cerrarForm2").onclick = () => { divform.style.display = "none" };
 
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-    document.getElementById("equipoVer").addEventListener("change",
+    document.getElementById("equipo").addEventListener("change",
         () => {
-            actualizarCamposSelect("equipoVer", "datosVerCalificacion", informePrototipo)
-            llenarTablaSelect(equipoSeleccionado, "datosCriteriosCalif", Criterios)
-        }, false);
-    actualizarCamposSelect("equipoVer", "datosVerCalificacion", informePrototipo)
-    llenarTablaSelect(equipoSeleccionado, "datosCriteriosCalif", Criterios, "criterios")
+
+            actualizarCamposSelect("equipoVer", "datosVerCalificacion", informePrototipo);
+            if (informePrototipo[equipoSeleccionado] != undefined) { document.getElementById("nota").value = informePrototipo[equipoSeleccionado].rubrica.nota.toFixed(2); }
+            llenarTablaSelect(document.getElementById("equipoVer").value, "datosCriteriosVer", informePrototipo, "CriteriosVerCalifica", criterios);
+
+            if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
+                llenarTablaSelect(document.getElementById("equipoVer").value, "datosSeccionesVer", informePrototipo, "Secciones");
+            }
+
+            // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+            expansionTextAreaDisabled(document.querySelector("#datosVerCalificacion").querySelectorAll("textarea"));
+            expansionTextAreaDisabled(document.querySelector("#datosCriteriosVer").querySelectorAll("textarea"));
+        }
+    );
+    actualizarCamposSelect("equipoVer", "datosVerCalificacion", informePrototipo);
+    if (informePrototipo[equipoSeleccionado] != undefined) { document.getElementById("nota").value = informePrototipo[equipoSeleccionado].rubrica.nota.toFixed(2); }
+    llenarTablaSelect(document.getElementById("equipoVer").value, "datosCriteriosVer", informePrototipo, "CriteriosVerCalifica", criterios);
+
+    if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
+        llenarTablaSelect(document.getElementById("equipoVer").value, "datosSeccionesVer", informePrototipo, "Secciones");
+    }
+
+    // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+    expansionTextAreaDisabled(document.querySelector("#datosVerCalificacion").querySelectorAll("textarea"));
+    expansionTextAreaDisabled(document.querySelector("#datosCriteriosVer").querySelectorAll("textarea"));
 }
 
 function formularioCalificaInforme(input, tipoInfProt) {
@@ -1783,16 +1804,16 @@ function formularioRealizaRetroalimentacion(input) {
     document.getElementById("equipo").addEventListener("change",
         () => {
             actualizarCamposSelect("equipo", "datosPrototipoAlpha", equipos);
-        }, false);
+        }
+    );
     actualizarCamposSelect("equipo", "datosPrototipoAlpha", equipos);
 
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
             guardarDatos(document.querySelector("#datosRealizaRetro").querySelectorAll("select, input"), "Retroalimentacion");
-        }, false);
-
+        }
+    );
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
-
 }
 
 function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, buscaAtributo = undefined, devuelveAtributo = undefined) {
@@ -1890,7 +1911,7 @@ function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, b
     }
 }
 
-function llenarTablaSelect(llave, nombreContenedorCampos, arreglo = undefined, caso) {
+function llenarTablaSelect(llave, nombreContenedorCampos, arreglo = undefined, caso, dobleObjeto = undefined) {
 
     var acumulador = "";
 
@@ -2000,6 +2021,33 @@ function llenarTablaSelect(llave, nombreContenedorCampos, arreglo = undefined, c
                         <label> ${value} </label>
                     `;
                     id++;
+                }
+                break;
+
+            case "CriteriosVerCalifica":
+
+                var auxA = []; var cantidadCriterios = 0;
+                for (var value of Object.values(dobleObjeto)) {
+                    cantidadCriterios++;
+                    auxA.push(`<label> ${value.nombre} </label>`);
+                    auxA.push(`<textarea disabled>${value.descripcion}</textarea>`);
+                    auxA.push(`<label> ${value.peso} </label>`)
+                }
+
+                if (arreglo[llave].rubrica != undefined) {
+                    var auxB = [];
+                    for (var value of Object.values(arreglo[llave].rubrica.criterios)) {
+                        auxB.push(`<textarea disabled>${value.valoracion}</textarea>`);
+                        auxB.push(`<textarea disabled>${value.comentario}</textarea>`);
+                        auxB.push(`<label> ${value.nota} </label>`)
+                    }
+                    for (let index = 0; index < cantidadCriterios; index++) {
+                        acumulador += `${auxA[index * 3]} ${auxA[(index * 3) + 1]} ${auxB[index * 3]} ${auxB[(index * 3) + 1]} ${auxB[(index * 3) + 2]} ${auxA[(index * 3) + 2]}`;
+                    }
+                } else {
+                    for (let index = 0; index < cantidadCriterios; index++) {
+                        acumulador += `${auxA[index * 3]} ${auxA[(index * 3) + 1]} <label> ${" "} </label> <label> ${" "} </label> <label> ${" "} </label> ${auxA[(index * 3) + 2]}`;
+                    }
                 }
                 break;
 
@@ -2490,7 +2538,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                 objeto[llave].rubrica = {}
                 objeto[llave].rubrica.criterios = {}
                 objeto[llave].rubrica.nota = notaRubrica;
-                objeto[llave].rubrica.estado = input[0].value;
+                objeto[llave].estado = input[0].value;
                 document.getElementById(input[1].id).value = notaRubrica.toFixed(2);
 
                 for (let index = 0; index < auxCriterios.length; index += 4) {
@@ -2996,6 +3044,7 @@ var informesIniciales = {
             seccion_5: "Conclusiones"
         },
         tema: "La Represa Hidroituango",
+        estado: "Incompleto",
 
         rubrica: {
             criterios: {
@@ -3010,7 +3059,6 @@ var informesIniciales = {
                     valoracion: "malo"
                 }
             },
-            estado: "Incompleto",
             nota: 3.8689999999999998
         }
     }
@@ -3026,8 +3074,6 @@ var retroalimentaciones = {};
 window.addEventListener("load", inicializarPagina, false)
 
 // Existe un mínimo de estudiantes por equipo?-Máximo 6 minimo 1 CAMBIAN LOS MENSAJES
-
-// Poner tabla de secciones debajo de codigo en califica
 
 // Cartera de proyectos cantidad es errónea
 
