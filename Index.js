@@ -477,7 +477,7 @@ function verCriterios(input, selectRubrica) {
         <div id="columnas" class="titulosTabla">
             <label> Nombre </label>
             <label> Descripción </label>
-            <label> Peso </label>
+            <label> Peso (%) </label>
         </div>
 
         <div id="datosCriteriosVer" class="tabla"> </div>
@@ -858,17 +858,10 @@ function agregarProyecto(input) {
         
         <div class="botones">
             <button id="confirmarForm2" type="button" class="botonExtra"> Agregar Proyecto </button>
-            <button id="reset" type="button" class="botonBorrar"> Limpiar Campos </button>
+            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
         </div>
         <button id="cerrarForm2" type="button" class="botonCerrar"> Cerrar </button>
     `;
-
-    // Borrado especial cuando hay campos editables y no editables
-    document.getElementById("reset").addEventListener("click",
-        () => {
-            document.getElementById("descripcion").value = "";
-        }
-    );
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm2");
@@ -1263,10 +1256,10 @@ function formularioDefineMetodologia(input) {
             <input type="text" id="nombre">
             
             <label for="pasos"> Pasos </label>
-            <input type="text" id="pasos">
+            <textarea id="pasos"></textarea>
 
-            <label for="roles"> Roles </label>         
-            <input type="text" id="roles">
+            <label for="roles"> Roles </label>
+            <textarea id="roles"></textarea>
 
         </div>
 
@@ -1281,6 +1274,9 @@ function formularioDefineMetodologia(input) {
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
 
+    // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+    AsignacionExpansionTextArea(document.querySelector("#datosMetodologia").querySelectorAll("textarea"));
+
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
@@ -1293,7 +1289,7 @@ function formularioDefineMetodologia(input) {
 function formularioEntregaInforme(input, tipoInfProt) {
 
     // Parámetros que cambian dependiendo del tipo de informe y prototipo
-    var contenido; var informePrototipo;
+    var contenido;
 
     var botones = `
         <div class="botones">
@@ -1322,7 +1318,6 @@ function formularioEntregaInforme(input, tipoInfProt) {
                         <textarea id="idea"></textarea>
                     </div>
                 `
-                informePrototipo = informesIniciales;
                 break;
 
             case "Informe de Progreso":
@@ -1331,7 +1326,6 @@ function formularioEntregaInforme(input, tipoInfProt) {
                         <textarea id="avance"></textarea>
                     </div>
                 `
-                informePrototipo = informesProgreso;
                 break;
 
             case "Informe Final":
@@ -1340,7 +1334,6 @@ function formularioEntregaInforme(input, tipoInfProt) {
                         <textarea id="conclusion"></textarea>
                     </div>
                 `
-                informePrototipo = informesFinales;
                 break;
         }
         contenido += `
@@ -1421,8 +1414,22 @@ function formularioEntregaInforme(input, tipoInfProt) {
 
 function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
 
+    // Asignatura seleccionada antes de dar click a ver clases¿
+    var equipoSeleccionado = document.getElementById(IDequipoSeleccionado).value;
+
+    // Obteniendo los valores preestablecidos para llenar el formulario
+    const equiposHTML = obtenerDatosSelect("equipoVer", "Código Equipo", equipos, equipoSeleccionado);
+
     // Parámetros que cambian dependiendo del tipo de informe y prototipo
-    var avanceIdea; var retroalimentacion;
+    var avanceIdea;
+
+    //     <div id="datosVerCalificacion" class="campos">
+
+    //     ${equiposHTML}
+
+    //     ${contenido}
+
+    // </div>
 
     switch (tipoInfProt) {
         case "Informe Inicial":
@@ -1447,20 +1454,12 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
             break;
 
         case "Prototipo Alpha":
-            retroalimentacion = `
-                    <label for="valoracion"> Valoración </label>
-                    <input type="text" id="valoracion" disabled></input>
-
-                    <label for="sugerencia"> Sugerencia </label>
-                    <input type="text" id="sugerencia" disabled></input>
-                    `
-            var informePrototipo = prototipoAlpha;
+            var informePrototipo = prototiposAlpha;
             var Criterios = criteriosAlpha;
             break;
 
         case "Prototipo Beta":
-            retroalimentacion = ``
-            var informePrototipo = prototipoBeta;
+            var informePrototipo = prototiposBeta;
             var Criterios = criteriosBeta;
             break;
         default:
@@ -1480,9 +1479,6 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
             <label for="estado"> Estado </label>
             <input type="text" id="estado" disabled>
 
-            <label for="rubrica"> Rúbrica </label>
-            <input type="text" id="rubrica" disabled>
-            
             <label for="notaRubrica"> Nota de la Rubrica </label>
             <input type="text" id="notaRubrica" disabled>
             `
@@ -1498,52 +1494,38 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
             <label for="fecha"> Fecha de Entrega </label>
             <input type="text" id="fecha" disabled>
             
-            <label for="rubrica"> Rúbrica </label>
-            <input type="text" id="rubrica" disabled>
-
             <label for="notaRubrica"> Nota de la Rubrica </label>
             <input type="text" id="notaRubrica" disabled>
-
-            ${retroalimentacion}`
+        `
     }
-
-    // Asignatura seleccionada antes de dar click a ver clases¿
-    var equipoSeleccionado = document.getElementById(IDequipoSeleccionado).value;
-
-    // Obteniendo los valores preestablecidos para llenar el formulario
-    const equiposHTML = obtenerDatosSelect("equipoVer", "Código Equipo", equipos, equipoSeleccionado);
 
     // Llenando los datos del formulario
     document.getElementById("barraForm2").innerHTML = `<h1 class='tituloForm'> Ver Calificación ${tipoInfProt}</h1>`
 
     document.getElementById("Form2").innerHTML = `
-        <div id="datosVerCalificacion" class="campos">
 
-            ${equiposHTML}
+        ${contenido}
 
-            ${contenido}
+        <label> Criterios de Evaluación </label>
 
-            <label> Criterios de Evaluación </label>
-
-            <div id="columnas" class="titulosTabla">
-                <label> Nombre </label>
-                <label> Descripción </label>
-                <label> Valoración </label>
-                <label> Comentario </label>
-                <label> Nota </label>
-                <label> Peso </label>
-            </div>
-
-            <div id="datosCriteriosCalif" class="tabla"> </div>
-
+        <div id="columnas" class="titulosTabla">
+            <label> Nombre </label>
+            <label> Descripción </label>
+            <label> Valoración </label>
+            <label> Comentario </label>
+            <label> Nota </label>
+            <label> Peso </label>
         </div>
+
+        <div id="datosCriteriosCalif" class="tabla"> </div>
 
         <div>
             <button id="cerrarForm2" type="button" class="botonCerrar"> Cerrar </button>
         </div>
     `;
-    document.getElementById("columnas").style.gridTemplateColumns = "20px 20px 20px 20px 20px 20px";
-    document.getElementById("datosCriteriosCalif").style.gridTemplateColumns = "20px 20px 20px 20px 20px 20px";
+
+    document.getElementById("columnas").style.gridTemplateColumns = "1.5fr 2.3fr 1.2fr";
+    document.getElementById("datosCriteriosCalif").style.gridTemplateColumns = "1.5fr 2.3fr 1.2fr";
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm2");
@@ -1565,19 +1547,24 @@ function verCalificacion(input, IDequipoSeleccionado, tipoInfProt) {
 function formularioCalificaInforme(input, tipoInfProt) {
 
     // Parámetros que cambian dependiendo del tipo de informe y prototipo
-    var contenido; var informePrototipo;
+    var contenido; var informePrototipo; var criterios;
 
     // Obteniendo los valores preestablecidos para llenar el formulario
     const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
-    const estadosHTML = obtenerDatosSelect("estado", "Estado", { Completo: {}, Incompleto: {} }, "Incompleto");
+    const estadosHTML = obtenerDatosSelect("estado", "Estado", { Incompleto: {}, Completo: {} });
     const calidadHTML = obtenerDatosSelect("calidad", "Calidad", { Baja: {}, Media: {}, Alta: {} });
 
     if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
 
         contenido = `
-            <div id="datosCalifica" class="campos">
-            
+            <div id="datosEquipos" class="campos">
                 ${equiposHTML}
+            </div>
+
+            <h2 class="subtituloForm" style="margin-top: 5px;"> Secciones </h2>
+            <div id="datosSecciones" class="tabla"> </div>
+
+            <div id="datosCalifica" class="campos">
 
                 <label for="tema"> Tema </label>
                 <textarea id="tema" disabled></textarea>
@@ -1589,6 +1576,7 @@ function formularioCalificaInforme(input, tipoInfProt) {
                     <textarea id="idea" disabled></textarea>
                 `
                 informePrototipo = informesIniciales;
+                criterios = criteriosInicial;
                 break;
 
             case "Informe de Progreso":
@@ -1597,6 +1585,7 @@ function formularioCalificaInforme(input, tipoInfProt) {
                     <textarea id="avance" disabled></textarea>
                 `
                 informePrototipo = informesProgreso;
+                criterios = criteriosProgreso;
                 break;
 
             case "Informe Final":
@@ -1605,19 +1594,12 @@ function formularioCalificaInforme(input, tipoInfProt) {
                     <textarea id="conclusion" disabled></textarea>
                 `
                 informePrototipo = informesFinales;
+                criterios = criteriosFinal;
                 break;
         }
 
-        contenido += `${estadosHTML}</div>`
+        contenido += `${estadosHTML} </div>`
 
-        var botones = `
-            <div class="botones">
-                <button id="confirmarForm1" type="button" class="botonConfirmar"> Calificar </button>
-                <button type="reset" class="botonBorrar"> Limpiar Campos </button>
-                <button id="verSecciones" type="button" class="botonExtra"> Ver Secciones </button>
-                <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
-            </div>
-        `
     }
     else {
         contenido = `
@@ -1626,22 +1608,22 @@ function formularioCalificaInforme(input, tipoInfProt) {
                 ${equiposHTML}
 
                 <label for="link"> Link </label>
-                <input type="url" id="link">
+                <input type="url" id="link" disabled>
 
                 <label for="fecha"> Fecha de Entrega </label>
-                <input type="date" id="fecha">
+                <input type="date" id="fecha" disabled>
 
                 ${calidadHTML}
                 
             </div>
         `
-        var botones = `
-            <div class="botones">
-                <button id="confirmarForm1" type="button" class="botonConfirmar"> Calificar </button>
-                <button id="reset" type="button" class="botonBorrar"> Limpiar Campos </button>
-            </div>
-            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
-        `
+        if (tipoInfProt == "Prototipo Alpha") {
+            informePrototipo = prototiposAlpha;
+            criterios = criteriosAlpha;
+        } else {
+            informePrototipo = prototiposBeta;
+            criterios = criteriosBeta;
+        }
     }
 
     contenido += `
@@ -1650,11 +1632,11 @@ function formularioCalificaInforme(input, tipoInfProt) {
         <div id="datosCalificarRubrica" class="campos">
 
             <label for="nota"> Nota de la Rúbrica </label>
-            <input type="number" id="nota" min="0">
+            <input type="number" id="nota" min="0" value="0" disabled>
 
         </div>
 
-        <label class="subsubtituloForm"> Criterios de Evaluación </label>
+        <h3 class="subsubtituloForm"> Criterios de Evaluación </h3>
 
         <div id="columnas" class="titulosTabla">
             <label> Nombre </label>
@@ -1662,17 +1644,27 @@ function formularioCalificaInforme(input, tipoInfProt) {
             <label> Valoración </label>
             <label> Comentario </label>
             <label> Nota </label>
-            <label> Peso </label>
+            <label> Peso (%) </label>
         </div>
 
-        <div id="datosCriteriosEval" class="tabla"> </div>
-    `
+        <div id="datosCriteriosEval" class="tablaCriterios"> </div>
 
+        <div class="botones">
+            <button id="confirmarForm1" type="button" class="botonConfirmar"> Calificar </button>
+            <button id="reset" type="button" class="botonBorrar"> Limpiar Campos </button>
+        </div>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+    `
     // Juntando los datos del formulario
     document.getElementById("barraForm1").innerHTML = `<h1 class='tituloForm'> Califica ${tipoInfProt} </h1>`
-    document.getElementById("Form1").innerHTML = `${contenido} ${botones}`;
-    document.getElementById("columnas").style.gridTemplateColumns = "repeat(6, minmax(0, 1fr))";
-    document.getElementById("datosCriteriosEval").style.gridTemplateColumns = "repeat(6, minmax(0, 1fr))";
+    document.getElementById("Form1").innerHTML = `${contenido}`;
+
+    if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
+        document.getElementById("datosSecciones").style.gridTemplateColumns = "1fr";
+    }
+
+    document.getElementById("columnas").style.gridTemplateColumns = "60px 100px 70px 100px 30px 32px";
+    document.getElementById("datosCriteriosEval").style.gridTemplateColumns = "60px 100px 70px 100px 30px 32px";
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm1");
@@ -1681,109 +1673,65 @@ function formularioCalificaInforme(input, tipoInfProt) {
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
-            guardarDatos(document.querySelector("#datosCalifica").querySelectorAll("select, input", "textarea"), "Califica" + tipoInfProt);
+            if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
+                guardarDatos([document.getElementById("estado"), document.getElementById("nota")], "Califica_" + tipoInfProt,
+                    document.getElementById("equipo").value,
+                    document.querySelector("#datosCriteriosEval").querySelectorAll("input, textarea, label"));
+            } else {
+                guardarDatos([document.getElementById("calidad"), document.getElementById("nota")], "Califica_" + tipoInfProt,
+                    document.getElementById("equipo").value,
+                    document.querySelector("#datosCriteriosEval").querySelectorAll("input, textarea, label"));
+            }
         }
     );
     document.getElementById("reset").onclick =
         () => {
-            // FUNCION RESETEAR CONDICIONAL
+            if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
+                document.getElementById("estado").value = "Incompleto";
+            }
+            else {
+                document.getElementById("calidad").value = "Baja";
+            }
+
+            document.getElementById("nota").value = "";
+
+            Array.from(document.querySelector("#datosCriteriosEval").querySelectorAll("input, textarea")).forEach(
+                (campo) => { if (campo.disabled == false) { campo.value = ""; } }
+            )
         };
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
     document.getElementById("equipo").addEventListener("change",
         () => {
-            actualizarCamposSelect("equipo", "datosVerCalificacion", informesIniciales);
-            llenarTablaSelect("none", "datosCriteriosEval", criteriosInicial, "Criterios llenar");
+            actualizarCamposSelect("equipo", "datosCalifica", informePrototipo);
+            llenarTablaSelect(document.getElementById("equipo").value, "datosCriteriosEval", criterios, "CriteriosCalifica")
+
+            if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
+                llenarTablaSelect(document.getElementById("equipo").value, "datosSecciones", informePrototipo, "Secciones")
+            }
+
+            // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+            expansionTextAreaDisabled(document.querySelector("#datosCalifica").querySelectorAll("textarea"));
+            expansionTextAreaDisabled(document.querySelector("#datosCriteriosEval").querySelectorAll("textarea"));
+
+            // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+            AsignacionExpansionTextArea(document.querySelector("#datosCriteriosEval").querySelectorAll("textarea"));
         }
     );
-    actualizarCamposSelect("equipo", "datosVerCalificacion", informesIniciales);
-    llenarTablaSelect("none", "datosCriteriosEval", criteriosInicial, "Criterios llenar")
+    actualizarCamposSelect("equipo", "datosCalifica", informePrototipo);
+    llenarTablaSelect(document.getElementById("equipo").value, "datosCriteriosEval", criterios, "CriteriosCalifica")
+
+    if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
+        llenarTablaSelect(document.getElementById("equipo").value, "datosSecciones", informePrototipo, "Secciones")
+    }
 
     // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
-    expansionTextAreaDisabled(document.querySelector("#datosVerProyecto").querySelectorAll("textarea"));
-}
+    expansionTextAreaDisabled(document.querySelector("#datosCalifica").querySelectorAll("textarea"));
+    expansionTextAreaDisabled(document.querySelector("#datosCriteriosEval").querySelectorAll("textarea"));
 
-function verSecciones(input, SelectEquipo) {
-
-    // Obteniendo los valores preestablecidos para llenar el formulario
-    const equiposHTML = obtenerDatosSelect("equipoVer", "Código Equipo", equipos);
-    const estadoHTML = obtenerDatosSelect("estadoVer", "Estado", { Completo: {}, Incompleto: {} }, "Incompleto");
-
-    // Llenando los datos del formulario
-    document.getElementById("barraForm1").innerHTML = `<h1 class='tituloForm'> Califica Informe Inicial </h1>`
-
-    document.getElementById("Form1").innerHTML = `
-        <div id="datosVerCalificacion" class="campos">
-
-            ${equiposHTML}
-            
-            <label for="tema"> Tema </label>
-            <input type="text" id="tema" disabled>
-            
-            <label for="secciones"> Secciones </label>
-            <input type="text" id="secciones" disabled>
-
-            <label for="idea"> Idea de Desarrollo </label>
-            <input type="text" id="idea" disabled>
-
-            ${estadoHTML}
-
-        </div>
-
-        <h2 class='subtituloForm'> Rúbrica Informe Inicial </h2>
-
-        <div id="datosCalificarRubrica" class="campos">
-
-            <label for="nota"> Nota de la Rúbrica </label>
-            <input type="text" id="nota">
-
-        </div>
-
-        <label> Criterios de Evaluación </label>
-
-        <div id="columnas" class="titulosTabla">
-            <label> Nombre </label>
-            <label> Descripción </label>
-            <label> Valoración </label>
-            <label> Comentario </label>
-            <label> Nota </label>
-            <label> Peso </label>
-        </div>
-
-        <div id="datosCriteriosEval" class="tabla"> </div>
-
-        <div class="botones">
-            <button id="confirmarForm1" type="button" class="botonConfirmar"> Calificar </button>
-            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
-        </div>
-        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
-    `;
-    document.getElementById("columnas").style.gridTemplateColumns = "repeat(6, minmax(0, 1fr))";
-    document.getElementById("datosCriteriosEval").style.gridTemplateColumns = "repeat(6, minmax(0, 1fr))";
-
-    // Obteniendo el equipo seleccionado
-    equipoSeleccionado = document.getElementById("equipoVer").value
-
-    // Mostrando el formulario y ubicándolo en la posición adecuada
-    var divform = document.getElementById("divForm1");
-    mostracionFormulario(input, divform)
-
-    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
-    document.getElementById("confirmarForm1").addEventListener("click",
-        () => {
-            guardarDatos(document.getElementById("nota"), "Nota Rubrica Inicial");
-        }, false);
-    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
-
-    // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-    document.getElementById("equipoVer").addEventListener("change",
-        () => {
-            actualizarCamposSelect("equipoVer", "datosVerCalificacion", informesIniciales);
-            llenarTablaSelect(equipoSeleccionado, "datosCriteriosEval", criteriosInicial, "Criterios llenar");
-        }, false);
-    actualizarCamposSelect("equipoVer", "datosVerCalificacion", informesIniciales);
-    llenarTablaSelect(equipoSeleccionado, "datosCriteriosEval", criteriosInicial, "Criterios llenar")
+    // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+    AsignacionExpansionTextArea(document.querySelector("#datosCriteriosEval").querySelectorAll("textarea"));
 }
 
 function formularioRealizaRetroalimentacion(input) {
@@ -1824,7 +1772,7 @@ function formularioRealizaRetroalimentacion(input) {
             <button type="reset" class="botonBorrar"> Limpiar Campos </button>
             
         </div>
-            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
@@ -2018,25 +1966,6 @@ function llenarTablaSelect(llave, nombreContenedorCampos, arreglo = undefined, c
                 }
                 break;
 
-            case "Criterios llenar":
-
-                if (llave == "") {
-                    llave = arreglo[Object.keys(arreglo)[0]].equipo;
-                }
-                for (var [key, value] of Object.entries(arreglo)) {
-                    if (value.equipo == llave) {
-                        acumulador += `
-                            <label> ${value.nombre} </label>
-                            <label> ${value.descripcion} </label>
-                            <input type="text" id="valoracion_${value.nombre}">
-                            <input type="text" id="comentario_${value.nombre}">
-                            <input type="number" id="nota_${value.nombre}">
-                            <label> ${value.peso} </label>
-                        `;
-                    }
-                }
-                break;
-
             case "Historia":
 
                 if (llave == "") {
@@ -2071,6 +2000,30 @@ function llenarTablaSelect(llave, nombreContenedorCampos, arreglo = undefined, c
                         <label> ${value} </label>
                     `;
                     id++;
+                }
+                break;
+
+            case "CriteriosCalifica":
+
+                for (var value of Object.values(arreglo)) {
+                    acumulador += `
+                        <label> ${value.nombre} </label>
+                        <textarea disabled>${value.descripcion}</textarea>
+                        <input type="text" id="valoracion">
+                        <textarea id="comentario"></textarea>
+                        <input type="number" id="nota">
+                        <label> ${value.peso} </label>
+                    `;
+                }
+                break;
+
+            case "Secciones":
+
+                if (llave == "") {
+                    llave = arreglo[Object.keys(arreglo)[0]];
+                }
+                for (var value of Object.values(arreglo[llave].secciones)) {
+                    acumulador += `<label> ${value} </label>`;
                 }
                 break;
         }
@@ -2253,7 +2206,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
         errorIngresoDatos = true;
     }
 
-    if (NodeList.prototype.isPrototypeOf(nuevoAgrega)) {
+    if (NodeList.prototype.isPrototypeOf(nuevoAgrega) || Array.isArray(nuevoAgrega)) {
         if (nuevoAgrega != undefined) {
             nuevoAgrega.forEach((valor) => {
                 if (valor.value == '') { errorIngresoDatos = true; }
@@ -2464,7 +2417,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                         break;
 
                     case "Informe Final":
-                        cadenaAux1 = `El informe de progreso del equipo ${llave}`; cadenaAux2 = "entregado";
+                        cadenaAux1 = `El informe final del equipo ${llave}`; cadenaAux2 = "entregado";
                         informesFinales[llave] = crearObjeto(Array.from(input).slice(1, input.length));
                         informesProgreso[llave].secciones = crearObjeto(nuevoAgrega);
                         break;
@@ -2481,26 +2434,73 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                 }
                 break;
 
+            case "Califica":
+
+                if (nuevoAgrega.length == 0) {
+                    errorIngresoDatos = true
+                    cadenaAux1 = "Debe agregarse mínimo un criterio de evaluación";
+                    break;
+                }
+
+                // Separando los elementos relevantes de la tabla de los criterios de evaluación
+                var auxCriterios = []; var separaCriterios = 0; var notaRubrica = 0;
+
+                for (let index = 0; index < nuevoAgrega.length - 1; index++) {
+                    if (separaCriterios != 1 && separaCriterios != 5) {
+                        auxCriterios.push(nuevoAgrega[index]);
+                    }
+                    if (separaCriterios == 4) {
+                        notaRubrica += parseFloat(nuevoAgrega[index].value) * parseFloat(nuevoAgrega[index + 1].innerText) / 100;
+                    }
+                    if (separaCriterios < 5) {
+                        separaCriterios++;
+                    } else {
+                        separaCriterios = 0;
+                    }
+                }
+
+                var objeto;
+                switch (casoMixto) {
+                    case "Informe Inicial":
+                        cadenaAux1 = `El informe inicial del equipo ${llave}`; cadenaAux2 = "calificado";
+                        objeto = informesIniciales;
+                        break;
+
+                    case "Informe de Progreso":
+                        cadenaAux1 = `El informe de progreso del equipo ${llave}`; cadenaAux2 = "calificado";
+                        objeto = informesProgreso;
+                        break;
+
+                    case "Informe Final":
+                        cadenaAux1 = `El informe final del equipo ${llave}`; cadenaAux2 = "calificado";
+                        objeto = informesFinales;
+                        break;
+
+                    case "Prototipo Alpha":
+                        cadenaAux1 = `El prototipo alpha del equipo ${llave}`; cadenaAux2 = "calificado";
+                        objeto = prototiposAlpha;
+                        break;
+
+                    case "Prototipo Beta":
+                        cadenaAux1 = `El prototipo beta del equipo ${llave}`; cadenaAux2 = "calificado";
+                        objeto = prototiposBeta;
+                        break;
+                }
+
+                objeto[llave].rubrica = {}
+                objeto[llave].rubrica.criterios = {}
+                objeto[llave].rubrica.nota = notaRubrica;
+                objeto[llave].rubrica.estado = input[0].value;
+                document.getElementById(input[1].id).value = notaRubrica.toFixed(2);
+
+                for (let index = 0; index < auxCriterios.length; index += 4) {
+                    objeto[llave].rubrica.criterios[auxCriterios[index].innerText] = crearObjeto(auxCriterios.slice(index + 1, index + 4));
+                }
+                break;
+
             case "Retroalimentacion":
                 cadenaAux1 = `La retroalimentación del prototipo Alpha del equipo ${input[0].value}`; cadenaAux2 = "almacenada"
                 retroalimentaciones[input[0].value] = crearObjeto(input);
-                break;
-
-            case "Nota Rubrica Inicial":
-                if (criteriosInicial[llave] != undefined) {
-                    cadenaAux1 = `La nota de la rubrica ${criteriosInicial[llave][1].value}`; cadenaAux2 = "almacenado"
-                    criteriosInicial[llave]["nota"] = input.value;
-                }
-                break;
-
-            case "Nota Rubrica Progreso":
-                if (criteriosProgreso[llave] != undefined) {
-                    cadenaAux1 = `La nota de la rubrica ${criteriosProgreso[llave][1].value}`; cadenaAux2 = "almacenado"
-                    criteriosProgreso[llave]["nota"] = input.value;
-                }
-                break;
-
-            default:
                 break;
         }
 
@@ -2630,6 +2630,7 @@ function formularioPromoverCompetencia(input) {
     `;
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
+
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
@@ -2984,27 +2985,41 @@ var equipos = {
 
 var metodologiasDesarrollo = {};
 
-var informesIniciales = {};
+var informesIniciales = {
+    "EPM 1": {
+        idea: "Mejorar las cosas que se puedan mejorar",
+        secciones: {
+            seccion_1: "Introducción",
+            seccion_2: "Índice",
+            seccion_3: "Capitulo I",
+            seccion_4: "Capitulo II",
+            seccion_5: "Conclusiones"
+        },
+        tema: "La Represa Hidroituango",
+
+        rubrica: {
+            criterios: {
+                "Aproximación a los requisitos iniciales": {
+                    comentario: "melisimo",
+                    nota: "5",
+                    valoracion: "melo"
+                },
+                Plenitud: {
+                    comentario: "malísimo",
+                    nota: "1.23",
+                    valoracion: "malo"
+                }
+            },
+            estado: "Incompleto",
+            nota: 3.8689999999999998
+        }
+    }
+};
+
 var informesProgreso = {};
 var informesFinales = {};
 var prototiposAlpha = {};
 var prototiposBeta = {};
-
-var rubricaInicial = {
-    "1": { nota: 0, equipo: 1, criterios: { descripcion: 2, valoracion: 2, nota: 2 } },
-};
-var rubricaProgreso = {
-    "1": { nota: 0, equipo: 1, criterios: { descripcion: 2, valoracion: 2, nota: 2 } },
-};
-var rubricaFinal = {
-    "1": { nota: 0, equipo: 1, criterios: { descripcion: 2, valoracion: 2, nota: 2 } },
-};
-var rubricaAlpha = {
-    "1": { nota: 0, equipo: 1, criterios: { descripcion: 2, valoracion: 2, nota: 2 } },
-};
-var rubricaBeta = {
-    "1": { nota: 0, equipo: 1, criterios: { descripcion: 2, valoracion: 2, nota: 2 } },
-};
 
 var retroalimentaciones = {};
 
@@ -3015,3 +3030,7 @@ window.addEventListener("load", inicializarPagina, false)
 // Poner tabla de secciones debajo de codigo en califica
 
 // Cartera de proyectos cantidad es errónea
+
+// peso en tablas tiene ahora simbolo porcentaje
+
+// comprobar que criterios sumen 100% en define criterios

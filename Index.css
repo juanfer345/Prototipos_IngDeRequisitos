@@ -20,7 +20,7 @@
 }
 
 .subsubtituloForm {
-	margin: 4px;
+	margin: 10px;
 }
 
 .divForm {
@@ -158,6 +158,40 @@ select {
 	resize: none;
 }
 
+.tablaCriterios {
+	margin-top: 4px;
+	margin-bottom: 8px;
+	display: grid;
+	align-items: center;
+}
+
+.tablaCriterios label {
+	font-size: 7px;
+	margin: 1px 0px;
+}
+
+.tablaCriterios input {
+	margin: 1px 3px;
+}
+
+.tablaCriterios textarea[disabled] {
+	text-align: justify;
+	padding: 0px;
+	padding-bottom: 0px;
+    margin: 4px 8px;
+	background: transparent;
+	border: transparent;
+    color: white;
+	resize: none;
+}
+
+.tablaCriterios textarea {
+	text-align: justify;
+	padding: 3px 4px;
+	padding-bottom: 0px;
+    margin: 4px 3px;
+	resize: none;
+}
 
 .botones {
 	margin-top: 2px;
