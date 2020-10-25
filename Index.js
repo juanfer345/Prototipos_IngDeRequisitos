@@ -193,7 +193,7 @@ function formularioDisenaAsignatura(input) {
             <button id="confirmarForm1" type="button" class="botonConfirmar"> Diseñar </button>
             <button type="reset" class="botonBorrar"> Limpiar Campos </button>
             <button id="verAsignatura" type="button" class="botonExtra"> Ver Asignatura </button>
-            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
         </div>
     `;
 
@@ -385,7 +385,7 @@ function formularioDisenaClase(input) {
             <button id="confirmarForm1" type="button" class="botonConfirmar"> Diseñar </button>
             <button type="reset" class="botonBorrar"> Limpiar Campos </button>
             <button id="verClases" type="button" class="botonExtra"> Ver Clases </button>
-            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
         </div>
     `;
 
@@ -433,7 +433,7 @@ function formularioDefineCriterioEvaluacion(input) {
             <button id="confirmarForm1" type="button" class="botonConfirmar"> Definir </button>
             <button type="reset" class="botonBorrar"> Limpiar Campos </button>
             <button id="verCriterio" type="button" class="botonExtra"> Ver Criterios </button>
-            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
         </div>
     `;
 
@@ -686,7 +686,7 @@ function formularioValidaProblema(input) {
             <button id="confirmarForm1" type="button" class="botonConfirmar"> Validar </button>
             <button id="reset" type="button" class="botonBorrar"> Limpiar Campos </button>
             <button id="verEmpresa" type="button" class="botonExtra"> Ver Empresa </button>
-            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
         </div>
     `;
 
@@ -994,7 +994,7 @@ function formularioRegistraHistoria(input) {
             <button id="confirmarForm1" type="button" class="botonConfirmar"> Registrar </button>
             <button type="reset" class="botonBorrar"> Limpiar Campos </button>
             <button id="verHistoria" type="button" class="botonExtra"> Ver Historia Académica </button>
-            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
         </div>
     `;
     // Cambiando el número de columnas de la tabla (ya que por defecto son 2)
@@ -1296,7 +1296,7 @@ function formularioEntregaInforme(input, tipoInfProt) {
             <button id="confirmarForm1" type="button" class="botonConfirmar"> Entregar </button>
             <button type="reset" class="botonBorrar"> Limpiar Campos </button>
             <button id="verCalificacion" type="button" class="botonExtra"> Ver Calificación </button>
-            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
         </div>
     `
     // Obteniendo los valores preestablecidos para llenar el formulario
@@ -1363,7 +1363,7 @@ function formularioEntregaInforme(input, tipoInfProt) {
                 <button id="verCalificacion" type="button" class="botonExtra"> Ver Calificación </button>
                 <button id="verRetroalimentacion" type="button" class="botonExtra"> Ver Retroalimentación </button>
             </div>
-            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
         `
         }
     }
@@ -2735,16 +2735,14 @@ function adicionarAobjeto(objeto, listiviris) {
 function formularioPromoverCompetencia(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Porcentaje de prototipos beta y prototipos alpha con calidad alta </h1>"
     document.getElementById("Form1").innerHTML = `
-        <div id="datosPromoverCompetencia" class="campos">
+        <div id="datosPromoverCompetencia" class="camposLogros">
 
             <label for="formula"> ((Número de prototipos beta con calidad alta + Número de prototipos alpha con calidad alta) / (Número de prototipos beta + Número de prototipos alpha))*100 </label>
             <input type="text" id="formula">
 
         </div>
 
-        <div class="botones">
-            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
-        </div>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
@@ -2755,16 +2753,14 @@ function formularioPromoverCompetencia(input) {
 function formularioDesarrollarProyecto(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Porcentaje de proyectos con calidad alta </h1>"
     document.getElementById("Form1").innerHTML = `
-        <div id="datosPromoverCompetencia" class="campos">
+        <div id="datosPromoverCompetencia" class="camposLogros">
 
             <label for="formula"> (Número de proyectos con calidad alta / Número de proyectos)*100 </label>
             <input type="text" id="formula">
 
         </div>
 
-        <div class="botones">
-            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
-        </div>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
@@ -2774,16 +2770,14 @@ function formularioDesarrollarProyecto(input) {
 function formularioFomentarParticipacion(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Promedio de las notas de los estudiantes </h1>"
     document.getElementById("Form1").innerHTML = `
-        <div id="datosPromoverCompetencia" class="campos">
+        <div id="datosPromoverCompetencia" class="camposLogros">
 
             <label for="formula"> Nota de informes y prototipos entregados / Número de informes y prototipos entregados </label>
             <input type="text" id="formula">
 
         </div>
 
-        <div class="botones">
-            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
-        </div>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
@@ -2793,16 +2787,14 @@ function formularioFomentarParticipacion(input) {
 function formularioReconocerProgreso(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Porcentaje de entrega de informes y prototipos </h1>"
     document.getElementById("Form1").innerHTML = `
-        <div id="datosPromoverCompetencia" class="campos">
+        <div id="datosPromoverCompetencia" class="camposLogros">
 
             <label for="formula"> (Número de informes y prototipos entregados/ Número total de informes y prototipos) * 100 </label>
             <input type="text" id="formula">
 
         </div>
 
-        <div class="botones">
-            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
-        </div>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
@@ -2812,16 +2804,14 @@ function formularioReconocerProgreso(input) {
 function formularioReconocerCausa(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Porcentaje de problemas trabajados </h1>"
     document.getElementById("Form1").innerHTML = `
-        <div id="datosPromoverCompetencia" class="campos">
+        <div id="datosPromoverCompetencia" class="camposLogros">
 
             <label for="formula"> (Número de equipos conformados / Número de problemas validados) * 100 </label>
             <input type="text" id="formula">
 
         </div>
 
-        <div class="botones">
-            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
-        </div>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
@@ -2831,16 +2821,14 @@ function formularioReconocerCausa(input) {
 function formulariocGarantizarEquipoProyecto(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Porcentaje de problemas validados </h1>"
     document.getElementById("Form1").innerHTML = `
-        <div id="datosPromoverCompetencia" class="campos">
+        <div id="datosPromoverCompetencia" class="camposLogros">
 
             <label for="formula"> (Número de problemas validados/ Número de empresas registradas) * 100 </label>
             <input type="text" id="formula">
 
         </div>
 
-        <div class="botones">
-            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
-        </div>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
@@ -2850,16 +2838,14 @@ function formulariocGarantizarEquipoProyecto(input) {
 function formularioGarantizarEquipoEstudiante(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Proporción de estudiantes por equipo </h1>"
     document.getElementById("Form1").innerHTML = `
-        <div id="datosPromoverCompetencia" class="campos">
+        <div id="datosPromoverCompetencia" class="camposLogros">
 
             <label for="formula"> Número de estudiantes / Número de equipos conformados </label>
             <input type="text" id="formula">
 
         </div>
 
-        <div class="botones">
-            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
-        </div>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
@@ -2869,16 +2855,14 @@ function formularioGarantizarEquipoEstudiante(input) {
 function formularioIncrementarCartera(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Proporción de equipos por proyecto </h1>"
     document.getElementById("Form1").innerHTML = `
-        <div id="datosPromoverCompetencia" class="campos">
+        <div id="datosPromoverCompetencia" class="camposLogros">
 
             <label for="formula"> Número de equipos conformados / Número de proyectos en la cartera de proyectos </label>
             <input type="text" id="formula">
 
         </div>
 
-        <div class="botones">
-            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
-        </div>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
@@ -3144,11 +3128,10 @@ var retroalimentaciones = {};
 window.addEventListener("load", inicializarPagina, false)
 
 // Existe un mínimo de estudiantes por equipo?-Máximo 6 minimo 1 CAMBIAN LOS MENSAJES
-
 // Cartera de proyectos cantidad es errónea
-
-// peso en tablas tiene ahora simbolo porcentaje
-
 // comprobar que criterios sumen 100% en define criterios
+// Cambiar fórmulas por imágenes
+// Probar todo y buscar errores
 
-// Se añada metodología en ver equipo para evitar ambigüedad
+// Se añade metodología en ver equipo para evitar ambigüedad
+// peso en tablas tiene ahora simbolo porcentaje

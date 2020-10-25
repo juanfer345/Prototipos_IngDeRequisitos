@@ -7,6 +7,9 @@
 	background-color: rgb(15 144 204 / 66%);
 	font-size: 6.4px;
 	padding: 6px 4px;
+	display: grid;
+    grid-template-columns: 200px;
+    justify-content: center;
 }
 
 .tituloForm {
@@ -44,6 +47,12 @@
 .campos {
 	display: grid;
 	grid-template-columns: 0.5fr 2fr;
+	align-items: center;
+}
+
+.camposLogros {
+	display: grid;
+	grid-template-columns: 120px 160px;
 	align-items: center;
 }
 
