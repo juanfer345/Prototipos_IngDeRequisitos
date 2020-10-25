@@ -472,6 +472,9 @@ function verCriterios(input, selectRubrica) {
     document.getElementById("Form2").innerHTML = `
         <div id="datosVerCriterio" class="campos">
             ${rubricaHTML}
+
+            <label for="pesoTotal"> Peso Total </label>
+            <input type="text" id="pesoTotal" disabled>
         </div>
 
         <div id="columnas" class="titulosTabla">
@@ -2029,7 +2032,7 @@ function llenarTablaSelect(llave, nombreContenedorCampos, arreglo = undefined, c
                 // ["comentario", "textarea", "disabled"], ["nota", "label", ""], ["peso", "label", ""]]
 
                 const llaves = [["nombre", "label", ""], ["descripcion", "textarea", "disabled"], ["peso", "label", ""]]
-
+                var totalPeso = 0;
                 // Recorre todos los criterios
                 for (var value of Object.values(Objeto)) {
 
@@ -2042,6 +2045,7 @@ function llenarTablaSelect(llave, nombreContenedorCampos, arreglo = undefined, c
                         for (var [key, value2] of Object.entries(value)) {
                             if (llaves[index][0] == key) {
                                 acumulador += `<${llaves[index][1]} ${llaves[index][2]}>${value2}</${llaves[index][1]}>`;
+                                if (key == "peso") { totalPeso += parseFloat(value2) }
                                 condicionEncontracion = true;
                                 break;
                             }
@@ -2049,6 +2053,7 @@ function llenarTablaSelect(llave, nombreContenedorCampos, arreglo = undefined, c
                         if (!condicionEncontracion) { acumulador += `<label> ${" "} </label>`; }
                     }
                 }
+                document.getElementById("pesoTotal").value = totalPeso + "%";
                 break;
 
             case "Historia":
@@ -2356,23 +2361,37 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
 
             case "Criterio":
                 cadenaAux1 = `El criterio de evaluación "${llave}" de la rubrica del ${input[0].value}`; cadenaAux2 = "definido"
-
+                var objeto;
                 switch (input[0].value) {
                     case "Informe Inicial":
-                        criteriosInicial[llave] = crearObjeto(input);
+                        objeto = criteriosInicial;
                         break;
+
                     case "Informe de Progreso":
-                        criteriosProgreso[llave] = crearObjeto(input);
+                        objeto = criteriosProgreso;
                         break;
+
                     case "Informe Final":
-                        criteriosFinal[llave] = crearObjeto(input);
+                        objeto = criteriosFinal;
                         break;
+
                     case "Prototipo Alpha":
-                        criteriosAlpha[llave] = crearObjeto(input);
+                        objeto = criteriosAlpha;
                         break;
+
                     case "Prototipo Beta":
-                        criteriosBeta[llave] = crearObjeto(input);
+                        objeto = criteriosBeta;
                         break;
+                }
+
+                objeto[llave] = crearObjeto(input);
+
+                var totalPeso = 0;
+                for (var value of Object.values(objeto)) {
+                    totalPeso += value.peso;
+                }
+                if (totalPeso > 100) {
+                    alert(`Advertencia, la suma del peso de los criterios de evaluacón de la rubrica del ${input[0].value} supera el 100%`)
                 }
                 break;
 
@@ -2740,37 +2759,39 @@ function adicionarAobjeto(objeto, listiviris) {
 }
 
 // Formularios factores criticos de exito
-
 function formularioPromoverCompetencia(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Porcentaje de prototipos beta y prototipos alpha con calidad alta </h1>"
+    
+    // <label for="formula"> ((Número de prototipos beta con calidad alta + Número de prototipos alpha con calidad alta) / (Número de prototipos beta + Número de prototipos alpha))*100 </label>
     document.getElementById("Form1").innerHTML = `
         <div id="datosPromoverCompetencia" class="camposLogros">
-
-            <label for="formula"> ((Número de prototipos beta con calidad alta + Número de prototipos alpha con calidad alta) / (Número de prototipos beta + Número de prototipos alpha))*100 </label>
+            <img class="iconosPrincipales" src="Ecuaciones/Promover Competencia.png" id="imagen">
             <input type="text" id="formula">
-
         </div>
 
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
+    document.getElementById("imagen").style.width = "190px";
+    document.getElementById("datosPromoverCompetencia").style.gridTemplateColumns = "200px 160px";
+
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
-
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
 function formularioDesarrollarProyecto(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Porcentaje de proyectos con calidad alta </h1>"
+
+    // <label for="formula"> (Número de proyectos con calidad alta / Número de proyectos)*100 </label>
     document.getElementById("Form1").innerHTML = `
         <div id="datosPromoverCompetencia" class="camposLogros">
-
-            <label for="formula"> (Número de proyectos con calidad alta / Número de proyectos)*100 </label>
+            <img class="iconosPrincipales" src="Ecuaciones/Desarrollar Proyecto.png" id="imagen">
             <input type="text" id="formula">
-
         </div>
 
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
+    document.getElementById("imagen").style.width = "120px";
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
@@ -2778,16 +2799,17 @@ function formularioDesarrollarProyecto(input) {
 
 function formularioFomentarParticipacion(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Promedio de las notas de los estudiantes </h1>"
+
+    // <label for="formula"> Nota de informes y prototipos entregados / Número de informes y prototipos entregados </label>
     document.getElementById("Form1").innerHTML = `
         <div id="datosPromoverCompetencia" class="camposLogros">
-
-            <label for="formula"> Nota de informes y prototipos entregados / Número de informes y prototipos entregados </label>
+            <img class="iconosPrincipales" src="Ecuaciones/Fomentar Participación.png" id="imagen">
             <input type="text" id="formula">
-
         </div>
 
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
+    document.getElementById("imagen").style.width = "120px";
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
@@ -2795,16 +2817,16 @@ function formularioFomentarParticipacion(input) {
 
 function formularioReconocerProgreso(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Porcentaje de entrega de informes y prototipos </h1>"
+    // <label for="formula"> (Número de informes y prototipos entregados/ Número total de informes y prototipos) * 100 </label>
     document.getElementById("Form1").innerHTML = `
         <div id="datosPromoverCompetencia" class="camposLogros">
-
-            <label for="formula"> (Número de informes y prototipos entregados/ Número total de informes y prototipos) * 100 </label>
+            <img class="iconosPrincipales" src="Ecuaciones/Reconocer Progreso.png" id="imagen">
             <input type="text" id="formula">
-
         </div>
 
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
+    document.getElementById("imagen").style.width = "120px";
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
@@ -2812,16 +2834,16 @@ function formularioReconocerProgreso(input) {
 
 function formularioReconocerCausa(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Porcentaje de problemas trabajados </h1>"
+    // <label for="formula"> (Número de equipos conformados / Número de problemas validados) * 100 </label>
     document.getElementById("Form1").innerHTML = `
         <div id="datosPromoverCompetencia" class="camposLogros">
-
-            <label for="formula"> (Número de equipos conformados / Número de problemas validados) * 100 </label>
+            <img class="iconosPrincipales" src="Ecuaciones/Reconocer Causa.png" id="imagen">
             <input type="text" id="formula">
-
         </div>
 
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
+    document.getElementById("imagen").style.width = "120px";
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
@@ -2829,16 +2851,16 @@ function formularioReconocerCausa(input) {
 
 function formulariocGarantizarEquipoProyecto(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Porcentaje de problemas validados </h1>"
+    // <label for="formula"> (Número de problemas validados/ Número de empresas registradas) * 100 </label>
     document.getElementById("Form1").innerHTML = `
         <div id="datosPromoverCompetencia" class="camposLogros">
-
-            <label for="formula"> (Número de problemas validados/ Número de empresas registradas) * 100 </label>
+            <img class="iconosPrincipales" src="Ecuaciones/Garantizar Equipo Tiene Proyecto.png" id="imagen">
             <input type="text" id="formula">
-
         </div>
 
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
+    document.getElementById("imagen").style.width = "120px";
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
@@ -2846,33 +2868,33 @@ function formulariocGarantizarEquipoProyecto(input) {
 
 function formularioGarantizarEquipoEstudiante(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Proporción de estudiantes por equipo </h1>"
+    // <label for="formula"> Número de estudiantes / Número de equipos conformados </label>
     document.getElementById("Form1").innerHTML = `
         <div id="datosPromoverCompetencia" class="camposLogros">
-
-            <label for="formula"> Número de estudiantes / Número de equipos conformados </label>
+            <img class="iconosPrincipales" src="Ecuaciones/Garantizar Equipo Tiene Estudiante.png" id="imagen">
             <input type="text" id="formula">
-
         </div>
 
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
     var divform = document.getElementById("divForm1");
+    document.getElementById("imagen").style.width = "120px";
     mostracionFormulario(input, divform)
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
 function formularioIncrementarCartera(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Proporción de equipos por proyecto </h1>"
+    // <label for="formula"> Número de equipos conformados / Número de proyectos en la cartera de proyectos </label>
     document.getElementById("Form1").innerHTML = `
         <div id="datosPromoverCompetencia" class="camposLogros">
-
-            <label for="formula"> Número de equipos conformados / Número de proyectos en la cartera de proyectos </label>
+            <img class="iconosPrincipales" src="Ecuaciones/Incrementar Cartera de Proyecto.png" id="imagen">
             <input type="text" id="formula">
-
         </div>
 
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
+    document.getElementById("imagen").style.width = "120px";
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
@@ -3136,11 +3158,10 @@ var retroalimentaciones = {};
 
 window.addEventListener("load", inicializarPagina, false)
 
-// Cartera de proyectos cantidad es errónea
-// comprobar que criterios sumen 100% en define criterios
-// Cambiar fórmulas por imágenes
 // Probar todo y buscar errores
 
 // Se añade metodología en ver equipo para evitar ambigüedad
 // peso en tablas tiene ahora simbolo porcentaje
 // Nuevo mensaje de máximo 6 integrantes al dar click en agregar estudiante
+// Cantidad en cartera de proyectos ha sido corregida
+// al definir criterio si la suma se pasa de 100 da advertencia pero igual lo pone y en ver criterio muestra la sumas
