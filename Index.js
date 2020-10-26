@@ -1283,7 +1283,7 @@ function formularioDefineMetodologia(input) {
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
-            guardarDatos(document.querySelector("#datosMetodologia").querySelectorAll("select, input"), "Metodologia");
+            guardarDatos(document.querySelector("#datosMetodologia").querySelectorAll("select, input, textarea"), "Metodologia");
         }
     );
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
@@ -2254,49 +2254,51 @@ function indicesBotonesExpansibles(idDivContenido, arregloTipoInputs) {
 function obtenerDatosSelect(id, display, arreglo, seleccionado = "", atributoPorMostrar = undefined, atributoCondicional = undefined, valoresAtributoCondicional = undefined,
     arregloComparacion = undefined) {
 
+
     if (display != "") {
         var salidaHTML = `<label for='${id}'> ${display} </label> <select id='${id}'>`;
     }
     else {
         var salidaHTML = `<select id='${id}'>`;
     }
+    if (arreglo[Object.keys(arreglo)[0]] != undefined) {
+        var aux;
 
-    var aux;
+        for (var [key, value] of Object.entries(arreglo)) {
 
-    for (var [key, value] of Object.entries(arreglo)) {
-
-        if (atributoPorMostrar == undefined) {
-            aux = key
-        }
-        else {
-            aux = value[atributoPorMostrar];
-        }
-        if (atributoCondicional == undefined) {
-            if (key == seleccionado) {
-                salidaHTML += `<option value='${key}' selected> ${aux} </option>`;
+            if (atributoPorMostrar == undefined) {
+                aux = key
             }
             else {
-                salidaHTML += `<option value='${key}'> ${aux} </option>`;
+                aux = value[atributoPorMostrar];
             }
-        }
-        else {
-            if (arregloComparacion == undefined) {
-                if (valoresAtributoCondicional.find((opcion) => opcion == value[atributoCondicional])) {
-                    if (key == seleccionado) {
-                        salidaHTML += `<option value='${key}' selected> ${aux} </option>`;
-                    }
-                    else {
-                        salidaHTML += `<option value='${key}'> ${aux} </option>`;
-                    }
+            if (atributoCondicional == undefined) {
+                if (key == seleccionado) {
+                    salidaHTML += `<option value='${key}' selected> ${aux} </option>`;
+                }
+                else {
+                    salidaHTML += `<option value='${key}'> ${aux} </option>`;
                 }
             }
             else {
-                if (valoresAtributoCondicional.find((opcion) => opcion == arregloComparacion[key][atributoCondicional])) {
-                    if (key == seleccionado) {
-                        salidaHTML += `<option value='${key}' selected> ${aux} </option>`;
+                if (arregloComparacion == undefined) {
+                    if (valoresAtributoCondicional.find((opcion) => opcion == value[atributoCondicional])) {
+                        if (key == seleccionado) {
+                            salidaHTML += `<option value='${key}' selected> ${aux} </option>`;
+                        }
+                        else {
+                            salidaHTML += `<option value='${key}'> ${aux} </option>`;
+                        }
                     }
-                    else {
-                        salidaHTML += `<option value='${key}'> ${aux} </option>`;
+                }
+                else {
+                    if (valoresAtributoCondicional.find((opcion) => opcion == arregloComparacion[key][atributoCondicional])) {
+                        if (key == seleccionado) {
+                            salidaHTML += `<option value='${key}' selected> ${aux} </option>`;
+                        }
+                        else {
+                            salidaHTML += `<option value='${key}'> ${aux} </option>`;
+                        }
                     }
                 }
             }
@@ -2304,6 +2306,7 @@ function obtenerDatosSelect(id, display, arreglo, seleccionado = "", atributoPor
     }
     salidaHTML += "</select>";
     return salidaHTML;
+
 }
 
 function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefined, AgregaConCondicion = undefined) {
@@ -2929,193 +2932,46 @@ var profesores = {
 };
 
 var asignaturas = {
-    "Ingeniería de Software": {
-        contenidos: { contenido_1: "Esquema Preconceptual" },
-        estado: "Diseñada",
-        nombre: "Ingeniería de Software",
-        profesor: "Carlos Lopez"
-    },
-    "Programación Orientada a Objetos": {
-        contenidos: { contenido_1: "Clases", contenido_2: "Objetos" },
-        nombre: "Programación Orientada a Objetos",
-        profesor: "Daniel Delgado",
-        estado: "Diseñada"
-    },
-    "Ingeniería de Requisitos": {
-        contenidos: { contenido_1: "Casos de Uso", contenido_2: "Diagrama de Procesos" },
-        estado: "Diseñada",
-        nombre: "Ingeniería de Requisitos",
-        profesor: "Sara Berrio"
-    }
+
 };
 
 var clases = {
-    "Calidad del código": {
-        tematica: "Calidad del código",
-        numero: "1",
-        asignatura: "Programación Orientada a Objetos"
-    },
-    "Calidad de los casos de uso": {
-        tematica: "Calidad de los casos de uso",
-        numero: "1",
-        asignatura: "Ingeniería de Requisitos"
-    },
-    Scrum: {
-        tematica: "Scrum",
-        numero: "1",
-        asignatura: "Ingeniería de Software"
-    },
-    RUP: {
-        tematica: "RUP",
-        numero: "2",
-        asignatura: "Ingeniería de Software"
-    },
-    Cascada: {
-        tematica: "Cascada",
-        numero: "3",
-        asignatura: "Ingeniería de Software"
-    },
-    Espiral: {
-        tematica: "Espiral",
-        numero: "4",
-        asignatura: "Ingeniería de Software"
-    }
+
 };
 
 var criteriosInicial = {
-    "Aproximación a los requisitos iniciales": {
-        descripcion: "Lo expuesto por el estudiante se aproxima lo suficiente a los intereses del representante",
-        nombre: "Aproximación a los requisitos iniciales",
-        peso: "70",
-        rubrica: "Informe Inicial"
-    },
-    Plenitud: {
-        descripcion: "Se describen todas las características necesarias para los objetos, actores y funciones encontradas",
-        nombre: "Plenitud",
-        peso: "30",
-        rubrica: "Informe Inicial"
-    }
+
 };
 
 var criteriosProgreso = {
-    "Avance en los requisitos": {
-        descripcion: "Se nota el avance entre definir el contexto, analizar el problema y empezar a modelar la solución",
-        nombre: "Avance en los requisitos",
-        peso: "50",
-        rubrica: "Informe de Progreso"
-    },
-    Plenitud: {
-        descripcion: "Se describen y se asocian los objetivos y problemas, se establecen todos los procesos",
-        nombre: "Plenitud",
-        peso: "50",
-        rubrica: "Informe de Progreso"
-    }
+
 };
 
 var criteriosFinal = {
-    
+
 };
 var criteriosAlpha = {
-    "Funcionalidad": {
-        descripcion: "Todas las funciones estan correctas sin errores",
-        nombre: "Exito de funciones",
-        peso: "50",
-        rubrica: "Prototipo Alpha"
-    },
-    "Completitud": {
-        descripcion: "El prototipo tiene todo lo pedido por la interesada",
-        nombre: "Completitud",
-        peso: "50",
-        rubrica: "Prototipo Alpha"
-    }
+
 };
 var criteriosBeta = {
-    "Diseño": {
-        descripcion: "El prototipo tiene un buen diseño entendible y agradable a la vista",
-        nombre: "Diseño",
-        peso: "20",
-        rubrica: "Prototipo Beta"
-    },
-    "Funcionalidad": {
-        descripcion: "Todas las funciones estan correctas sin errores",
-        nombre: "Exito de funciones",
-        peso: "40",
-        rubrica: "Prototipo Beta"
-    },
-    "Completitud": {
-        descripcion: "El prototipo tiene todo lo pedido por la interesada",
-        nombre: "Completitud",
-        peso: "40",
-        rubrica: "Prototipo Beta"
-    }
+
 };
 
 var empresas = {
-    Postobon: {
-        mision: "Refrescar el mundo. Inspirar momentos de optimismo y felicidad. Crear valor y marcar la diferencia.",
-        necesidad: "Software para incrementar las ventas",
-        nombre: "Postobon",
-        objetivoEmpresa: "Crear y satisfacer la demanda. Generar rentabilidad y agregar valor a la organización.",
-        vision: "Satisfacer con excelencia a los consumidores de bebidas"
-    },
-    EPM: {
-        mision: "Somos una empresa filial del Grupo Empresarial EPM que contribuye al mejoramiento de la calidad de vida de la población a través de servicios de agua y energía con sustentabilidad ambiental.",
-        necesidad: "Aplicación para ubicación del personal en la ciudad",
-        nombre: "EPM",
-        objetivoEmpresa: "Mejorar los servicios básicos",
-        vision: "En 2022 Ticsa será una empresa líder en México en excelencia operativa, reputación y transparencia, ofreciendo a los clientes y al mercado un portafolio integral de soluciones hídricas y energéticas, fundamentada en prácticas socialmente responsables con todos los grupos de ínteres y contribuyendo a la consolidación multilatina del Grupo Empresarial EPM."
-    }
+
 };
 
 var representantes = {
-    "Santiago Bolaños": {
-        celular: "3123044398",
-        correo: "sbols@gmail.com",
-        disponibilidad: "Mucha",
-        nombre: "Santiago Bolaños",
-        empresa: "Postobon"
-    },
-    "Juan Perez": {
-        celular: "3023139870",
-        correo: "perez.juan@gmail.com",
-        disponibilidad: "Poca",
-        empresa: "EPM",
-        nombre: "Juan Perez"
-    }
+
 };
 
 var problemas = {
-    Postobon: {
-        actor: "Cliente",
-        causa: "Mala manipulación de la base de datos",
-        comentario: "Se hace muy difícil trabajar con un proyecto tan grande",
-        descripcionProblema: "Debido a un error en el software, muchas máquinas no proveen la bebida adecuada",
-        empresa: "Postobon",
-        impacto: "Alto",
-        proceso: "Obtención de bebidas",
-        validacion: "No Aprobado"
-    },
-    EPM: {
-        actor: "Administración",
-        causa: "Mala manipulación de la base de datos y resto del código",
-        comentario: "Buen problema para trabajar en el curso, pero se va a evitar la parte que involucra a los usuarios",
-        descripcionProblema: "No se puede acceder correctamente a la información y cuentas de algunos usuarios",
-        empresa: "EPM",
-        impacto: "Bajo",
-        proceso: "Obtención de información",
-        validacion: "Aprobado Con Ajustes"
-    }
+
 };
 
 var carteraDeProyectos = {
-    cantidadProyectos: 1,
-    proyectos: {
-        EPM: {
-            descripcionProyecto: "Es un buen proyecto, muy bien encaminado a la metodolgía de la asignatura",
-            empresa: "EPM",
-            objetivoProyecto: "Solucionar el problema"
-        }
-    }
+    cantidadProyectos: 0,
+    proyectos: {}
 };
 
 var estudiantes = {
