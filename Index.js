@@ -2953,6 +2953,7 @@ var criteriosFinal = {
 var criteriosAlpha = {
 
 };
+
 var criteriosBeta = {
 
 };
@@ -2994,11 +2995,3 @@ var prototiposBeta = {};
 var retroalimentaciones = {};
 
 window.addEventListener("load", inicializarPagina, false)
-
-// Probar todo y buscar errores
-
-// Se añade metodología en ver equipo para evitar ambigüedad
-// peso en tablas tiene ahora simbolo porcentaje
-// Nuevo mensaje de máximo 6 integrantes al dar click en agregar estudiante
-// Cantidad en cartera de proyectos ha sido corregida
-// al definir criterio si la suma se pasa de 100 da advertencia pero igual lo pone y en ver criterio muestra la sumas
