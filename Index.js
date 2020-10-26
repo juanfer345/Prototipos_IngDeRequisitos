@@ -2920,6 +2920,12 @@ var profesores = {
     "Sara Berrio": {
         nombre: "Sara Berrio", correo: "sraberr@gmail.com", celular: "3053876514", direccion: "Cll 93B #24-43", identificacion: "3"
     },
+    "Manuel Guisao": {
+        nombre: "Manuel Guisao", correo: "manuel@gmail.com", celular: "3022839228", direccion: "Carrera 4 # 5-28", identificacion: "4"
+    },
+    "Esteban Huanición": {
+        nombre: "Esteban Huanición", correo: "esteban@gmail.com", celular: "3103043829", direccion: "Calle 83 # 8 - 31", identificacion: "5"
+    }
 };
 
 var asignaturas = {
@@ -3105,7 +3111,7 @@ var carteraDeProyectos = {
     cantidadProyectos: 1,
     proyectos: {
         EPM: {
-            descripcionProyecto: "Está bien dificil loks",
+            descripcionProyecto: "Es un buen proyecto, muy bien encaminado a la metodolgía de la asignatura",
             empresa: "EPM",
             objetivoProyecto: "Solucionar el problema"
         }
@@ -3113,85 +3119,16 @@ var carteraDeProyectos = {
 };
 
 var estudiantes = {
-    123: {
-        carrera: "Enfriación de Ladrillos",
-        celular: "456",
-        competencia: "Social",
-        correo: "elber@elber.com",
-        direccion: "Calle falsa 123",
-        historia: {
-            promedio: 3.5666666666666664,
-            asignaturasHist: {
-                nombre_1: { nombre_1: "Ladrillos I", nota_1: "2.3", semestre_1: "2015-I" },
-                nombre_2: { nombre_2: "Ladrillos II", nota_2: "3.4", semestre_2: "2016-III" },
-                nombre_3: { nombre_3: "Enfriación II", nota_3: "5", semestre_3: "2017" }
-            }
-        },
-        identificacion: "123",
-        nombre: "Elber Galarga",
-        semestre: "2020-III"
-    },
-    456: {
-        carrera: "Actuación Erotica",
-        celular: "89339",
-        competencia: "Técnica",
-        correo: "onlyfans.com/EstebitanBB",
-        direccion: "La vuelta negra",
-        historia: {
-            asignaturasHist: {
-                nombre_1: { nombre_1: "Poses I", nota_1: "5", semestre_1: "2013-I" },
-                nombre_2: { nombre_2: "Kamasutra IV", nota_2: "4.8", semestre_2: "2013-I" },
-                nombre_3: { nombre_3: "Perreo IX", nota_3: "9000", semestre_3: "2015-II" }
-            },
-            promedio: 3003.266666666667
-        },
-        identificacion: "456",
-        nombre: "Esteban Dido",
-        semestre: "el último"
-    }
+
 };
 
 var equipos = {
-    "EPM 1": {
-        cantidad: "1",
-        integrantes: {
-            estudiante_1: "123"
-        }
-    }
+
 };
 
 var metodologiasDesarrollo = {};
 
-var informesIniciales = {
-    "EPM 1": {
-        idea: "Mejorar las cosas que se puedan mejorar",
-        secciones: {
-            seccion_1: "Introducción",
-            seccion_2: "Índice",
-            seccion_3: "Capitulo I",
-            seccion_4: "Capitulo II",
-            seccion_5: "Conclusiones"
-        },
-        tema: "La Represa Hidroituango",
-        estado: "Incompleto",
-
-        rubrica: {
-            criterios: {
-                "Aproximación a los requisitos iniciales": {
-                    comentario: "melisimo",
-                    nota: "5",
-                    valoracion: "melo"
-                },
-                Plenitud: {
-                    comentario: "malísimo",
-                    nota: "1.23",
-                    valoracion: "malo"
-                }
-            },
-            nota: 3.8689999999999998
-        }
-    }
-};
+var informesIniciales = {};
 
 var informesProgreso = {};
 var informesFinales = {};
