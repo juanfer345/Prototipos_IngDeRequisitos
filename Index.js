@@ -2995,9 +2995,43 @@ var criteriosProgreso = {
     }
 };
 
-var criteriosFinal = {};
-var criteriosAlpha = {};
-var criteriosBeta = {};
+var criteriosFinal = {
+    
+};
+var criteriosAlpha = {
+    "Funcionalidad": {
+        descripcion: "Todas las funciones estan correctas sin errores",
+        nombre: "Exito de funciones",
+        peso: "50",
+        rubrica: "Prototipo Alpha"
+    },
+    "Completitud": {
+        descripcion: "El prototipo tiene todo lo pedido por la interesada",
+        nombre: "Completitud",
+        peso: "50",
+        rubrica: "Prototipo Alpha"
+    }
+};
+var criteriosBeta = {
+    "Diseño": {
+        descripcion: "El prototipo tiene un buen diseño entendible y agradable a la vista",
+        nombre: "Diseño",
+        peso: "20",
+        rubrica: "Prototipo Beta"
+    },
+    "Funcionalidad": {
+        descripcion: "Todas las funciones estan correctas sin errores",
+        nombre: "Exito de funciones",
+        peso: "40",
+        rubrica: "Prototipo Beta"
+    },
+    "Completitud": {
+        descripcion: "El prototipo tiene todo lo pedido por la interesada",
+        nombre: "Completitud",
+        peso: "40",
+        rubrica: "Prototipo Beta"
+    }
+};
 
 var empresas = {
     Postobon: {
