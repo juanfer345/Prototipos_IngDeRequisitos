@@ -1874,7 +1874,7 @@ function formularioRealizaRetroalimentacion(input) {
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
             guardarDatos(document.querySelector("#datosRetroalimentacion").querySelectorAll("select, input, textarea"), "Retroalimentacion", undefined, undefined,
-                [false, false, false, false, true, true]);
+                [false, false, false, true, true]);
         }
     );
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
