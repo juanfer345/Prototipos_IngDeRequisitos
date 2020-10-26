@@ -1873,7 +1873,7 @@ function formularioRealizaRetroalimentacion(input) {
 
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
-            guardarDatos(document.querySelector("#datosRetroalimentacion").querySelectorAll("select, input"), "Retroalimentacion", undefined, undefined,
+            guardarDatos(document.querySelector("#datosRetroalimentacion").querySelectorAll("select, input, textarea"), "Retroalimentacion", undefined, undefined,
                 [false, false, false, false, true, true]);
         }
     );
@@ -2389,7 +2389,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                     cadenaAux1 = "La suma de los pesos de los criterios no puede pasar el 100%"
                     errorIngresoDatos = true;
                 }
-                else{
+                else {
                     objeto[llave] = crearObjeto(input);
                 }
                 break;
@@ -2558,7 +2558,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                     case "Informe Final":
                         cadenaAux1 = `El informe final del equipo ${llave}`; cadenaAux2 = "entregado";
                         informesFinales[llave] = crearObjeto(Array.from(input).slice(1, input.length));
-                        informesProgreso[llave].secciones = crearObjeto(nuevoAgrega);
+                        informesFinales[llave].secciones = crearObjeto(nuevoAgrega);
                         break;
 
                     case "Prototipo Alpha":
@@ -2575,26 +2575,29 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
 
             case "Califica":
 
+                var condicionEspecial = false;
                 if (nuevoAgrega.length == 0) {
-                    errorIngresoDatos = true
-                    cadenaAux1 = "Debe agregarse por lo menos un criterio de evaluación";
-                    break;
+                    // errorIngresoDatos = true
+                    // cadenaAux1 = "Debe agregarse por lo menos un criterio de evaluación";
+                    condicionEspecial = true;
                 }
 
                 // Separando los elementos relevantes de la tabla de los criterios de evaluación
                 var auxCriterios = []; var separaCriterios = 0; var notaRubrica = 0;
 
-                for (let index = 0; index < nuevoAgrega.length - 1; index++) {
-                    if (separaCriterios != 1 && separaCriterios != 5) {
-                        auxCriterios.push(nuevoAgrega[index]);
-                    }
-                    if (separaCriterios == 4) {
-                        notaRubrica += parseFloat(nuevoAgrega[index].value) * parseFloat(nuevoAgrega[index + 1].innerText) / 100;
-                    }
-                    if (separaCriterios < 5) {
-                        separaCriterios++;
-                    } else {
-                        separaCriterios = 0;
+                if (!condicionEspecial) {
+                    for (let index = 0; index < nuevoAgrega.length - 1; index++) {
+                        if (separaCriterios != 1 && separaCriterios != 5) {
+                            auxCriterios.push(nuevoAgrega[index]);
+                        }
+                        if (separaCriterios == 4) {
+                            notaRubrica += parseFloat(nuevoAgrega[index].value) * parseFloat(nuevoAgrega[index + 1].innerText) / 100;
+                        }
+                        if (separaCriterios < 5) {
+                            separaCriterios++;
+                        } else {
+                            separaCriterios = 0;
+                        }
                     }
                 }
 
@@ -2626,20 +2629,28 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                         break;
                 }
 
-                objeto[llave].rubrica = {}
-                objeto[llave].rubrica.criterios = {}
-                objeto[llave].rubrica.nota = notaRubrica;
+                if (objeto[llave] != undefined) {
+                    objeto[llave].rubrica = {}
+                    objeto[llave].rubrica.criterios = {}
+                    objeto[llave].rubrica.nota = notaRubrica;
 
-                if (casoMixto.split(" ")[0] == "Informe") {
-                    objeto[llave].estado = input[0].value;
+                    if (casoMixto.split(" ")[0] == "Informe") {
+                        objeto[llave].estado = input[0].value;
+                    }
+                    else {
+                        objeto[llave].calidad = input[0].value;
+                    }
+                    document.getElementById(input[1].id).value = notaRubrica.toFixed(2);
+
+
+                    if (!condicionEspecial) {
+                        for (let index = 0; index < auxCriterios.length; index += 4) {
+                            objeto[llave].rubrica.criterios[auxCriterios[index].innerText] = crearObjeto(auxCriterios.slice(index + 1, index + 4));
+                        }
+                    }
                 }
                 else {
-                    objeto[llave].calidad = input[0].value;
-                }
-                document.getElementById(input[1].id).value = notaRubrica.toFixed(2);
-
-                for (let index = 0; index < auxCriterios.length; index += 4) {
-                    objeto[llave].rubrica.criterios[auxCriterios[index].innerText] = crearObjeto(auxCriterios.slice(index + 1, index + 4));
+                    condicionAlertacion = false;
                 }
                 break;
 
@@ -2760,7 +2771,7 @@ function adicionarAobjeto(objeto, listiviris) {
 // Formularios factores criticos de exito
 function formularioPromoverCompetencia(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Porcentaje de prototipos beta y prototipos alpha con calidad alta </h1>"
-    
+
     // <label for="formula"> ((Número de prototipos beta con calidad alta + Número de prototipos alpha con calidad alta) / (Número de prototipos beta + Número de prototipos alpha))*100 </label>
     document.getElementById("Form1").innerHTML = `
         <div id="datosPromoverCompetencia" class="camposLogros">
