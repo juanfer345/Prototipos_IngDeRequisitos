@@ -1,6 +1,15 @@
 function inicializarPagina() {
 
     // Añadiendo los escuchadores cada relación dinámica (2 por cada una pa q se le pueda dar click al texto y al "rectangulo")
+    document.getElementById("registraProfesor").addEventListener("click", formularioRegistraProfesor)
+    document.getElementById("registraProfesorText").addEventListener("click", formularioRegistraProfesor)
+
+    document.getElementById("registraEstudiante").addEventListener("click", formularioRegistraEstudiante)
+    document.getElementById("registraEstudianteText").addEventListener("click", formularioRegistraEstudiante)
+
+    document.getElementById("registraSemestre").addEventListener("click", formularioRegistraSemestre)
+    document.getElementById("registraSemestreText").addEventListener("click", formularioRegistraSemestre)
+
     document.getElementById("diseñaAsignatura").addEventListener("click", formularioDisenaAsignatura)
     document.getElementById("diseñaAsignaturaText").addEventListener("click", formularioDisenaAsignatura)
 
@@ -163,6 +172,142 @@ function expansionTextAreaDisabled(lista) {
             campo.style.height = campo.scrollHeight + "px";
         }
     );
+}
+
+function formularioRegistraProfesor(input) {
+
+    // Llenando los datos del formulario
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Registra Profesor </h1>"
+
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosRegistraProfesor" class="campos">
+            <label for="identificacion"> Identificación </label>
+            <input type="email" id="identificacion">
+
+            <label for="nombre"> Nombre </label>
+            <input type="text" id="nombre">
+            
+            <label for="correo"> Correo </label>
+            <input type="email" id="correo">
+
+            <label for="celular"> Celular </label>
+            <input type="number" id="celular" min="0">
+
+            <label for="direccion"> Dirección </label>
+            <input type="text" id="direccion">
+
+            <label for="contrasena"> Contraseña </label>
+            <input type="password" id="contrasena">
+        </div>
+
+        <div class="botones">
+            <button id="confirmarForm1" type="button" class="botonConfirmar"> Registrar </button>
+            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
+        </div>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+    `;
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("confirmarForm1").addEventListener("click",
+        () => {
+            guardarDatos(document.querySelector("#datosRegistraProfesor").querySelectorAll("input"), "Registra_Profesor");
+        }
+    );
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+}
+
+function formularioRegistraEstudiante(input) {
+
+    // Llenando los datos del formulario
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Registra Estudiante </h1>"
+
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosRegistraEstudiante" class="campos">
+
+            <label for="identificacion"> Identificación </label>
+            <input type="email" id="identificacion">
+
+            <label for="nombre"> Nombre </label>
+            <input type="text" id="nombre">
+            
+            <label for="correo"> Correo </label>
+            <input type="email" id="correo">
+
+            <label for="celular"> Celular </label>
+            <input type="number" id="celular" min="0">
+
+            <label for="direccion"> Dirección </label>
+            <input type="text" id="direccion">
+
+            <label for="carrera"> Carrera </label>
+            <input type="text" id="carrera">
+
+            <label for="semestre"> Semestre </label>
+            <input type="text" id="semestre">
+
+            <label for="contrasena"> Contraseña </label>
+            <input type="password" id="contrasena">
+
+        </div>
+
+        <div class="botones">
+            <button id="confirmarForm1" type="button" class="botonConfirmar"> Registrar </button>
+            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
+        </div>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+    `;
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("confirmarForm1").addEventListener("click",
+        () => {
+            guardarDatos(document.querySelector("#datosRegistraEstudiante").querySelectorAll("input"), "Registra_Estudiante");
+        }
+    );
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+}
+
+function formularioRegistraSemestre(input) {
+
+    // Llenando los datos del formulario
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Registra Semestre </h1>"
+
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosRegistraSemestre" class="campos">
+
+            <label for="fechaInicio"> Fecha Inicio </label>
+            <input type="date" id="fechaInicio">
+
+            <label for="fechaFin"> Fecha Fin </label>
+            <input type="date" id="fechaFin">
+
+        </div>
+
+        <div class="botones">
+            <button id="confirmarForm1" type="button" class="botonConfirmar"> Registrar </button>
+            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
+        </div>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+    `;
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("confirmarForm1").addEventListener("click",
+        () => {
+            guardarDatos(document.querySelector("#datosRegistraSemestre").querySelectorAll("input"), "Registra_Semestre");
+        }
+    );
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
 function formularioDisenaAsignatura(input) {
@@ -2343,6 +2488,36 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
 
     if (!errorIngresoDatos) {
         switch (caso) {
+            case "Registra":
+
+                var objeto;
+
+                switch (casoMixto) {
+                    case "Estudiante":
+                        cadenaAux1 = `El estudiante ${llave}`; cadenaAux2 = "registrado";
+                        objeto = estudiantes;
+                        break;
+
+                    case "Profesor":
+                        cadenaAux1 = `El profesor ${llave}`; cadenaAux2 = "registrado";
+                        objeto = estudiantes;
+                        break;
+
+                    case "Semestre":
+                        cadenaAux1 = `El semestre`; cadenaAux2 = "registrado";
+                        objeto = estudiantes;
+                        break;
+                }
+                if (casoMixto != "Semestre") {
+                    objeto[llave] = crearObjeto(input);
+                }
+                else {
+                    objeto[semestresCod.semestres.codigoSemestre] = crearObjeto(input);
+                    objeto.semestres.codigoSemestre.codigo = semestresCod.semestres.codigoSemestre;
+                    semestresCod.semestres.codigoSemestre++;
+                }
+                break;
+
             case "Asignatura":
                 cadenaAux1 = `La asignatura ${llave}`; cadenaAux2 = "diseñada"
                 asignaturas[llave] = crearObjeto(input);
@@ -2930,6 +3105,11 @@ var profesores = {
     }
 };
 
+var semestresCod = {
+    codigoSemestre = 0,
+    semestres = {}
+}
+
 var asignaturas = {
     "Ingeniería de Software": {
         contenidos: { contenido_1: "Esquema Preconceptual" },
@@ -3012,7 +3192,7 @@ var criteriosProgreso = {
     }
 };
 var criteriosFinal = {
-    
+
 };
 var criteriosAlpha = {
     "Funcionalidad": {
