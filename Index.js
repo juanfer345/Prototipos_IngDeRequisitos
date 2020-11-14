@@ -1211,6 +1211,11 @@ function verHistoria(input, idEstudiante) {
     
         <h2 class='subtituloForm'> Asignaturas </h2>
 
+        <div class="campos">
+            <label for="promedio"> Promedio </label>
+            <input type="number" id="promedio" disabled>
+        </div>
+
         <div id="titulosColumnasVer" class="titulosTabla">
             <label> Nombre </label>
             <label> Nota </label>
@@ -1241,6 +1246,14 @@ function verHistoria(input, idEstudiante) {
             actualizarCamposSelect("estudiante", "datosEstudiante", estudiantes);
             llenarTablaSelect(idEstudiante, "datosVerHistoria", estudiantes, "Historia");
 
+            var estudiante = estudiantes[document.getElementById("estudiante").value];
+
+            if (estudiante.historia != undefined) {
+                document.getElementById("promedio").value = estudiante.historia.promedio.toFixed(2);
+            } else {
+                document.getElementById("promedio").value = "";
+            }
+
             // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
             expansionTextAreaDisabled(document.querySelector("#datosEstudiante").querySelectorAll("textarea"));
         }
@@ -1248,6 +1261,13 @@ function verHistoria(input, idEstudiante) {
     actualizarCamposSelect("estudiante", "datosEstudiante", estudiantes);
     llenarTablaSelect(idEstudiante, "datosVerHistoria", estudiantes, "Historia");
 
+    var estudiante = estudiantes[document.getElementById("estudiante").value];
+
+    if (estudiante.historia != undefined) {
+        document.getElementById("promedio").value = estudiante.historia.promedio.toFixed(2);
+    } else {
+        document.getElementById("promedio").value = "";
+    }
     // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
     expansionTextAreaDisabled(document.querySelector("#datosEstudiante").querySelectorAll("textarea"));
 }

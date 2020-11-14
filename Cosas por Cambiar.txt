@@ -5,4 +5,4 @@
 - Al registrar semestre, se pone fecha inicio y fecha fin
 - Guardar datos
 - Logros funcionales, hacer calculo al dar click y ya.
-- Representante revisa prototipo beta. Es retro alimentacion
+- Representante revisa prototipo beta. Es commo retroalimentacion
