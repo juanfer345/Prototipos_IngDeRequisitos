@@ -65,7 +65,6 @@ function inicializarPagina() {
     document.getElementById("calificaPrototipoBetaText").addEventListener("click", () => { formularioCalificaInforme(event, "Prototipo Beta") })
 
     //Factores criticos de exito
-
     document.getElementById("promoverCompetencia").addEventListener("click", formularioPromoverCompetencia)
     document.getElementById("promoverCompetenciaText").addEventListener("click", formularioPromoverCompetencia)
 
