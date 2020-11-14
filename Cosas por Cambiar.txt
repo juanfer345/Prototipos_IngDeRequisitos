@@ -1,4 +1,3 @@
-- Toca agregar proceso registro estudiantes y profesores (nuevo actor, 3 nuevos procesos).
 - Registra historia academica no se ingresan datos estudiante (se queda competencia y participacion), elije el que ya está.
 - Promedio en ver historia academica.
 - En todos los entrega no va ver calificación es ver "informe" o prototipo.

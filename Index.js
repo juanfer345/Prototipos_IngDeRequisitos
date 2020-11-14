@@ -182,7 +182,7 @@ function formularioRegistraProfesor(input) {
     document.getElementById("Form1").innerHTML = `
         <div id="datosRegistraProfesor" class="campos">
             <label for="identificacion"> Identificación </label>
-            <input type="email" id="identificacion">
+            <input type="number" id="identificacion">
 
             <label for="nombre"> Nombre </label>
             <input type="text" id="nombre">
@@ -229,7 +229,7 @@ function formularioRegistraEstudiante(input) {
         <div id="datosRegistraEstudiante" class="campos">
 
             <label for="identificacion"> Identificación </label>
-            <input type="email" id="identificacion">
+            <input type="number" id="identificacion">
 
             <label for="nombre"> Nombre </label>
             <input type="text" id="nombre">
@@ -2500,21 +2500,21 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
 
                     case "Profesor":
                         cadenaAux1 = `El profesor ${llave}`; cadenaAux2 = "registrado";
-                        objeto = estudiantes;
+                        objeto = profesores;
                         break;
 
                     case "Semestre":
                         cadenaAux1 = `El semestre`; cadenaAux2 = "registrado";
-                        objeto = estudiantes;
+                        objeto = semestresCod;
                         break;
                 }
                 if (casoMixto != "Semestre") {
                     objeto[llave] = crearObjeto(input);
                 }
                 else {
-                    objeto[semestresCod.semestres.codigoSemestre] = crearObjeto(input);
-                    objeto.semestres.codigoSemestre.codigo = semestresCod.semestres.codigoSemestre;
-                    semestresCod.semestres.codigoSemestre++;
+                    objeto.semestres[semestresCod.codigoSemestre] = crearObjeto(input);
+                    objeto.semestres[semestresCod.codigoSemestre]["codigo"] = semestresCod.codigoSemestre;
+                    semestresCod.codigoSemestre++;
                 }
                 break;
 
@@ -3088,26 +3088,29 @@ function formularioIncrementarCartera(input) {
 }
 
 var profesores = {
-    "Carlos Lopez": {
+    1: {
         nombre: "Carlos Lopez", correo: "carlop@gmail.com", celular: "3173022932", direccion: "Cll 123A #12A-32", identificacion: "1"
     },
-    "Daniel Delgado": {
+    2: {
         nombre: "Daniel Delgado", correo: "dldelgado@unal.edu.co", celular: "3013215643", direccion: "Cra. 58 #32-12", identificacion: "2"
     },
-    "Sara Berrio": {
+    3: {
         nombre: "Sara Berrio", correo: "sraberr@gmail.com", celular: "3053876514", direccion: "Cll 93B #24-43", identificacion: "3"
     },
-    "Manuel Guisao": {
+    4: {
         nombre: "Manuel Guisao", correo: "manuel@gmail.com", celular: "3022839228", direccion: "Carrera 4 # 5-28", identificacion: "4"
     },
-    "Esteban Huarnición": {
+    5: {
         nombre: "Esteban Huarnición", correo: "esteban@gmail.com", celular: "3103043829", direccion: "Calle 83 # 8 - 31", identificacion: "5"
+    },
+    6: {
+        celular: "123", contrasena: "elber", correo: "elber@elber.com", direccion: "Jungla # 32", identificacion: "6", nombre: "Elber Gomez Torba"
     }
 };
 
 var semestresCod = {
-    codigoSemestre = 0,
-    semestres = {}
+    codigoSemestre: 0,
+    semestres: {}
 }
 
 var asignaturas = {
@@ -3330,6 +3333,16 @@ var estudiantes = {
         identificacion: "456",
         nombre: "Esteban Dido",
         semestre: "el último"
+    },
+    238: {
+        carrera: "Ingeniería de Ingenieros",
+        celular: "233",
+        contrasena: "johnny",
+        correo: "joni@joni.com",
+        direccion: "calle verdadera 123",
+        identificacion: "238",
+        nombre: "Johnny Melas Lavo",
+        semestre: "Este"
     }
 };
 
