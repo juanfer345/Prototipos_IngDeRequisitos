@@ -983,7 +983,7 @@ function formularioConstruyeCartera(input) {
 
 function agregarProyecto(input) {
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const empresasHTML = obtenerDatosSelect("empresa", "Nombre Empresa Validada", empresas, undefined, undefined, "validacion",
+    const empresasHTML = obtenerDatosSelect("empresa", "Nombre Empresa", empresas, undefined, undefined, "validacion",
         ["Aprobado Sin Ajustes", "Aprobado Con Ajustes"], problemas);
 
     // Llenando los datos del formulario

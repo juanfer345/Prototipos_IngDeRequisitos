@@ -1,6 +1,5 @@
 - Registra historia academica no se ingresan datos estudiante (se queda competencia y participacion), elije el que ya está.
 - En agregar proyecto nombre empresa validada por nombre empresa.
-- Al registrar semestre, se pone fecha inicio y fecha fin
 - Guardar datos
 - Logros funcionales, hacer calculo al dar click y ya.
 - Representante revisa prototipo beta. Es commo retroalimentacion
