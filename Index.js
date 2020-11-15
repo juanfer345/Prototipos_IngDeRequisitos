@@ -1462,7 +1462,7 @@ function formularioEntregaInforme(input, tipoInfProt) {
         <div class="botones">
             <button id="confirmarForm1" type="button" class="botonConfirmar"> Entregar </button>
             <button type="reset" class="botonBorrar"> Limpiar Campos </button>
-            <button id="verCalificacion" type="button" class="botonExtra"> Ver Calificación </button>
+            <button id="verCalificacion" type="button" class="botonExtra"> Ver ${tipoInfProt.split(' ')[0]} </button>
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
         </div>
     `
@@ -1527,7 +1527,7 @@ function formularioEntregaInforme(input, tipoInfProt) {
             <div class="botones">
                 <button id="confirmarForm1" type="button" class="botonConfirmar"> Entregar </button>
                 <button type="reset" class="botonBorrar"> Limpiar Campos </button>
-                <button id="verCalificacion" type="button" class="botonExtra"> Ver Calificación </button>
+                <button id="verCalificacion" type="button" class="botonExtra"> Ver ${tipoInfProt.split(' ')[0]} </button>
                 <button id="verRetroalimentacion" type="button" class="botonExtra"> Ver Retroalimentación </button>
             </div>
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
