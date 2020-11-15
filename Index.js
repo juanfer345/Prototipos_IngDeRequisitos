@@ -2973,7 +2973,7 @@ function formularioPromoverCompetencia(input) {
     document.getElementById("Form1").innerHTML = `
         <div id="datosPromoverCompetencia" class="camposLogros">
             <img class="iconosPrincipales" src="Ecuaciones/Promover Competencia.png" id="imagen">
-            <input type="text" id="formula">
+            <input type="text" id="formula" disabled>
         </div>
 
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
@@ -2984,6 +2984,17 @@ function formularioPromoverCompetencia(input) {
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+
+    let alphaHQ = contarElementos(prototiposAlpha, "calidad", "Alta");
+    let numalpha = Object.keys(prototiposAlpha).length;
+    let betaHQ = contarElementos(prototiposBeta, "calidad", "Alta");
+    let numbeta = Object.keys(prototiposBeta).length;
+
+    if (!denominadorEsCero([numalpha + numbeta])) {
+        document.getElementById("formula").value = ((alphaHQ + betaHQ) / (numalpha + numbeta) * 100).toFixed(2) + " %";
+    } else {
+        document.getElementById("formula").value = 0;
+    }
 }
 
 function formularioDesarrollarProyecto(input) {
@@ -2993,7 +3004,7 @@ function formularioDesarrollarProyecto(input) {
     document.getElementById("Form1").innerHTML = `
         <div id="datosPromoverCompetencia" class="camposLogros">
             <img class="iconosPrincipales" src="Ecuaciones/Desarrollar Proyecto.png" id="imagen">
-            <input type="text" id="formula">
+            <input type="text" id="formula" disabled>
         </div>
 
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
@@ -3002,6 +3013,15 @@ function formularioDesarrollarProyecto(input) {
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+
+    // let proyectosHQ = contarElementos(prototiposAlpha, "calidad", "Alta");
+    // let numProy = carteraDeProyectos.cantidadProyectos;
+
+    // if (!denominadorEsCero([numalpha + numbeta])) {
+    //     document.getElementById("formula").value = (alphaHQ + betaHQ) / (numalpha + numbeta) * 100 + " %";
+    // } else {
+    //     document.getElementById("formula").value = 0;
+    // }
 }
 
 function formularioFomentarParticipacion(input) {
@@ -3011,7 +3031,7 @@ function formularioFomentarParticipacion(input) {
     document.getElementById("Form1").innerHTML = `
         <div id="datosPromoverCompetencia" class="camposLogros">
             <img class="iconosPrincipales" src="Ecuaciones/Fomentar Participación.png" id="imagen">
-            <input type="text" id="formula">
+            <input type="text" id="formula" disabled>
         </div>
 
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
@@ -3020,6 +3040,44 @@ function formularioFomentarParticipacion(input) {
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+
+    let nota = 0; let numero = 0;
+    for (var value of Object.values(informesIniciales)) {
+        if (value.rubrica != undefined) {
+            numero++;
+            nota += value.rubrica.nota;
+        }
+    }
+    for (var value of Object.values(informesProgreso)) {
+        if (value.rubrica != undefined) {
+            numero++;
+            nota += value.rubrica.nota;
+        }
+    }
+    for (var value of Object.values(informesFinales)) {
+        if (value.rubrica != undefined) {
+            numero++;
+            nota += value.rubrica.nota;
+        }
+    }
+    for (var value of Object.values(prototiposAlpha)) {
+        if (value.rubrica != undefined) {
+            numero++;
+            nota += value.rubrica.nota;
+        }
+    }
+    for (var value of Object.values(prototiposBeta)) {
+        if (value.rubrica != undefined) {
+            numero++;
+            nota += value.rubrica.nota;
+        }
+    }
+
+    if (!denominadorEsCero([numero])) {
+        document.getElementById("formula").value = (nota / numero).toFixed(2);
+    } else {
+        document.getElementById("formula").value = 0;
+    }
 }
 
 function formularioReconocerProgreso(input) {
@@ -3028,7 +3086,7 @@ function formularioReconocerProgreso(input) {
     document.getElementById("Form1").innerHTML = `
         <div id="datosPromoverCompetencia" class="camposLogros">
             <img class="iconosPrincipales" src="Ecuaciones/Reconocer Progreso.png" id="imagen">
-            <input type="text" id="formula">
+            <input type="text" id="formula" disabled>
         </div>
 
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
@@ -3037,6 +3095,16 @@ function formularioReconocerProgreso(input) {
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+
+    let totalTrabajos = Object.keys(equipos).length * 5 // El total de equipos multiplicado por la cantidad de entregables mijins
+    let numTrabajosEntregados = Object.keys(informesIniciales).length + Object.keys(informesProgreso).length +
+        Object.keys(informesFinales).length + Object.keys(prototiposAlpha).length + Object.keys(prototiposBeta).length;
+
+    if (!denominadorEsCero([totalTrabajos])) {
+        document.getElementById("formula").value = (numTrabajosEntregados / totalTrabajos * 100).toFixed(2) + " %";
+    } else {
+        document.getElementById("formula").value = 0;
+    }
 }
 
 function formularioReconocerCausa(input) {
@@ -3045,7 +3113,7 @@ function formularioReconocerCausa(input) {
     document.getElementById("Form1").innerHTML = `
         <div id="datosPromoverCompetencia" class="camposLogros">
             <img class="iconosPrincipales" src="Ecuaciones/Reconocer Causa.png" id="imagen">
-            <input type="text" id="formula">
+            <input type="text" id="formula" disabled>
         </div>
 
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
@@ -3054,6 +3122,15 @@ function formularioReconocerCausa(input) {
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+
+    // let equiposConformados = Object.keys(equipos).length
+    // let problemasValidados = contarElementos(problemas, "validacion");
+
+    // if (!denominadorEsCero([totalTrabajos])) {
+    //     document.getElementById("formula").value = (numTrabajosEntregados / totalTrabajos * 100).toFixed(2) + " %";
+    // } else {
+    //     document.getElementById("formula").value = 0;
+    // }
 }
 
 function formulariocGarantizarEquipoProyecto(input) {
@@ -3062,7 +3139,7 @@ function formulariocGarantizarEquipoProyecto(input) {
     document.getElementById("Form1").innerHTML = `
         <div id="datosPromoverCompetencia" class="camposLogros">
             <img class="iconosPrincipales" src="Ecuaciones/Garantizar Equipo Tiene Proyecto.png" id="imagen">
-            <input type="text" id="formula">
+            <input type="text" id="formula" disabled>
         </div>
 
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
@@ -3071,6 +3148,15 @@ function formulariocGarantizarEquipoProyecto(input) {
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+
+    // let empresasRegistradas = Object.keys(empresas).length
+    // let problemasValidados = contarElementos(problemas, "validacion");
+
+    // if (!denominadorEsCero([totalTrabajos])) {
+    //     document.getElementById("formula").value = (empresasRegistradas / problemasValidados * 100).toFixed(2) + " %";
+    // } else {
+    //     document.getElementById("formula").value = 0;
+    // }
 }
 
 function formularioGarantizarEquipoEstudiante(input) {
@@ -3079,7 +3165,7 @@ function formularioGarantizarEquipoEstudiante(input) {
     document.getElementById("Form1").innerHTML = `
         <div id="datosPromoverCompetencia" class="camposLogros">
             <img class="iconosPrincipales" src="Ecuaciones/Garantizar Equipo Tiene Estudiante.png" id="imagen">
-            <input type="text" id="formula">
+            <input type="text" id="formula" disabled>
         </div>
 
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
@@ -3088,6 +3174,15 @@ function formularioGarantizarEquipoEstudiante(input) {
     document.getElementById("imagen").style.width = "120px";
     mostracionFormulario(input, divform)
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+
+    let numeroEstudiantes = Object.keys(estudiantes).length
+    let numeroEquipos = Object.keys(equipos).length
+
+    if (!denominadorEsCero([numeroEquipos])) {
+        document.getElementById("formula").value = (numeroEstudiantes / numeroEquipos).toFixed(2);
+    } else {
+        document.getElementById("formula").value = 0;
+    }
 }
 
 function formularioIncrementarCartera(input) {
@@ -3096,7 +3191,7 @@ function formularioIncrementarCartera(input) {
     document.getElementById("Form1").innerHTML = `
         <div id="datosPromoverCompetencia" class="camposLogros">
             <img class="iconosPrincipales" src="Ecuaciones/Incrementar Cartera de Proyecto.png" id="imagen">
-            <input type="text" id="formula">
+            <input type="text" id="formula" disabled>
         </div>
 
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
@@ -3105,6 +3200,35 @@ function formularioIncrementarCartera(input) {
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+
+    let numeroEquipos = Object.keys(equipos).length;
+    let numeroProyectos = carteraDeProyectos.cantidadProyectos;
+
+    if (!denominadorEsCero([numeroProyectos])) {
+        document.getElementById("formula").value = (numeroEquipos / numeroProyectos).toFixed(2);
+    } else {
+        document.getElementById("formula").value = 0;
+    }
+}
+
+function contarElementos(objeto, atributo, valor) {
+    var contador = 0;
+
+    for (var value of Object.values(objeto)) {
+        // Se comprueba si tiene el atributo
+        if (value[atributo] != undefined) {
+            if (value[atributo] == valor) {
+                contador++;
+            }
+        }
+    }
+    return contador;
+}
+
+function denominadorEsCero(lista) {
+    return lista.forEach(
+        (elemento) => elemento == 0
+    );
 }
 
 var profesores = {
@@ -3186,6 +3310,7 @@ var clases = {
         asignatura: "Ingeniería de Software"
     }
 };
+
 var criteriosInicial = {
     "Aproximación a los requisitos iniciales": {
         descripcion: "Lo expuesto por el estudiante se aproxima lo suficiente a los intereses del representante",
@@ -3200,6 +3325,7 @@ var criteriosInicial = {
         rubrica: "Informe Inicial"
     }
 };
+
 var criteriosProgreso = {
     "Avance en los requisitos": {
         descripcion: "Se nota el avance entre definir el contexto, analizar el problema y empezar a modelar la solución",
@@ -3214,9 +3340,11 @@ var criteriosProgreso = {
         rubrica: "Informe de Progreso"
     }
 };
+
 var criteriosFinal = {
 
 };
+
 var criteriosAlpha = {
     "Funcionalidad": {
         descripcion: "Todas las funciones estan correctas sin errores",
@@ -3231,6 +3359,7 @@ var criteriosAlpha = {
         rubrica: "Prototipo Alpha"
     }
 };
+
 var criteriosBeta = {
     "Diseño": {
         descripcion: "El prototipo tiene un buen diseño entendible y agradable a la vista",
@@ -3251,6 +3380,7 @@ var criteriosBeta = {
         rubrica: "Prototipo Beta"
     }
 };
+
 var empresas = {
     Postobon: {
         mision: "Refrescar el mundo. Inspirar momentos de optimismo y felicidad. Crear valor y marcar la diferencia.",
@@ -3265,8 +3395,16 @@ var empresas = {
         nombre: "EPM",
         objetivoEmpresa: "Mejorar los servicios básicos",
         vision: "En 2022 Ticsa será una empresa líder en México en excelencia operativa, reputación y transparencia, ofreciendo a los clientes y al mercado un portafolio integral de soluciones hídricas y energéticas, fundamentada en prácticas socialmente responsables con todos los grupos de ínteres y contribuyendo a la consolidación multilatina del Grupo Empresarial EPM."
+    },
+    Colcafé: {
+        mision: "Vender cafechito",
+        necesidad: "Necesitamos vender mas cafechito",
+        nombre: "Colcafé",
+        objetivoEmpresa: "Y a vece' e' Dolce, a vece' Bulgari↵Cuando te lo quito despué' de lo' partie'↵Las copa' de vino, las libra' de mari↵Tú estás bien suelta, yo de safari↵Tú muevе' el culo fenomenal↵Pa' yo dеvorarte como animal↵Si no te ha' venío', yo te vo'a esperar↵En mi cama y lo vo'a celebrar",
+        vision: "Ver cosas luego de tomar cafechito"
     }
 };
+
 var representantes = {
     "Santiago Bolaños": {
         celular: "3123044398",
@@ -3283,6 +3421,7 @@ var representantes = {
         nombre: "Juan Perez"
     }
 };
+
 var problemas = {
     Postobon: {
         actor: "Cliente",
@@ -3303,8 +3442,17 @@ var problemas = {
         impacto: "Bajo",
         proceso: "Obtención de información",
         validacion: "Aprobado Con Ajustes"
+    },
+    Colcafé: {
+        actor: "La gente que hace el café y la gente que compra el café",
+        causa: "El cafechito no se vende lo suficiente",
+        descripcionProblema: "Baby, a ti no me opongo↵Y siempre te lo pongo (Yo te lo pongo)↵Y si tú me tira', vamo' a nadar en lo hondo (Nadar en lo hondo)↵Si es por mí te lo pongo↵De septiembre hasta agosto↵Y a mí sin cojone' lo que digan tu' amiga'",
+        empresa: "Colcafé",
+        impacto: "Que chorprecha!",
+        proceso: "El proceso de vender café"
     }
 };
+
 var carteraDeProyectos = {
     cantidadProyectos: 1,
     proyectos: {
@@ -3363,6 +3511,16 @@ var estudiantes = {
         identificacion: "238",
         nombre: "Johnny Melas Lavo",
         semestre: "Este"
+    },
+    2929: {
+        carrera: "Ingenieria de Alimentos",
+        celular: "999",
+        contrasena: "benito",
+        correo: "benito.com",
+        direccion: "Enrique Segoviano",
+        identificacion: "2929",
+        nombre: "Benito Camelo",
+        semestre: "2020-I"
     }
 };
 
@@ -3372,8 +3530,14 @@ var equipos = {
         integrantes: {
             estudiante_1: "123"
         }
+    },
+    "EPM 2": {
+        cantidad: "2",
+        integrantes: {
+            estudiante_1: "238",
+            estudiante_2: "2929"
+        }
     }
-
 };
 
 var metodologiasDesarrollo = {};
@@ -3408,10 +3572,41 @@ var informesIniciales = {
         }
     }
 };
+
 var informesProgreso = {};
+
 var informesFinales = {};
+
 var prototiposAlpha = {};
-var prototiposBeta = {};
+
+var prototiposBeta = {
+    "EPM 1": {
+        calidad: "Media",
+        fecha: "2020-11-05",
+        link: "nuai",
+        rubrica: {
+            criterios: {
+                Completitud: { valoracion: "malisimo", comentario: "ñoño", nota: "1.223" },
+                Diseño: { valoracion: "-10", comentario: "melo", nota: "5" },
+                "Exito de funciones": { valoracion: "brevas", comentario: "olis", nota: "3" }
+            },
+            nota: 2.6892
+        }
+    },
+    "EPM 2": {
+        calidad: "Alta",
+        fecha: "2020-11-25",
+        link: "este otro",
+        rubrica: {
+            criterios: {
+                Completitud: { valoracion: "melosky", comentario: "melosky", nota: "4" },
+                Diseño: { valoracion: "melo", comentario: "melo", nota: "2" },
+                "Exito de funciones": { valoracion: "melani", comentario: "melani", nota: "3" }
+            },
+            nota: 3.2
+        }
+    }
+};
 
 var retroalimentaciones = {};
 
