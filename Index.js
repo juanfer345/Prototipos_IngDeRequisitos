@@ -1092,25 +1092,25 @@ function formularioRegistraHistoria(input) {
 
         <div id="datosRegistraEstudiante" class="campos">
             <label for="nombre"> Nombre </label>
-            <input type="text" id="nombre">
+            <input type="text" id="nombre" disabled>
 
             <label for="identificacion"> Identificación </label>
-            <input type="number" id="identificacion" min="0">
+            <input type="number" id="identificacion" min="0" disabled>
             
             <label for="direccion"> Dirección </label>
-            <textarea id="direccion"></textarea>
+            <textarea id="direccion" disabled></textarea>
             
             <label for="celular"> Celular </label>
-            <input type="number" id="celular" min="0">
+            <input type="number" id="celular" min="0" disabled>
 
             <label for="correo"> Correo </label>
-            <input type="email" id="correo">
+            <input type="email" id="correo" disabled>
 
             <label for="carrera"> Carrera </label>
-            <input type="text" id="carrera">
+            <input type="text" id="carrera" disabled>
 
             <label for="semestre"> Semestre </label>
-            <input type="text" id="semestre">
+            <input type="text" id="semestre" disabled>
 
             <label> Competencia </label>
 
@@ -1121,7 +1121,6 @@ function formularioRegistraHistoria(input) {
                 <input type="radio" id="competencia" name="competencia" value="Social">
                 <label> Social </label>
             </div>
-
         </div>
 
         <h2 class='subtituloForm'> Historia Académica </h2>
@@ -3481,6 +3480,7 @@ var estudiantes = {
             }
         },
         identificacion: "123",
+        contrasena: "elber",
         nombre: "Elber Galarga",
         semestre: "2020-III"
     },
@@ -3500,6 +3500,7 @@ var estudiantes = {
         },
         identificacion: "456",
         nombre: "Esteban Dido",
+        contrasena: "esteban",
         semestre: "el último"
     },
     238: {
