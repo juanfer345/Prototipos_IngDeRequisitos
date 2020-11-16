@@ -1,7 +1,6 @@
 - Registra historia academica no se ingresan datos estudiante (se queda competencia y participacion), elije el que ya está.
 - Guardar datos
 
-- Representante revisa prototipo beta. Es commo retroalimentacion (ESTO HACE FALTA EN EL DIAGRAMA)
 - No se está modificando la calidad del proyecto en ningún lado. Incluir automatica en ver proyecto, 0 a 3, 3 a 4, 4 a 5. 
 - En fomentar participacion se tienen en cuenta solo los trabajos ya calificados o todos? -> solo luego de calificar
 - Todo se esta redondeando a 2 cifras por cierto (solo pa mostrar, la app si guarda too el valor)
@@ -12,4 +11,3 @@
 - Solo un admin? -> solo un admin
 
 
-<rect x="1084.75" y="1381" width="120" height="48" rx="24" ry="24" fill="#ffffff" stroke="#000000" stroke-dasharray="3 3" pointer-events="all"></rect>

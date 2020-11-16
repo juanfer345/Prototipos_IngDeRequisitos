@@ -2035,60 +2035,6 @@ function formularioCalificaInforme(input, tipoInfProt) {
     AsignacionExpansionTextArea(document.querySelector("#datosCriteriosEval").querySelectorAll("textarea"));
 }
 
-function formularioRealizaRevision(input) {
-    // Obteniendo los valores preestablecidos para llenar el formulario
-    const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
-
-    // Llenando los datos del formulario
-    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Realiza Revisión </h1>"
-
-    document.getElementById("Form1").innerHTML = `
-        <div id="datosRevision" class="campos">
-
-            ${equiposHTML}
-
-            <label for="link"> Link </label>
-            <input type="text" id="link" disabled>
-
-            <label for="valoracion"> Valoración </label>
-            <textarea id="valoracion"></textarea>
-
-            <label for="sugerencia"> Sugerencia </label>
-            <textarea id="sugerencia"></textarea>
-
-        </div>
-
-        <div class="botones">
-            <button id="confirmarForm1" type="button" class="botonConfirmar"> Realizar </button>
-            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
-        </div>
-        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
-    `;
-
-    // Mostrando el formulario y ubicándolo en la posición adecuada
-    var divform = document.getElementById("divForm1");
-    mostracionFormulario(input, divform)
-
-    // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
-    AsignacionExpansionTextArea(document.querySelector("#datosRetroalimentacion").querySelectorAll("textarea"));
-
-    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
-    document.getElementById("equipo").addEventListener("change",
-        () => {
-            actualizarCamposSelect("equipo", "datosRetroalimentacion", prototiposAlpha);
-        }
-    );
-    actualizarCamposSelect("equipo", "datosRetroalimentacion", prototiposAlpha);
-
-    document.getElementById("confirmarForm1").addEventListener("click",
-        () => {
-            guardarDatos(document.querySelector("#datosRetroalimentacion").querySelectorAll("select, input, textarea"), "Retroalimentacion", undefined, undefined,
-                [false, false, false, true, true]);
-        }
-    );
-    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
-}
-
 function formularioRealizaRetroalimentacion(input) {
     // Obteniendo los valores preestablecidos para llenar el formulario
     const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
@@ -2137,7 +2083,61 @@ function formularioRealizaRetroalimentacion(input) {
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
             guardarDatos(document.querySelector("#datosRetroalimentacion").querySelectorAll("select, input, textarea"), "Retroalimentacion", undefined, undefined,
-                [false, false, false, true, true]);
+                [false, false, true, true]);
+        }
+    );
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+}
+
+function formularioRealizaRevision(input) {
+    // Obteniendo los valores preestablecidos para llenar el formulario
+    const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
+
+    // Llenando los datos del formulario
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Realiza Revisión </h1>"
+
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosRevision" class="campos">
+
+            ${equiposHTML}
+
+            <label for="link"> Link </label>
+            <input type="text" id="link" disabled>
+
+            <label for="valoracion"> Valoración </label>
+            <textarea id="valoracion"></textarea>
+
+            <label for="sugerencia"> Sugerencia </label>
+            <textarea id="sugerencia"></textarea>
+
+        </div>
+
+        <div class="botones">
+            <button id="confirmarForm1" type="button" class="botonConfirmar"> Realizar </button>
+            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
+        </div>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+    `;
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+    AsignacionExpansionTextArea(document.querySelector("#datosRevision").querySelectorAll("textarea"));
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("equipo").addEventListener("change",
+        () => {
+            actualizarCamposSelect("equipo", "datosRevision", prototiposBeta);
+        }
+    );
+    actualizarCamposSelect("equipo", "datosRevision", prototiposBeta);
+
+    document.getElementById("confirmarForm1").addEventListener("click",
+        () => {
+            guardarDatos(document.querySelector("#datosRevision").querySelectorAll("select, input, textarea"), "Revision", undefined, undefined,
+                [false, false, true, true]);
         }
     );
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
@@ -2954,6 +2954,11 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                 cadenaAux1 = `La retroalimentación del prototipo alpha del equipo ${llave}`; cadenaAux2 = "realizada"
                 retroalimentaciones[llave] = crearObjeto(input, AgregaConCondicion);
                 break;
+                
+            case "Revision":
+                cadenaAux1 = `La revisión del prototipo alpha del equipo ${llave}`; cadenaAux2 = "realizada"
+                revisiones[llave] = crearObjeto(input, AgregaConCondicion);
+                break;
         }
 
         if (!errorIngresoDatos) {
@@ -3110,7 +3115,6 @@ function login(input, usuario) {
         alert(`Los datos ingresados no corresponden a ningun ${usuario.toLowerCase()}`);
     }
 }
-
 
 // Formularios factores criticos de exito
 function formularioPromoverCompetencia(input) {
@@ -3756,6 +3760,8 @@ var prototiposBeta = {
 };
 
 var retroalimentaciones = {};
+
+var revisiones = {};
 
 // Valores para sesión
 var usuarioActivo;
