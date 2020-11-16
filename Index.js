@@ -1,6 +1,18 @@
 function inicializarPagina() {
 
     // Añadiendo los escuchadores cada relación dinámica (2 por cada una pa q se le pueda dar click al texto y al "rectangulo")
+    document.getElementById("loginProfesor").addEventListener("click", () => { formularioLogin(event, "Profesor") })
+    document.getElementById("loginProfesorText").addEventListener("click", () => { formularioLogin(event, "Profesor") })
+
+    document.getElementById("loginEstudiante").addEventListener("click", () => { formularioLogin(event, "Estudiante") })
+    document.getElementById("loginEstudianteText").addEventListener("click", () => { formularioLogin(event, "Estudiante") })
+
+    document.getElementById("loginRepresentante").addEventListener("click", () => { formularioLogin(event, "Representante") })
+    document.getElementById("loginRepresentanteText").addEventListener("click", () => { formularioLogin(event, "Representante") })
+
+    document.getElementById("loginAdministrador").addEventListener("click", () => { formularioLogin(event, "Administrador") })
+    document.getElementById("loginAdministradorText").addEventListener("click", () => { formularioLogin(event, "Administrador") })
+
     document.getElementById("registraProfesor").addEventListener("click", formularioRegistraProfesor)
     document.getElementById("registraProfesorText").addEventListener("click", formularioRegistraProfesor)
 
@@ -172,6 +184,50 @@ function expansionTextAreaDisabled(lista) {
             campo.style.height = campo.scrollHeight + "px";
         }
     );
+}
+
+function formularioLogin(input, usuario) {
+
+    if (usuario == "Administrador") {
+        const id = `
+            <label for="nombre"> Nombre Usuario </label>
+            <input type="text" id="nombre">`;
+    }
+    else {
+        const id = `
+            <label for="identificacion"> Identificación </label>
+            <input type="number" id="identificacion">`;
+    }
+
+    // Llenando los datos del formulario
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Iniciar Sesión </h1>"
+
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosIniciaSesion" class="campos">
+            ${id}
+
+            <label for="contrasena"> Contraseña </label>
+            <input type="password" id="contrasena">
+        </div>
+
+        <div class="botones">
+            <button id="confirmarForm1" type="button" class="botonConfirmar"> Aceptar </button>
+            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
+        </div>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+    `;
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("confirmarForm1").addEventListener("click",
+        () => {
+            login(document.querySelector("#datosIniciaSesion").querySelectorAll("input"), usuario);
+        }
+    );
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
 function formularioRegistraProfesor(input) {
@@ -2474,7 +2530,7 @@ function obtenerDatosSelect(id, display, arreglo, seleccionado = "", atributoPor
 
 function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefined, AgregaConCondicion = undefined) {
 
-    var errorIngresoDatos = false; var condicionAlertacion = true; condicionPlural = false; var aparecenRadios = false; var conteoRadiosCheckeados = 0;
+    var errorIngresoDatos = false; var condicionAlertacion = true; var condicionPlural = false; var aparecenRadios = false; var conteoRadiosCheckeados = 0;
     var casoMixto;
     var cadenaAux1, cadenaAux2, cadenaAux3;
 
@@ -2963,6 +3019,54 @@ function adicionarAobjeto(objeto, listiviris) {
         }
     }
 }
+
+function login(input, usuario) {
+
+    var contrasenaSuperSecretaAdministrador = "contraseñaUltraSecreta"; var nombreAdministrador = "Administrador";
+    var objeto; var errorIngresoDatos = false;
+
+    switch (usuario) {
+        case "Profesor":
+            objeto = profesores;
+            break;
+        case "Estudiante":
+            objeto = estudiantes;
+            break;
+        case "Representante":
+            objeto = representantes;
+            break;
+        case "Administrador":
+
+            break;
+    }
+
+    if (usuario != "Administrador") {
+        if (objeto[input[0]] != undefined) {
+            if (objeto[input[0]].contrasena == input[1]) {
+                usuarioActivo = objeto[input[0]];
+            } else {
+                errorIngresoDatos = true;
+            }
+        } else {
+            errorIngresoDatos = true;
+        }
+    } else {
+        if (objeto[input[0]] == nombreAdministrador && objeto[input[1]] == contrasenaSuperSecretaAdministrador) {
+            usuarioActivo = { nombre: nombreAdministrador, contrasena: contrasenaSuperSecretaAdministrador };
+        }
+        else {
+            errorIngresoDatos = true;
+        }
+    }
+
+    if (!errorIngresoDatos) {
+        alert(`Wenas ${usuarioActivo.nombre}, bienvenido q-cho`);
+    }
+    else {
+        alert(`Los datos ingresados no corresponden a ningun ${usuario.toLowerCase()}`);
+    }
+}
+
 
 // Formularios factores criticos de exito
 function formularioPromoverCompetencia(input) {
@@ -3610,5 +3714,8 @@ var prototiposBeta = {
 };
 
 var retroalimentaciones = {};
+
+// Valores para sesión
+var usuarioActivo;
 
 window.addEventListener("load", inicializarPagina, false)
