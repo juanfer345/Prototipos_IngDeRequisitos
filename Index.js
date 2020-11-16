@@ -85,6 +85,9 @@ function inicializarPagina() {
     document.getElementById("calificaPrototipoBeta").addEventListener("click", () => { formularioCalificaInforme(event, "Prototipo Beta") })
     document.getElementById("calificaPrototipoBetaText").addEventListener("click", () => { formularioCalificaInforme(event, "Prototipo Beta") })
 
+    document.getElementById("revisaPrototipoBeta").addEventListener("click", formularioRealizaRevision);
+    document.getElementById("revisaPrototipoBetaText").addEventListener("click", formularioRealizaRevision);
+
     //Factores criticos de exito
     document.getElementById("promoverCompetencia").addEventListener("click", formularioPromoverCompetencia)
     document.getElementById("promoverCompetenciaText").addEventListener("click", formularioPromoverCompetencia)
@@ -188,19 +191,20 @@ function expansionTextAreaDisabled(lista) {
 
 function formularioLogin(input, usuario) {
 
+    var id;
     if (usuario == "Administrador") {
-        const id = `
+        id = `
             <label for="nombre"> Nombre Usuario </label>
             <input type="text" id="nombre">`;
     }
     else {
-        const id = `
+        id = `
             <label for="identificacion"> Identificación </label>
             <input type="number" id="identificacion">`;
     }
 
     // Llenando los datos del formulario
-    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Iniciar Sesión </h1>"
+    document.getElementById("barraForm1").innerHTML = `<h1 class='tituloForm'> Iniciar Sesión ${usuario}</h1>`
 
     document.getElementById("Form1").innerHTML = `
         <div id="datosIniciaSesion" class="campos">
@@ -1573,8 +1577,6 @@ function formularioEntregaInforme(input, tipoInfProt) {
                 <label for="link"> Link </label>
                 <input type="url" id="link">
 
-                <label for="fecha"> Fecha de Entrega </label>
-                <input type="date" id="fecha">
             </div>
         `
         if (tipoInfProt == "Prototipo Alpha") {
@@ -1697,9 +1699,6 @@ function verCalificacion(input, campoEquipoSelect, tipoInfProt) {
              <label for="link"> Link </label>
              <input type="url" id="link" disabled>
 
-             <label for="fecha"> Fecha de Entrega </label>
-             <input type="date" id="fecha" disabled>
-
              <label for="calidad"> Calidad </label>
              <input type="text" id="calidad" disabled>
              
@@ -1809,9 +1808,6 @@ function verRetroalimentacion(input, campoEquipoSelect) {
 
             <label for="link"> Link </label>
             <input type="text" id="link" disabled>
-            
-            <label for="fecha"> Fecha de Entrega </label>
-            <input type="text" id="fecha" disabled>
 
             <label for="calidad"> Calidad </label>
             <input type="text" id="calidad" disabled>
@@ -1917,9 +1913,6 @@ function formularioCalificaInforme(input, tipoInfProt) {
 
                 <label for="link"> Link </label>
                 <input type="url" id="link" disabled>
-
-                <label for="fecha"> Fecha de Entrega </label>
-                <input type="date" id="fecha" disabled>
 
                 ${calidadHTML}
                 
@@ -2042,6 +2035,60 @@ function formularioCalificaInforme(input, tipoInfProt) {
     AsignacionExpansionTextArea(document.querySelector("#datosCriteriosEval").querySelectorAll("textarea"));
 }
 
+function formularioRealizaRevision(input) {
+    // Obteniendo los valores preestablecidos para llenar el formulario
+    const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
+
+    // Llenando los datos del formulario
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Realiza Revisión </h1>"
+
+    document.getElementById("Form1").innerHTML = `
+        <div id="datosRevision" class="campos">
+
+            ${equiposHTML}
+
+            <label for="link"> Link </label>
+            <input type="text" id="link" disabled>
+
+            <label for="valoracion"> Valoración </label>
+            <textarea id="valoracion"></textarea>
+
+            <label for="sugerencia"> Sugerencia </label>
+            <textarea id="sugerencia"></textarea>
+
+        </div>
+
+        <div class="botones">
+            <button id="confirmarForm1" type="button" class="botonConfirmar"> Realizar </button>
+            <button type="reset" class="botonBorrar"> Limpiar Campos </button>
+        </div>
+        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+    `;
+
+    // Mostrando el formulario y ubicándolo en la posición adecuada
+    var divform = document.getElementById("divForm1");
+    mostracionFormulario(input, divform)
+
+    // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+    AsignacionExpansionTextArea(document.querySelector("#datosRetroalimentacion").querySelectorAll("textarea"));
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    document.getElementById("equipo").addEventListener("change",
+        () => {
+            actualizarCamposSelect("equipo", "datosRetroalimentacion", prototiposAlpha);
+        }
+    );
+    actualizarCamposSelect("equipo", "datosRetroalimentacion", prototiposAlpha);
+
+    document.getElementById("confirmarForm1").addEventListener("click",
+        () => {
+            guardarDatos(document.querySelector("#datosRetroalimentacion").querySelectorAll("select, input, textarea"), "Retroalimentacion", undefined, undefined,
+                [false, false, false, true, true]);
+        }
+    );
+    document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
+}
+
 function formularioRealizaRetroalimentacion(input) {
     // Obteniendo los valores preestablecidos para llenar el formulario
     const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
@@ -2056,9 +2103,6 @@ function formularioRealizaRetroalimentacion(input) {
 
             <label for="link"> Link </label>
             <input type="text" id="link" disabled>
-            
-            <label for="fecha"> Fecha de Entrega </label>
-            <input type="text" id="fecha" disabled>
 
             <label for="valoracion"> Valoración </label>
             <textarea id="valoracion"></textarea>
@@ -3687,7 +3731,6 @@ var prototiposAlpha = {};
 var prototiposBeta = {
     "EPM 1": {
         calidad: "Media",
-        fecha: "2020-11-05",
         link: "nuai",
         rubrica: {
             criterios: {
@@ -3700,7 +3743,6 @@ var prototiposBeta = {
     },
     "EPM 2": {
         calidad: "Alta",
-        fecha: "2020-11-25",
         link: "este otro",
         rubrica: {
             criterios: {

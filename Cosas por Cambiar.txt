@@ -10,3 +10,6 @@
 
 - Quien registra repre? -> Preguntar profe
 - Solo un admin? -> solo un admin
+
+
+<rect x="1084.75" y="1381" width="120" height="48" rx="24" ry="24" fill="#ffffff" stroke="#000000" stroke-dasharray="3 3" pointer-events="all"></rect>
