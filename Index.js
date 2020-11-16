@@ -1521,7 +1521,7 @@ function formularioEntregaInforme(input, tipoInfProt) {
         <div class="botones">
             <button id="confirmarForm1" type="button" class="botonConfirmar"> Entregar </button>
             <button type="reset" class="botonBorrar"> Limpiar Campos </button>
-            <button id="verCalificacion" type="button" class="botonExtra"> Ver ${tipoInfProt.split(' ')[0]} </button>
+            <button id="verCalificacion" type="button" class="botonExtra"> Ver ${tipoInfProt} </button>
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
         </div>
     `
@@ -1584,7 +1584,7 @@ function formularioEntregaInforme(input, tipoInfProt) {
             <div class="botones">
                 <button id="confirmarForm1" type="button" class="botonConfirmar"> Entregar </button>
                 <button type="reset" class="botonBorrar"> Limpiar Campos </button>
-                <button id="verCalificacion" type="button" class="botonExtra"> Ver ${tipoInfProt.split(' ')[0]} </button>
+                <button id="verCalificacion" type="button" class="botonExtra"> Ver ${tipoInfProt} </button>
                 <button id="verRetroalimentacion" type="button" class="botonExtra"> Ver Retroalimentación </button>
             </div>
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
@@ -1739,7 +1739,7 @@ function verCalificacion(input, campoEquipoSelect, tipoInfProt) {
         <button id="cerrarForm2" type="button" class="botonCerrar"> Cerrar </button>
     `
     // Juntando los datos del formulario
-    document.getElementById("barraForm2").innerHTML = `<h1 class='tituloForm'> Ver Calificación ${tipoInfProt} </h1>`
+    document.getElementById("barraForm2").innerHTML = `<h1 class='tituloForm'> Ver ${tipoInfProt} </h1>`
     document.getElementById("Form2").innerHTML = `${contenido}`;
 
     if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
@@ -2008,6 +2008,7 @@ function formularioCalificaInforme(input, tipoInfProt) {
                     nota += prototiposBeta[equipo].rubrica.nota;
                 }
             }
+            nota /= 5;
             if (nota <= 3) {
                 equipos[equipo].calidad = "baja";
             }
