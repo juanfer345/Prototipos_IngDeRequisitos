@@ -1974,14 +1974,48 @@ function formularioCalificaInforme(input, tipoInfProt) {
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
+            var equipo = document.getElementById("equipo").value;
             if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
                 guardarDatos([document.getElementById("estado"), document.getElementById("nota")], "Califica_" + tipoInfProt,
-                    document.getElementById("equipo").value,
-                    document.querySelector("#datosCriteriosEval").querySelectorAll("input, textarea, label"));
+                    equipo, document.querySelector("#datosCriteriosEval").querySelectorAll("input, textarea, label"));
             } else {
                 guardarDatos([document.getElementById("calidad"), document.getElementById("nota")], "Califica_" + tipoInfProt,
-                    document.getElementById("equipo").value,
-                    document.querySelector("#datosCriteriosEval").querySelectorAll("input, textarea, label"));
+                    equipo, document.querySelector("#datosCriteriosEval").querySelectorAll("input, textarea, label"));
+            }
+            var nota = 0;
+            if (informesIniciales[equipo] != undefined) {
+                if (informesIniciales[equipo].rubrica != undefined) {
+                    nota += informesIniciales[equipo].rubrica.nota;
+                }
+            }
+            if (informesProgreso[equipo] != undefined) {
+                if (informesProgreso[equipo].rubrica != undefined) {
+                    nota += informesProgreso[equipo].rubrica.nota;
+                }
+            }
+            if (informesFinales[equipo] != undefined) {
+                if (informesFinales[equipo].rubrica != undefined) {
+                    nota += informesFinales[equipo].rubrica.nota;
+                }
+            }
+            if (prototiposAlpha[equipo] != undefined) {
+                if (prototiposAlpha[equipo].rubrica != undefined) {
+                    nota += prototiposAlpha[equipo].rubrica.nota;
+                }
+            }
+            if (prototiposBeta[equipo] != undefined) {
+                if (prototiposBeta[equipo].rubrica != undefined) {
+                    nota += prototiposBeta[equipo].rubrica.nota;
+                }
+            }
+            if (nota <= 3) {
+                equipos[equipo].calidad = "baja";
+            }
+            else if (nota <= 4) {
+                equipos[equipo].calidad = "media";
+            }
+            else if (nota <= 5) {
+                equipos[equipo].calidad = "alta";
             }
         }
     );
@@ -2801,6 +2835,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                             equipos[llave] = {};
                             equipos[llave]["cantidad"] = input[1].value;
                             [equipos[llave]["integrantes"], cadenaAux1] = crearObjeto(nuevoAgrega, undefined, estudiantes, "nombre");
+                            equipos[llave]["calidad"] = "";
 
                             cadenaAux1 = `El equipo identificado con el código "${llave}" y compuesto por los estudiantes ${cadenaAux1}`;
                             cadenaAux2 = `conformado`
@@ -2954,7 +2989,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                 cadenaAux1 = `La retroalimentación del prototipo alpha del equipo ${llave}`; cadenaAux2 = "realizada"
                 retroalimentaciones[llave] = crearObjeto(input, AgregaConCondicion);
                 break;
-                
+
             case "Revision":
                 cadenaAux1 = `La revisión del prototipo alpha del equipo ${llave}`; cadenaAux2 = "realizada"
                 revisiones[llave] = crearObjeto(input, AgregaConCondicion);
@@ -3679,12 +3714,14 @@ var estudiantes = {
 
 var equipos = {
     "EPM 1": {
+        calidad = "",
         cantidad: "1",
         integrantes: {
             estudiante_1: "123"
         }
     },
     "EPM 2": {
+        calidad = "",
         cantidad: "2",
         integrantes: {
             estudiante_1: "238",
