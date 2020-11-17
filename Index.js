@@ -1214,7 +1214,7 @@ function formularioRegistraHistoria(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Registra Historia Académica </h1>"
 
     document.getElementById("Form1").innerHTML = `
-        <div class="ayuda">
+        <div class="ayuda" id="ayuda">
             <p> 
                 Por favor ingrese la participación y seleccione el tipo de competencia, haga clic en 
                 “Agregar Asignatura” para ingresar asignaturas en la historia académica, para cada una de estas, 
@@ -1279,6 +1279,7 @@ function formularioRegistraHistoria(input) {
     `;
     // Cambiando el número de columnas de la tabla (ya que por defecto son 2)
     document.getElementById("titulosColumnas").style.gridTemplateColumns = "100px 30px 50px 70px";
+    document.getElementById("ayuda").style.width = "250px";
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm1");
@@ -1414,7 +1415,7 @@ function formularioConformaEquipo(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Conforma Equipo </h1>"
 
     document.getElementById("Form1").innerHTML = `
-        <div class="ayuda">
+        <div class="ayuda" id="ayuda">
             <p> 
                 Por favor seleccione empresa proyecto, dé clic en el botón “Agregar Estudiante” las veces que necesite, 
                 seleccione los nombres de los estudiantes que conformarán el equipo, y dé clic en el botón “Conformar” 
@@ -1450,6 +1451,7 @@ function formularioConformaEquipo(input) {
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
     document.getElementById("titulosColumnas").style.gridTemplateColumns = "100px 70px 70px";
+    document.getElementById("ayuda").style.width = "250px";
 
     llenarBotonesExpansibles("agregarEstudiante", "datosAgregaEst", [["select", "estudiante", estudiantes]], "100px 70px 70px", "Remover Estudiante",
         "Ver Historia Académica", verHistoria, "cantidad");
@@ -1621,7 +1623,7 @@ function formularioEntregaInforme(input, tipoInfProt) {
 
         switch (tipoInfProt) {
             case "Informe Inicial":
-                contenido += `
+                contenido = `
                     <div class="ayuda">
                         <p> 
                             Por favor seleccione el código equipo, ingrese los campos tema e idea de desarrollo, seleccione 
@@ -1644,7 +1646,7 @@ function formularioEntregaInforme(input, tipoInfProt) {
                 break;
 
             case "Informe de Progreso":
-                contenido += `
+                contenido = `
                     <div class="ayuda">
                         <p> 
                             Por favor seleccione el código equipo, ingrese los campos tema y avance, seleccione el 
@@ -1667,7 +1669,7 @@ function formularioEntregaInforme(input, tipoInfProt) {
                 break;
 
             case "Informe Final":
-                contenido += `
+                contenido = `
                     <div class="ayuda">
                         <p> 
                             Por favor seleccione el código equipo, ingrese los campos tema y conclusión, seleccione el 
@@ -1995,7 +1997,7 @@ function formularioCalificaInforme(input, tipoInfProt) {
     if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
 
         contenido = `
-            <div class="ayuda">
+            <div class="ayuda" id="ayuda">
                 <p> 
                     Por favor seleccione el código equipo, seleccione el estado, ingrese las valoraciones (cualitativas), 
                     los comentarios y las notas según los criterios de evaluación, y dé clic en el botón “Calificar” para 
@@ -2049,7 +2051,7 @@ function formularioCalificaInforme(input, tipoInfProt) {
     }
     else {
         contenido = `
-            <div class="ayuda">
+            <div class="ayuda" id="ayuda">
                 <p> 
                     Por favor seleccione el código equipo, seleccione el estado, ingrese las valoraciones (cualitativas), 
                     los comentarios y las notas según los criterios de evaluación, y dé clic en el botón “Calificar” para 
@@ -2116,6 +2118,7 @@ function formularioCalificaInforme(input, tipoInfProt) {
 
     document.getElementById("columnas").style.gridTemplateColumns = "60px 100px 70px 100px 30px 32px";
     document.getElementById("datosCriteriosEval").style.gridTemplateColumns = "60px 100px 70px 100px 30px 32px";
+    document.getElementById("ayuda").style.width = "400px";
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm1");
