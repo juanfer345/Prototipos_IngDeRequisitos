@@ -1,13 +1,9 @@
 - Registra historia academica no se ingresan datos estudiante (se queda competencia y participacion), elije el que ya está.
 - Guardar datos
 
-- No se está modificando la calidad del proyecto en ningún lado. Incluir automatica en ver proyecto, 0 a 3, 3 a 4, 4 a 5. 
-- En fomentar participacion se tienen en cuenta solo los trabajos ya calificados o todos? -> solo luego de calificar
-- Todo se esta redondeando a 2 cifras por cierto (solo pa mostrar, la app si guarda too el valor)
 - para reconocer causa y garantizar equipo tiene proyecto se considera validado algo que se halla categorizado como "No Aprobado"? -> en teoria no esta validado
 - Creo que para garantizar equipo tiene estudiante se debe realizar el cálculo de otra forma.-> solo los que ya estan en un equipo
 
 - Quien registra repre? -> Preguntar profe
-- Solo un admin? -> solo un admin
 
 

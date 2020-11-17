@@ -104,8 +104,8 @@ function inicializarPagina() {
     document.getElementById("reconocerCausa").addEventListener("click", formularioReconocerCausa)
     document.getElementById("reconocerCausaText").addEventListener("click", formularioReconocerCausa)
 
-    document.getElementById("garantizarEquipoProyecto").addEventListener("click", formulariocGarantizarEquipoProyecto)
-    document.getElementById("garantizarEquipoProyectoText").addEventListener("click", formulariocGarantizarEquipoProyecto)
+    document.getElementById("garantizarEquipoProyecto").addEventListener("click", formularioGarantizarEquipoProyecto)
+    document.getElementById("garantizarEquipoProyectoText").addEventListener("click", formularioGarantizarEquipoProyecto)
 
     document.getElementById("garantizarEquipoEstudiante").addEventListener("click", formularioGarantizarEquipoEstudiante)
     document.getElementById("garantizarEquipoEstudianteText").addEventListener("click", formularioGarantizarEquipoEstudiante)
@@ -2423,7 +2423,7 @@ function llenarTablaSelect(llave, nombreContenedorCampos, arreglo = undefined, c
                         <textarea disabled>${value.descripcion}</textarea>
                         <input type="text" id="valoracion">
                         <textarea id="comentario"></textarea>
-                        <input type="number" id="nota">
+                        <input type="number" id="nota" min="0" max="5">
                         <label> ${value.peso} </label>
                     `;
                 }
@@ -3310,17 +3310,18 @@ function formularioReconocerCausa(input) {
     mostracionFormulario(input, divform)
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 
-    // let equiposConformados = Object.keys(equipos).length
-    // let problemasValidados = contarElementos(problemas, "validacion");
+    let equiposConformados = Object.keys(equipos).length
+    let problemasValidados = contarElementos(problemas, "validacion", "Aprobado Sin Ajustes");
+    problemasValidados += contarElementos(problemas, "validacion", "Aprobado Con Ajustes");
 
-    // if (!denominadorEsCero([totalTrabajos])) {
-    //     document.getElementById("formula").value = (numTrabajosEntregados / totalTrabajos * 100).toFixed(2) + " %";
-    // } else {
-    //     document.getElementById("formula").value = 0;
-    // }
+    if (!denominadorEsCero([problemasValidados])) {
+        document.getElementById("formula").value = (equiposConformados / problemasValidados * 100).toFixed(2) + " %";
+    } else {
+        document.getElementById("formula").value = 0;
+    }
 }
 
-function formulariocGarantizarEquipoProyecto(input) {
+function formularioGarantizarEquipoProyecto(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Porcentaje de problemas validados </h1>"
     // <label for="formula"> (Número de problemas validados/ Número de empresas registradas) * 100 </label>
     document.getElementById("Form1").innerHTML = `
@@ -3336,14 +3337,15 @@ function formulariocGarantizarEquipoProyecto(input) {
     mostracionFormulario(input, divform)
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 
-    // let empresasRegistradas = Object.keys(empresas).length
-    // let problemasValidados = contarElementos(problemas, "validacion");
+    let empresasRegistradas = Object.keys(empresas).length
+    let problemasValidados = contarElementos(problemas, "validacion", "Aprobado Sin Ajustes");
+    problemasValidados += contarElementos(problemas, "validacion", "Aprobado Con Ajustes");
 
-    // if (!denominadorEsCero([totalTrabajos])) {
-    //     document.getElementById("formula").value = (empresasRegistradas / problemasValidados * 100).toFixed(2) + " %";
-    // } else {
-    //     document.getElementById("formula").value = 0;
-    // }
+    if (!denominadorEsCero([empresasRegistradas])) {
+        document.getElementById("formula").value = (problemasValidados / empresasRegistradas * 100).toFixed(2) + " %";
+    } else {
+        document.getElementById("formula").value = 0;
+    }
 }
 
 function formularioGarantizarEquipoEstudiante(input) {
@@ -3715,14 +3717,14 @@ var estudiantes = {
 
 var equipos = {
     "EPM 1": {
-        calidad = "",
+        calidad: "",
         cantidad: "1",
         integrantes: {
             estudiante_1: "123"
         }
     },
     "EPM 2": {
-        calidad = "",
+        calidad: "",
         cantidad: "2",
         integrantes: {
             estudiante_1: "238",
