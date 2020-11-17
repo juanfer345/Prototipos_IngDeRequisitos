@@ -240,6 +240,12 @@ function formularioRegistraProfesor(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Registra Profesor </h1>"
 
     document.getElementById("Form1").innerHTML = `
+        <div class="ayuda">
+            <p> 
+                Por favor ingrese los datos del profesor y dé clic en “Registrar” para guardarlos
+            </p>
+        </div>
+
         <div id="datosRegistraProfesor" class="campos">
             <label for="identificacion"> Identificación </label>
             <input type="number" id="identificacion">
@@ -286,6 +292,12 @@ function formularioRegistraEstudiante(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Registra Estudiante </h1>"
 
     document.getElementById("Form1").innerHTML = `
+        <div class="ayuda">
+            <p> 
+                Por favor ingrese los datos del estudiante y dé clic en “Registrar” para guardarlos
+            </p>
+        </div>
+
         <div id="datosRegistraEstudiante" class="campos">
 
             <label for="identificacion"> Identificación </label>
@@ -340,6 +352,12 @@ function formularioRegistraSemestre(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Registra Semestre </h1>"
 
     document.getElementById("Form1").innerHTML = `
+        <div class="ayuda">
+            <p> 
+                Por favor ingrese los datos del semestre y dé clic en “Registrar” para guardarlos
+            </p>
+        </div>
+
         <div id="datosRegistraSemestre" class="campos">
 
             <label for="fechaInicio"> Fecha Inicio </label>
@@ -373,12 +391,19 @@ function formularioRegistraSemestre(input) {
 function formularioDisenaAsignatura(input) {
 
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const profesoresHTML = obtenerDatosSelect("profesor", "Profesor", profesores);
+    const profesoresHTML = obtenerDatosSelect("profesor", "Profesor", profesores, undefined, "nombre");
 
     // Llenando los datos del formulario
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Diseña Asignatura </h1>"
 
     document.getElementById("Form1").innerHTML = `
+        <div class="ayuda">
+            <p> Por favor ingrese el nombre de la asignatura, seleccione el profesor y dé clic en 
+                “Agregar Contenido” por cada contenido que necesite agregar, luego dé clic en 
+                “Diseñar” para guardar los datos
+            </p>
+        </div>
+
         <div id="datosDiseñaAsignatura" class="campos">
             <label for="nombre"> Nombre </label>
             <input type="text" id="nombre">
@@ -573,6 +598,13 @@ function formularioDisenaClase(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Diseña Clase </h1>"
 
     document.getElementById("Form1").innerHTML = `
+        <div class="ayuda">
+            <p> 
+                Por favor seleccione el nombre de la asignatura, seleccione el contenido correspondiente, 
+                ingrese el número y temática de la clase, luego dé clic en “Diseñar” para guardar los datos
+            </p>
+        </div>
+
         <div id="datosDiseñaClase" class="campos">
 
             ${asignaturasHTML}
@@ -611,12 +643,18 @@ function formularioDisenaClase(input) {
 function formularioDefineCriterioEvaluacion(input) {
 
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const rubricaHTML = obtenerDatosSelect("rubrica", "Rúbrica Asociada", { "Informe Inicial": {}, "Informe de Progreso": {}, "Informe Final": {}, "Prototipo Alpha": {}, "Prototipo Beta": {} });
+    const rubricaHTML = obtenerDatosSelect("rubrica", "Nombre de la Rúbrica", { "Informe Inicial": {}, "Informe de Progreso": {}, "Informe Final": {}, "Prototipo Alpha": {}, "Prototipo Beta": {} });
 
     // Llenando los datos del formulario
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Define Criterio de Evaluación </h1>"
 
     document.getElementById("Form1").innerHTML = `
+        <div class="ayuda">
+            <p> 
+                Define Criterio de Evaluación” con el mensaje de ayuda “Por favor seleccione el nombre de la rúbrica, 
+                ingrese el nombre, descripción y peso del criterio, luego dé clic en “Definir” para guardar los datos
+            </p>
+        </div>
 
         <div id="datosDefineCrit" class="campos">
 
@@ -729,6 +767,12 @@ function formularioRegistraEmpresa(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Registra Empresa </h1>"
 
     document.getElementById("Form1").innerHTML = `
+        <div class="ayuda">
+            <p> 
+                Por favor ingrese los datos de la empresa y el representante y dé clic en “Registrar” para guardarlos
+            </p>
+        </div>
+
         <h2 class='subtituloForm'> Datos Empresa </h2>
 
         <div id="datosRegistraEmpresa" class="campos">
@@ -811,6 +855,14 @@ function formularioDefineProblema(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Define Problema </h1>"
 
     document.getElementById("Form1").innerHTML = `
+        <div class="ayuda">
+            <p> 
+            Por favor seleccione el nombre de la empresa, ingrese los datos del problema y en la 
+            sección de “Actor Involucrado” introduzca los actores separados por comas y dé clic en 
+            “Definir” para guardar los datos
+            </p>
+        </div>
+
         <div id="datosDefineProblema" class="campos">
 
             ${empresasHTML}
@@ -864,6 +916,14 @@ function formularioValidaProblema(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Valida Problema </h1>"
 
     document.getElementById("Form1").innerHTML = `
+        <div class="ayuda">
+            <p> 
+                Por favor seleccione el nombre de la empresa para ver el problema asociado, luego 
+                seleccione la validación e ingrese un comentario, finalmente, dé clic en “Validar” 
+                para guardar los datos
+            </p>
+        </div>
+
         <div id="datosProblema" class="campos">
 
             ${empresasHTML}
@@ -1016,6 +1076,12 @@ function formularioConstruyeCartera(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Construye Cartera de Proyecto </h1>"
 
     document.getElementById("Form1").innerHTML = `
+        <div class="ayuda">
+            <p> 
+                Construye Cartera de Proyecto” con el mensaje de ayuda “Por favor dé clic en “Agregar Proyecto” 
+                para insertar proyectos en la cartera de proyectos
+            </p>
+        </div>
 
         <div id="datosCartera" class="campos">
             
@@ -1148,6 +1214,14 @@ function formularioRegistraHistoria(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Registra Historia Académica </h1>"
 
     document.getElementById("Form1").innerHTML = `
+        <div class="ayuda">
+            <p> 
+                Por favor ingrese la participación y seleccione el tipo de competencia, haga clic en 
+                “Agregar Asignatura” para ingresar asignaturas en la historia académica, para cada una de estas, 
+                ingrese el nombre, la nota y el semestre en que fue cursada  y dé clic en “Registrar” para guardar los datos
+            </p>
+        </div>
+    
         <h2 class='subtituloForm'> Datos Estudiante </h2>
 
         <div id="datosRegistraEstudiante" class="campos">
@@ -1340,6 +1414,14 @@ function formularioConformaEquipo(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Conforma Equipo </h1>"
 
     document.getElementById("Form1").innerHTML = `
+        <div class="ayuda">
+            <p> 
+                Por favor seleccione empresa proyecto, dé clic en el botón “Agregar Estudiante” las veces que necesite, 
+                seleccione los nombres de los estudiantes que conformarán el equipo, y dé clic en el botón “Conformar” 
+                para guardar los datos
+            </p>
+        </div>
+
         <div id="datosEquipo" class="campos">
         
             ${empresasHTML}
@@ -1474,6 +1556,13 @@ function formularioDefineMetodologia(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Define Metodologia de Desarrollo </h1>"
 
     document.getElementById("Form1").innerHTML = `
+        <div class="ayuda">
+            <p> 
+                Por favor seleccione el código equipo, ingrese el nombre de la metodología, los pasos separados por comas 
+                y los roles separados por comas, y dé clic en el botón “Definir” para guardar los datos
+            </p>
+        </div>
+
         <div id="datosMetodologia" class="campos">
 
             ${equiposHTML}
@@ -1529,17 +1618,25 @@ function formularioEntregaInforme(input, tipoInfProt) {
     const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
 
     if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
-        contenido = `
-            <div id="datosEntrega" class="campos">
-            
-                ${equiposHTML}
 
-                <label for="tema"> Tema </label>
-                <textarea id="tema"></textarea>
-        `
         switch (tipoInfProt) {
             case "Informe Inicial":
                 contenido += `
+                    <div class="ayuda">
+                        <p> 
+                            Por favor seleccione el código equipo, ingrese los campos tema e idea de desarrollo, seleccione 
+                            el botón “Agregar Sección” las veces que necesite para agregar las secciones, seleccione el botón 
+                            “Subir Archivo” para agregar el archivo y dé clic en botón “Entregar” para guardar los datos
+                        </p>
+                    </div>
+
+                    <div id="datosEntrega" class="campos">
+            
+                        ${equiposHTML}
+
+                        <label for="tema"> Tema </label>
+                        <textarea id="tema"></textarea>
+
                         <label for="idea"> Idea de Desarrollo </label>
                         <textarea id="idea"></textarea>
                     </div>
@@ -1548,6 +1645,21 @@ function formularioEntregaInforme(input, tipoInfProt) {
 
             case "Informe de Progreso":
                 contenido += `
+                    <div class="ayuda">
+                        <p> 
+                            Por favor seleccione el código equipo, ingrese los campos tema y avance, seleccione el 
+                            botón “Agregar Sección” las veces que necesite para agregar las secciones, seleccione el 
+                            botón “Subir Archivo” para agregar el archivo y dé clic en el botón “Entregar” para guardar los datos
+                        </p>
+                    </div>
+
+                    <div id="datosEntrega" class="campos">
+            
+                        ${equiposHTML}
+
+                        <label for="tema"> Tema </label>
+                        <textarea id="tema"></textarea>
+
                         <label for="avance"> Avance </label>
                         <textarea id="avance"></textarea>
                     </div>
@@ -1556,6 +1668,21 @@ function formularioEntregaInforme(input, tipoInfProt) {
 
             case "Informe Final":
                 contenido += `
+                    <div class="ayuda">
+                        <p> 
+                            Por favor seleccione el código equipo, ingrese los campos tema y conclusión, seleccione el 
+                            botón “Agregar Sección” las veces que necesite para agregar las secciones, seleccione el botón 
+                            “Subir Archivo” para agregar el archivo y dé clic en el botón “Entregar” para guardar los datos
+                        </p>
+                    </div>
+
+                    <div id="datosEntrega" class="campos">
+            
+                        ${equiposHTML}
+
+                        <label for="tema"> Tema </label>
+                        <textarea id="tema"></textarea>
+
                         <label for="conclusion"> Conclusión </label>
                         <textarea id="conclusion"></textarea>
                     </div>
@@ -1570,6 +1697,13 @@ function formularioEntregaInforme(input, tipoInfProt) {
     }
     else {
         contenido = `
+            <div class="ayuda">
+                <p> 
+                    Por favor seleccione el código equipo, ingrese el link del prototipo y dé clic en el botón “Entregar” 
+                    para guardar los datos
+                </p>
+            </div>
+
             <div id="datosEntrega" class="campos">
             
                 ${equiposHTML}
@@ -1581,14 +1715,14 @@ function formularioEntregaInforme(input, tipoInfProt) {
         `
         if (tipoInfProt == "Prototipo Alpha") {
             var botones = `
-            <div class="botones">
-                <button id="confirmarForm1" type="button" class="botonConfirmar"> Entregar </button>
-                <button type="reset" class="botonBorrar"> Limpiar Campos </button>
-                <button id="verCalificacion" type="button" class="botonExtra"> Ver ${tipoInfProt} </button>
-                <button id="verRetroalimentacion" type="button" class="botonExtra"> Ver Retroalimentación </button>
-            </div>
-        <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
-        `
+                <div class="botones">
+                    <button id="confirmarForm1" type="button" class="botonConfirmar"> Entregar </button>
+                    <button type="reset" class="botonBorrar"> Limpiar Campos </button>
+                    <button id="verCalificacion" type="button" class="botonExtra"> Ver ${tipoInfProt} </button>
+                    <button id="verRetroalimentacion" type="button" class="botonExtra"> Ver Retroalimentación </button>
+                </div>
+            <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
+            `
         }
     }
 
@@ -1861,6 +1995,14 @@ function formularioCalificaInforme(input, tipoInfProt) {
     if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
 
         contenido = `
+            <div class="ayuda">
+                <p> 
+                    Por favor seleccione el código equipo, seleccione el estado, ingrese las valoraciones (cualitativas), 
+                    los comentarios y las notas según los criterios de evaluación, y dé clic en el botón “Calificar” para 
+                    guardar los datos
+                </p>
+            </div>
+
             <div id="datosEquipos" class="campos">
                 ${equiposHTML}
             </div>
@@ -1907,6 +2049,14 @@ function formularioCalificaInforme(input, tipoInfProt) {
     }
     else {
         contenido = `
+            <div class="ayuda">
+                <p> 
+                    Por favor seleccione el código equipo, seleccione el estado, ingrese las valoraciones (cualitativas), 
+                    los comentarios y las notas según los criterios de evaluación, y dé clic en el botón “Calificar” para 
+                    guardar los datos
+                </p>
+            </div>
+            
             <div id="datosCalifica" class="campos">
             
                 ${equiposHTML}
@@ -2078,6 +2228,13 @@ function formularioRealizaRetroalimentacion(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Realiza Retroalimentación </h1>"
 
     document.getElementById("Form1").innerHTML = `
+        <div class="ayuda">
+            <p> 
+                Por favor seleccione el código equipo, ingrese la valoración (cualitativa) y la sugerencia, y dé 
+                clic en el botón “Realizar” para guardar los datos
+            </p>
+        </div>
+
         <div id="datosRetroalimentacion" class="campos">
 
             ${equiposHTML}
@@ -2132,6 +2289,13 @@ function formularioRealizaRevision(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Realiza Revisión </h1>"
 
     document.getElementById("Form1").innerHTML = `
+        <div class="ayuda">
+            <p> 
+                Por favor seleccione el código equipo, ingrese la valoración (cualitativa) y la sugerencia, y 
+                dé clic en el botón “Revisar” para guardar los datos
+            </p>
+        </div>
+
         <div id="datosRevision" class="campos">
 
             ${equiposHTML}
@@ -3366,7 +3530,7 @@ function formularioGarantizarEquipoEstudiante(input) {
 
     let numeroEstudiantes = 0;
     let numeroEquipos = Object.keys(equipos).length;
-    
+
     for (var entri of Object.values(equipos)) {
         numeroEstudiantes += Object.keys(entri.integrantes).length;
     }
