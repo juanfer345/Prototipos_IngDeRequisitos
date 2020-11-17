@@ -3368,14 +3368,14 @@ function formularioDesarrollarProyecto(input) {
     mostracionFormulario(input, divform)
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 
-    // let proyectosHQ = contarElementos(prototiposAlpha, "calidad", "Alta");
-    // let numProy = carteraDeProyectos.cantidadProyectos;
+    let proyectosHQ = contarElementos(equipos, "calidad", "alta");
+    let numProy = carteraDeProyectos.cantidadProyectos;
 
-    // if (!denominadorEsCero([numalpha + numbeta])) {
-    //     document.getElementById("formula").value = (alphaHQ + betaHQ) / (numalpha + numbeta) * 100 + " %";
-    // } else {
-    //     document.getElementById("formula").value = 0;
-    // }
+    if (!denominadorEsCero([numProy])) {
+        document.getElementById("formula").value = proyectosHQ / numProy * 100 + " %";
+    } else {
+        document.getElementById("formula").value = 0;
+    }
 }
 
 function formularioFomentarParticipacion(input) {
@@ -3888,14 +3888,14 @@ var estudiantes = {
 
 var equipos = {
     "EPM 1": {
-        calidad: "",
+        calidad: "baja",
         cantidad: "1",
         integrantes: {
             estudiante_1: "123"
         }
     },
     "EPM 2": {
-        calidad: "",
+        calidad: "baja",
         cantidad: "2",
         integrantes: {
             estudiante_1: "238",
