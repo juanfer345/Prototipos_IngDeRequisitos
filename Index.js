@@ -3364,8 +3364,12 @@ function formularioGarantizarEquipoEstudiante(input) {
     mostracionFormulario(input, divform)
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 
-    let numeroEstudiantes = Object.keys(estudiantes).length
-    let numeroEquipos = Object.keys(equipos).length
+    let numeroEstudiantes = 0;
+    let numeroEquipos = Object.keys(equipos).length;
+
+    for (entri in Object.entries(equipos)) {
+        numeroEstudiantes += Object.keys(entri.integrantes).length;
+    }
 
     if (!denominadorEsCero([numeroEquipos])) {
         document.getElementById("formula").value = (numeroEstudiantes / numeroEquipos).toFixed(2);

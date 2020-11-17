@@ -1,7 +1,6 @@
 - Registra historia academica no se ingresan datos estudiante (se queda competencia y participacion), elije el que ya está.
 - Guardar datos
 
-- para reconocer causa y garantizar equipo tiene proyecto se considera validado algo que se halla categorizado como "No Aprobado"? -> en teoria no esta validado
 - Creo que para garantizar equipo tiene estudiante se debe realizar el cálculo de otra forma.-> solo los que ya estan en un equipo
 
 - Quien registra repre? -> Preguntar profe
