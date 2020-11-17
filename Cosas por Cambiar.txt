@@ -1,8 +1,6 @@
 - Registra historia academica no se ingresan datos estudiante (se queda competencia y participacion), elije el que ya está.
 - Guardar datos
 
-- Creo que para garantizar equipo tiene estudiante se debe realizar el cálculo de otra forma.-> solo los que ya estan en un equipo
-
 - Quien registra repre? -> Preguntar profe
 
 

@@ -3366,8 +3366,8 @@ function formularioGarantizarEquipoEstudiante(input) {
 
     let numeroEstudiantes = 0;
     let numeroEquipos = Object.keys(equipos).length;
-
-    for (entri in Object.entries(equipos)) {
+    
+    for (var entri of Object.values(equipos)) {
         numeroEstudiantes += Object.keys(entri.integrantes).length;
     }
 
