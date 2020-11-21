@@ -3,4 +3,6 @@
 
 - Quien registra repre? -> Preguntar profe
 
+localStogare.setItem("nombre", JSON.stringify(object))
+
 

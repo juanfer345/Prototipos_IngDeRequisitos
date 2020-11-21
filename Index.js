@@ -651,7 +651,7 @@ function formularioDefineCriterioEvaluacion(input) {
     document.getElementById("Form1").innerHTML = `
         <div class="ayuda">
             <p> 
-                Define Criterio de Evaluación” con el mensaje de ayuda “Por favor seleccione el nombre de la rúbrica, 
+                Por favor seleccione el nombre de la rúbrica, 
                 ingrese el nombre, descripción y peso del criterio, luego dé clic en “Definir” para guardar los datos
             </p>
         </div>
@@ -1741,7 +1741,7 @@ function formularioEntregaInforme(input, tipoInfProt) {
 
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
-        llenarBotonesExpansibles("agregarSeccion", "datosAgregaSecc", [["textarea", "seccion"]], "140px 70px", "Remover Seccion");
+        llenarBotonesExpansibles("agregarSeccion", "datosAgregaSecc", [["input", "seccion"]], "140px 70px", "Remover Seccion");
         document.getElementById("confirmarForm1").addEventListener("click",
             () => {
                 guardarDatos(document.querySelector("#datosEntrega").querySelectorAll("select, input, textarea"), "Entrega_" + tipoInfProt,
@@ -3293,9 +3293,9 @@ function login(input, usuario) {
     }
 
     if (usuario != "Administrador") {
-        if (objeto[input[0]] != undefined) {
-            if (objeto[input[0]].contrasena == input[1]) {
-                usuarioActivo = objeto[input[0]];
+        if (objeto[input[0].value] != undefined) {
+            if (objeto[input[0].value].contrasena == input[1].value) {
+                usuarioActivo = objeto[input[0].value];
             } else {
                 errorIngresoDatos = true;
             }
@@ -3303,7 +3303,7 @@ function login(input, usuario) {
             errorIngresoDatos = true;
         }
     } else {
-        if (objeto[input[0]] == nombreAdministrador && objeto[input[1]] == contrasenaSuperSecretaAdministrador) {
+        if (objeto[input[0].value] == nombreAdministrador && objeto[input[1].value] == contrasenaSuperSecretaAdministrador) {
             usuarioActivo = { nombre: nombreAdministrador, contrasena: contrasenaSuperSecretaAdministrador };
         }
         else {
@@ -3312,7 +3312,7 @@ function login(input, usuario) {
     }
 
     if (!errorIngresoDatos) {
-        alert(`Wenas ${usuarioActivo.nombre}, bienvenido q-cho`);
+        alert(`Datos correctos, bienvenido ${usuario.toLowerCase()}`);
     }
     else {
         alert(`Los datos ingresados no corresponden a ningun ${usuario.toLowerCase()}`);
@@ -3593,19 +3593,19 @@ function denominadorEsCero(lista) {
 
 var profesores = {
     1: {
-        nombre: "Carlos Lopez", correo: "carlop@gmail.com", celular: "3173022932", direccion: "Cll 123A #12A-32", identificacion: "1"
+        contrasena: "carlos", nombre: "Carlos Lopez", correo: "carlop@gmail.com", celular: "3173022932", direccion: "Cll 123A #12A-32", identificacion: "1"
     },
     2: {
-        nombre: "Daniel Delgado", correo: "dldelgado@unal.edu.co", celular: "3013215643", direccion: "Cra. 58 #32-12", identificacion: "2"
+        contrasena: "daniel", nombre: "Daniel Delgado", correo: "dldelgado@unal.edu.co", celular: "3013215643", direccion: "Cra. 58 #32-12", identificacion: "2"
     },
     3: {
-        nombre: "Sara Berrio", correo: "sraberr@gmail.com", celular: "3053876514", direccion: "Cll 93B #24-43", identificacion: "3"
+        contrasena: "sara", nombre: "Sara Berrio", correo: "sraberr@gmail.com", celular: "3053876514", direccion: "Cll 93B #24-43", identificacion: "3"
     },
     4: {
-        nombre: "Manuel Guisao", correo: "manuel@gmail.com", celular: "3022839228", direccion: "Carrera 4 # 5-28", identificacion: "4"
+        contrasena: "manuel", nombre: "Manuel Guisao", correo: "manuel@gmail.com", celular: "3022839228", direccion: "Carrera 4 # 5-28", identificacion: "4"
     },
     5: {
-        nombre: "Esteban Huarnición", correo: "esteban@gmail.com", celular: "3103043829", direccion: "Calle 83 # 8 - 31", identificacion: "5"
+        contrasena: "esteban", nombre: "Esteban Huarnición", correo: "esteban@gmail.com", celular: "3103043829", direccion: "Calle 83 # 8 - 31", identificacion: "5"
     },
     6: {
         celular: "123", contrasena: "elber", correo: "elber@elber.com", direccion: "Jungla # 32", identificacion: "6", nombre: "Elber Gomez Torba"
@@ -3771,14 +3771,16 @@ var representantes = {
         correo: "sbols@gmail.com",
         disponibilidad: "Mucha",
         nombre: "Santiago Bolaños",
-        empresa: "Postobon"
+        empresa: "Postobon",
+        contrasena: "santiago"
     },
     "Juan Perez": {
         celular: "3023139870",
         correo: "perez.juan@gmail.com",
         disponibilidad: "Poca",
         empresa: "EPM",
-        nombre: "Juan Perez"
+        nombre: "Juan Perez",
+        contrasena: "santiago"
     }
 };
 
