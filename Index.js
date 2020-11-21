@@ -241,7 +241,7 @@ function formularioLogin(input, usuario) {
 function formularioRegistraProfesor(input) {
 
     // Checkeacion de tipo de usuario
-    if (!controladorRelacionDinamica("Administrador")) {return;}
+    if (!controladorRelacionDinamica("Administrador")) { return; }
 
     // Llenando los datos del formulario
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Registra Profesor </h1>"
@@ -296,7 +296,7 @@ function formularioRegistraProfesor(input) {
 function formularioRegistraEstudiante(input) {
 
     // Checkeacion de tipo de usuario
-    if (!controladorRelacionDinamica("Administrador")) {return;}
+    if (!controladorRelacionDinamica("Administrador")) { return; }
 
     // Llenando los datos del formulario
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Registra Estudiante </h1>"
@@ -359,7 +359,7 @@ function formularioRegistraEstudiante(input) {
 function formularioRegistraSemestre(input) {
 
     // Checkeacion de tipo de usuario
-    if (!controladorRelacionDinamica("Administrador")) {return;}
+    if (!controladorRelacionDinamica("Administrador")) { return; }
 
     // Llenando los datos del formulario
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Registra Semestre </h1>"
@@ -404,13 +404,13 @@ function formularioRegistraSemestre(input) {
 function formularioDisenaAsignatura(input) {
 
     // Checkeacion de tipo de usuario
-    if (!controladorRelacionDinamica("Profesor")) {return;}
+    if (!controladorRelacionDinamica("Profesor")) { return; }
 
     // Obteniendo los valores preestablecidos para llenar el formulario
     // const profesoresHTML = obtenerDatosSelect("profesor", "Profesor", profesores, undefined, "nombre");
     const profesoresHTML = usuarioActivo.datos.nombre; var asignaturaHTML = ""; var auxDisabled = ""
     for (var value of Object.values(asignaturas)) {
-        if (value.profesor == profesoresHTML){
+        if (value.profesor == profesoresHTML) {
             asignaturaHTML = value.nombre
             auxDisabled = "disabled";
             break;
@@ -433,7 +433,7 @@ function formularioDisenaAsignatura(input) {
             <input type="text" id="nombre" value="${asignaturaHTML}" ${auxDisabled}>
 
             <label for="profesor"> Profesor </label>
-            <input type="text" id="nombre" disabled value="${profesoresHTML}">
+            <input type="text" id="profesor" disabled value="${profesoresHTML}">
         </div>
 
         <h2 class='subtituloForm'> Contenido </h2>
@@ -470,15 +470,23 @@ function formularioDisenaAsignatura(input) {
 function verAsignatura(input, nombreCampoAsignatura = "") {
 
     // Asignatura seleccionada antes de dar click a ver clases
-    if (nombreCampoAsignatura != "") {
-        var asignatura = document.getElementById(nombreCampoAsignatura).value;
-    }
-    else {
-        var asignatura = "";
-    }
+    // if (nombreCampoAsignatura != "") {
+    //     var asignatura = document.getElementById(nombreCampoAsignatura).value;
+    // }
+    // else {
+    //     var asignatura = "";
+    // }
 
-    // Obteniendo los valores preestablecidos para llenar el formulario
-    const asignaturasHTML = obtenerDatosSelect("asignatura", "Nombre", asignaturas, asignatura);
+    // // Obteniendo los valores preestablecidos para llenar el formulario
+    // const asignaturasHTML = obtenerDatosSelect("asignatura", "Nombre", asignaturas, asignatura);
+
+    const profesoresHTML = usuarioActivo.datos.nombre; var asignaturasHTML = "";
+    for (var value of Object.values(asignaturas)) {
+        if (value.profesor == profesoresHTML) {
+            asignaturasHTML = value.nombre
+            break;
+        }
+    }
 
     // Llenando los datos del formulario
     document.getElementById("barraForm2").innerHTML = "<h1 class='tituloForm'> Ver Asignatura </h1>"
@@ -486,7 +494,8 @@ function verAsignatura(input, nombreCampoAsignatura = "") {
     document.getElementById("Form2").innerHTML = `
         <div id="datosVerAsignatura" class="campos">
 
-            ${asignaturasHTML}
+            <label for="nombre"> Asignatura </label>
+            <input type="text" id="nombre" disabled value="${asignaturasHTML}">
 
             <label for="profesor"> Profesor </label>
             <input type="text" id="profesor" disabled>
@@ -511,33 +520,42 @@ function verAsignatura(input, nombreCampoAsignatura = "") {
 
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("cerrarForm2").onclick = () => { divform.style.display = "none" };
-    document.getElementById("verClases").addEventListener("click", () => { verClases(event, "asignatura") }, false);
-    document.getElementById("verContenidos").addEventListener("click", () => { verContenidos(event, "asignatura") }, false);
+    document.getElementById("verClases").addEventListener("click", () => { verClases(event, "nombre") }, false);
+    document.getElementById("verContenidos").addEventListener("click", () => { verContenidos(event, "nombre") }, false);
 
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-    document.getElementById("asignatura").addEventListener("change", () => { actualizarCamposSelect("asignatura", "datosVerAsignatura", asignaturas) }, false);
-    actualizarCamposSelect("asignatura", "datosVerAsignatura", asignaturas)
+    // document.getElementById("asignatura").addEventListener("change", () => { actualizarCamposSelect("asignatura", "datosVerAsignatura", asignaturas) }, false);
+    actualizarCamposSelect("nombre", "datosVerAsignatura", asignaturas)
 }
 
 function verClases(input, nombreSelect = "") {
 
     // Asignatura seleccionada antes de dar click a ver clases
-    if (nombreSelect != "") {
-        var asignatura = document.getElementById(nombreSelect).value;
-    }
-    else {
-        var asignatura = "";
-    }
+    // if (nombreSelect != "") {
+    //     var asignatura = document.getElementById(nombreSelect).value;
+    // }
+    // else {
+    //     var asignatura = "";
+    // }
 
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const asignaturasHTML = obtenerDatosSelect("asignaturaVerClases", "Asignatura", asignaturas, asignatura);
+    // const asignaturasHTML = obtenerDatosSelect("asignaturaVerClases", "Asignatura", asignaturas, asignatura);
+
+    const profesoresHTML = usuarioActivo.datos.nombre; var asignaturasHTML = "";
+    for (var value of Object.values(asignaturas)) {
+        if (value.profesor == profesoresHTML) {
+            asignaturasHTML = value.nombre
+            break;
+        }
+    }
 
     // Llenando los datos del formulario
     document.getElementById("barraForm3").innerHTML = "<h1 class='tituloForm'> Ver Clases </h1>"
 
     document.getElementById("Form3").innerHTML = `
         <div class="campos">
-            ${asignaturasHTML}
+            <label for="nombre"> Asignatura </label>
+            <input type="text" id="nombre" disabled value="${asignaturasHTML}">
         </div>
 
         <div class="titulosTabla">
@@ -560,29 +578,38 @@ function verClases(input, nombreSelect = "") {
     document.getElementById("cerrarForm3").onclick = () => { divform.style.display = "none" };
 
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-    document.getElementById("asignaturaVerClases").addEventListener("change",
-        () => {
-            var asignatura = document.getElementById("asignaturaVerClases").value;
-            llenarTablaSelect(asignatura, "datosVerClases", clases, "Clases")
-        }, false
-    );
-    llenarTablaSelect(asignatura, "datosVerClases", clases, "Clases");
+    // document.getElementById("asignaturaVerClases").addEventListener("change",
+    //     () => {
+    //         var asignatura = document.getElementById("asignaturaVerClases").value;
+    //         llenarTablaSelect(asignatura, "datosVerClases", clases, "Clases")
+    //     }, false
+    // );
+    llenarTablaSelect(asignaturasHTML, "datosVerClases", clases, "Clases");
 }
 
 function verContenidos(input, nombreSelect) {
 
-    // Asignatura seleccionada antes de dar click a ver clases
-    var asignatura = document.getElementById(nombreSelect).value;
+    // // Asignatura seleccionada antes de dar click a ver clases
+    // var asignatura = document.getElementById(nombreSelect).value;
 
-    // Obteniendo los valores preestablecidos para llenar el formulario
-    const asignaturasHTML = obtenerDatosSelect("asignaturaConte", "Asignatura", asignaturas, asignatura);
+    // // Obteniendo los valores preestablecidos para llenar el formulario
+    // const asignaturasHTML = obtenerDatosSelect("asignaturaConte", "Asignatura", asignaturas, asignatura);
+
+    const profesoresHTML = usuarioActivo.datos.nombre; var asignaturasHTML = "";
+    for (var value of Object.values(asignaturas)) {
+        if (value.profesor == profesoresHTML) {
+            asignaturasHTML = value.nombre
+            break;
+        }
+    }
 
     // Llenando los datos del formulario
     document.getElementById("barraForm3").innerHTML = "<h1 class='tituloForm'> Ver Contenidos </h1>"
 
     document.getElementById("Form3").innerHTML = `
         <div class="campos">
-            ${asignaturasHTML}
+            <label for="nombre"> Asignatura </label>
+            <input type="text" id="nombre" disabled value="${asignaturasHTML}">
         </div>
 
         <div class="titulosTabla" id="tituloTabla">
@@ -606,25 +633,27 @@ function verContenidos(input, nombreSelect) {
     document.getElementById("cerrarForm3").onclick = () => { divform.style.display = "none" };
 
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-    document.getElementById("asignaturaConte").addEventListener("change", () => {
-        var asignatura = document.getElementById("asignaturaConte").value;
-        llenarTablaSelect(asignatura, "contenidoTabla", asignaturas[asignatura]["contenidos"], "Contenidos")
-    }, false);
-    llenarTablaSelect(asignatura, "contenidoTabla", asignaturas[asignatura]["contenidos"], "Contenidos")
+    // document.getElementById("asignaturaConte").addEventListener("change", () => {
+    //     var asignatura = document.getElementById("asignaturaConte").value;
+    //     llenarTablaSelect(asignatura, "contenidoTabla", asignaturas[asignatura]["contenidos"], "Contenidos")
+    // }, false);
+    // llenarTablaSelect(asignatura, "contenidoTabla", asignaturas[asignatura]["contenidos"], "Contenidos")
+    if (asignaturas[asignaturasHTML] != undefined) {
+        llenarTablaSelect(asignaturasHTML, "contenidoTabla", asignaturas[asignaturasHTML]["contenidos"], "Contenidos")
+    }
 }
 
 function formularioDisenaClase(input) {
 
     // Checkeacion de tipo de usuario
-    if (!controladorRelacionDinamica("Profesor")) {return;}
+    if (!controladorRelacionDinamica("Profesor")) { return; }
 
     // Obteniendo los valores preestablecidos para llenar el formulario
     const profesoresHTML = usuarioActivo.datos.nombre; var asignaturaHTML = ""; var auxDisabled = ""
     for (var value of Object.values(asignaturas)) {
-        if (value.profesor == profesoresHTML){
-            const asignaturasHTML = obtenerDatosSelect("asignatura", "Profesor", profesores, undefined, "nombre");
-            asignaturaHTML = value.nombre
-            auxDisabled = "disabled";
+        if (value.profesor == profesoresHTML) {
+            var asignaturasHTML = value.nombre
+            var contenidosHTML = obtenerDatosSelect("contenido", "Contenido", value.contenidos, undefined, undefined, undefined, undefined, undefined, true);
             break;
         }
     }
@@ -642,7 +671,10 @@ function formularioDisenaClase(input) {
 
         <div id="datosDiseñaClase" class="campos">
 
-            ${asignaturasHTML}
+            <label for="asignatura"> Asignatura </label>
+            <input type="text" id="asignatura" disabled value="${asignaturasHTML}">
+
+            ${contenidosHTML}
 
             <label for="tematica"> Temática </label>
             <input type="text" id="tematica">
@@ -678,7 +710,7 @@ function formularioDisenaClase(input) {
 function formularioDefineCriterioEvaluacion(input) {
 
     // Checkeacion de tipo de usuario
-    if (!controladorRelacionDinamica("Profesor")) {return;}
+    if (!controladorRelacionDinamica("Profesor")) { return; }
 
     // Obteniendo los valores preestablecidos para llenar el formulario
     const rubricaHTML = obtenerDatosSelect("rubrica", "Nombre de la Rúbrica", { "Informe Inicial": {}, "Informe de Progreso": {}, "Informe Final": {}, "Prototipo Alpha": {}, "Prototipo Beta": {} });
@@ -894,7 +926,7 @@ function formularioRegistraEmpresa(input) {
 function formularioDefineProblema(input) {
 
     // Checkeacion de tipo de usuario
-    if (!controladorRelacionDinamica("Representante")) {return;}
+    if (!controladorRelacionDinamica("Representante")) { return; }
 
     // Obteniendo los valores preestablecidos para llenar el formulario
     const empresasHTML = obtenerDatosSelect("empresa", "Nombre Empresa", empresas);
@@ -957,7 +989,7 @@ function formularioDefineProblema(input) {
 function formularioValidaProblema(input) {
 
     // Checkeacion de tipo de usuario
-    if (!controladorRelacionDinamica("Profesor")) {return;}
+    if (!controladorRelacionDinamica("Profesor")) { return; }
 
     // Obteniendo los valores preestablecidos para llenar el formulario
     const empresasHTML = obtenerDatosSelect("empresa", "Nombre Empresa", empresas);
@@ -1124,7 +1156,7 @@ function verEmpresa(input, selectEmpresa) {
 function formularioConstruyeCartera(input) {
 
     // Checkeacion de tipo de usuario
-    if (!controladorRelacionDinamica("Profesor")) {return;}
+    if (!controladorRelacionDinamica("Profesor")) { return; }
 
     // Llenando los datos del formulario
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Construye Cartera de Proyecto </h1>"
@@ -1265,7 +1297,7 @@ function verProyecto(input) {
 function formularioRegistraHistoria(input) {
 
     // Checkeacion de tipo de usuario
-    if (!controladorRelacionDinamica("Estudiante")) {return;}
+    if (!controladorRelacionDinamica("Estudiante")) { return; }
 
     // Llenando los datos del formulario
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Registra Historia Académica </h1>"
@@ -1451,7 +1483,7 @@ function verHistoria(input, idEstudiante) {
 function formularioConformaEquipo(input) {
 
     // Checkeacion de tipo de usuario
-    if (!controladorRelacionDinamica("Profesor")) {return;}
+    if (!controladorRelacionDinamica("Profesor")) { return; }
 
     // Obteniendo los valores preestablecidos para llenar el formulario
     const empresasHTML = obtenerDatosSelect("empresa", "Empresa Proyecto", carteraDeProyectos.proyectos);
@@ -1596,9 +1628,9 @@ function verEquipo(input) {
 }
 
 function formularioDefineMetodologia(input) {
-    
+
     // Checkeacion de tipo de usuario
-    if (!controladorRelacionDinamica("Estudiante")) {return;}
+    if (!controladorRelacionDinamica("Estudiante")) { return; }
 
     // Obteniendo los valores preestablecidos para llenar el formulario
     const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
@@ -1655,7 +1687,7 @@ function formularioDefineMetodologia(input) {
 function formularioEntregaInforme(input, tipoInfProt) {
 
     // Checkeacion de tipo de usuario
-    if (!controladorRelacionDinamica("Estudiante")) {return;}
+    if (!controladorRelacionDinamica("Estudiante")) { return; }
 
     // Parámetros que cambian dependiendo del tipo de informe y prototipo
     var contenido;
@@ -2039,7 +2071,7 @@ function verRetroalimentacion(input, campoEquipoSelect) {
 function formularioCalificaInforme(input, tipoInfProt) {
 
     // Checkeacion de tipo de usuario
-    if (!controladorRelacionDinamica("Profesor")) {return;}
+    if (!controladorRelacionDinamica("Profesor")) { return; }
 
     // Parámetros que cambian dependiendo del tipo de informe y prototipo
     var contenido; var informePrototipo; var criterios;
@@ -2279,9 +2311,9 @@ function formularioCalificaInforme(input, tipoInfProt) {
 }
 
 function formularioRealizaRetroalimentacion(input) {
-    
+
     // Checkeacion de tipo de usuario
-    if (!controladorRelacionDinamica("Representante")) {return;}
+    if (!controladorRelacionDinamica("Representante")) { return; }
 
     // Obteniendo los valores preestablecidos para llenar el formulario
     const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
@@ -2344,9 +2376,9 @@ function formularioRealizaRetroalimentacion(input) {
 }
 
 function formularioRealizaRevision(input) {
-        
+
     // Checkeacion de tipo de usuario
-    if (!controladorRelacionDinamica("Representante")) {return;}
+    if (!controladorRelacionDinamica("Representante")) { return; }
 
     // Obteniendo los valores preestablecidos para llenar el formulario
     const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
@@ -2512,7 +2544,8 @@ function llenarTablaSelect(llave, nombreContenedorCampos, arreglo = undefined, c
             case "Clases":
 
                 if (llave == "") {
-                    llave = arreglo[Object.keys(arreglo)[0]].asignatura;
+                    // llave = arreglo[Object.keys(arreglo)[0]].asignatura;
+                    break;
                 }
                 for (var [key, value] of Object.entries(arreglo)) {
                     if (value.asignatura == llave) {
@@ -2780,7 +2813,7 @@ function indicesBotonesExpansibles(idDivContenido, arregloTipoInputs) {
 }
 
 function obtenerDatosSelect(id, display, arreglo, seleccionado = "", atributoPorMostrar = undefined, atributoCondicional = undefined, valoresAtributoCondicional = undefined,
-    arregloComparacion = undefined) {
+    arregloComparacion = undefined, mostrarValue = false) {
 
 
     if (display != "") {
@@ -2794,7 +2827,10 @@ function obtenerDatosSelect(id, display, arreglo, seleccionado = "", atributoPor
 
         for (var [key, value] of Object.entries(arreglo)) {
 
-            if (atributoPorMostrar == undefined) {
+            if (mostrarValue) {
+                aux = value;
+            }
+            else if (atributoPorMostrar == undefined) {
                 aux = key
             }
             else {
@@ -2834,7 +2870,6 @@ function obtenerDatosSelect(id, display, arreglo, seleccionado = "", atributoPor
     }
     salidaHTML += "</select>";
     return salidaHTML;
-
 }
 
 function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefined, AgregaConCondicion = undefined) {
@@ -2884,11 +2919,11 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
 
                     case "Profesor":
 
-                        if (Object.keys(profesores).length == 1){
+                        if (Object.keys(profesores).length == 1) {
                             errorIngresoDatos = true;
                             cadenaAux1 = "Este sistema solo está diseñado para una asignatura con su respectivo profesor, por tanto no puede haber más de un profesor registrado"
                         }
-                        else{
+                        else {
                             cadenaAux1 = `El profesor ${llave}`; cadenaAux2 = "registrado";
                             objeto = profesores;
                         }
@@ -2900,7 +2935,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                         break;
                 }
 
-                if (errorIngresoDatos){break;}
+                if (errorIngresoDatos) { break; }
 
                 if (casoMixto != "Semestre") {
                     objeto[llave] = crearObjeto(input);
@@ -2913,15 +2948,16 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                 break;
 
             case "Asignatura":
-                if (Object.keys(asignaturas).length != 1){
-                cadenaAux1 = `La asignatura ${llave}`; cadenaAux2 = "diseñada"
-                asignaturas[llave] = crearObjeto(input);
+                if (Object.keys(asignaturas).length != 1) {
+                    cadenaAux1 = `La asignatura ${llave}`; cadenaAux2 = "diseñada"
+                    asignaturas[llave] = crearObjeto(input);
 
-                asignaturas[llave]["contenidos"] = {};
-                adicionarAobjeto(asignaturas[llave]["contenidos"], nuevoAgrega);
+                    asignaturas[llave]["contenidos"] = {};
+                    adicionarAobjeto(asignaturas[llave]["contenidos"], nuevoAgrega);
 
-                asignaturas[llave].estado = "Diseñada"}
-                else{
+                    asignaturas[llave].estado = "Diseñada"
+                }
+                else {
                     errorIngresoDatos = true;
                     cadenaAux1 = "Este sistema solo está diseñado para una asignatura con su respectivo profesor, por tanto no puede haber más de un profesor registrado"
                 }
@@ -3400,10 +3436,10 @@ function login(input, usuario) {
 }
 
 function controladorRelacionDinamica(tipoUsuarioRelacion) {
-    if (usuarioActivo.tipoUsuario == tipoUsuarioRelacion){
+    if (usuarioActivo.tipoUsuario == tipoUsuarioRelacion) {
         return true;
     }
-    else{
+    else {
         return true;
     }
 }
@@ -3728,16 +3764,16 @@ var asignaturas = {
 };
 
 var clases = {
-    "Calidad del código": {
-        tematica: "Calidad del código",
-        numero: "1",
-        asignatura: "Programación Orientada a Objetos"
-    },
-    "Calidad de los casos de uso": {
-        tematica: "Calidad de los casos de uso",
-        numero: "1",
-        asignatura: "Ingeniería de Requisitos"
-    },
+    // "Calidad del código": {
+    //     tematica: "Calidad del código",
+    //     numero: "1",
+    //     asignatura: "Programación Orientada a Objetos"
+    // },
+    // "Calidad de los casos de uso": {
+    //     tematica: "Calidad de los casos de uso",
+    //     numero: "1",
+    //     asignatura: "Ingeniería de Requisitos"
+    // },
     Scrum: {
         tematica: "Scrum",
         numero: "1",
@@ -4072,6 +4108,16 @@ var retroalimentaciones = {};
 var revisiones = {};
 
 // Valores para sesión
-var usuarioActivo = {datos:{}, tipoUsuario:""};
+var usuarioActivo = {
+    datos: {
+        celular: "3173022932",
+        contrasena: "carlos",
+        correo: "carlop@gmail.com",
+        direccion: "Cll 123A #12A-32",
+        identificacion: "1",
+        nombre: "Carlos Lopez"
+    },
+    tipoUsuario: "Profesor"
+};
 
 window.addEventListener("load", inicializarPagina, false)
