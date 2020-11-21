@@ -191,6 +191,10 @@ function expansionTextAreaDisabled(lista) {
 
 function formularioLogin(input, usuario) {
 
+    // Cerrando los formularios 2 y 3
+    document.getElementById("divForm2").style.display = "none";
+    document.getElementById("divForm3").style.display = "none";
+
     var id;
     if (usuario == "Administrador") {
         id = `
@@ -235,6 +239,9 @@ function formularioLogin(input, usuario) {
 }
 
 function formularioRegistraProfesor(input) {
+
+    // Checkeacion de tipo de usuario
+    if (!controladorRelacionDinamica("Administrador")) {return;}
 
     // Llenando los datos del formulario
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Registra Profesor </h1>"
@@ -287,6 +294,9 @@ function formularioRegistraProfesor(input) {
 }
 
 function formularioRegistraEstudiante(input) {
+
+    // Checkeacion de tipo de usuario
+    if (!controladorRelacionDinamica("Administrador")) {return;}
 
     // Llenando los datos del formulario
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Registra Estudiante </h1>"
@@ -348,6 +358,9 @@ function formularioRegistraEstudiante(input) {
 
 function formularioRegistraSemestre(input) {
 
+    // Checkeacion de tipo de usuario
+    if (!controladorRelacionDinamica("Administrador")) {return;}
+
     // Llenando los datos del formulario
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Registra Semestre </h1>"
 
@@ -389,6 +402,9 @@ function formularioRegistraSemestre(input) {
 }
 
 function formularioDisenaAsignatura(input) {
+
+    // Checkeacion de tipo de usuario
+    if (!controladorRelacionDinamica("Profesor")) {return;}
 
     // Obteniendo los valores preestablecidos para llenar el formulario
     const profesoresHTML = obtenerDatosSelect("profesor", "Profesor", profesores, undefined, "nombre");
@@ -591,6 +607,9 @@ function verContenidos(input, nombreSelect) {
 
 function formularioDisenaClase(input) {
 
+    // Checkeacion de tipo de usuario
+    if (!controladorRelacionDinamica("Profesor")) {return;}
+
     // Obteniendo los valores preestablecidos para llenar el formulario
     const asignaturasHTML = obtenerDatosSelect("asignatura", "Asignatura", asignaturas);
 
@@ -641,6 +660,9 @@ function formularioDisenaClase(input) {
 }
 
 function formularioDefineCriterioEvaluacion(input) {
+
+    // Checkeacion de tipo de usuario
+    if (!controladorRelacionDinamica("Profesor")) {return;}
 
     // Obteniendo los valores preestablecidos para llenar el formulario
     const rubricaHTML = obtenerDatosSelect("rubrica", "Nombre de la Rúbrica", { "Informe Inicial": {}, "Informe de Progreso": {}, "Informe Final": {}, "Prototipo Alpha": {}, "Prototipo Beta": {} });
@@ -795,9 +817,16 @@ function formularioRegistraEmpresa(input) {
         <h2 class='subtituloForm'> Datos Representante </h2>
 
         <div id="datosRegistraRepresentante" class="campos">
+            
+            <label for="identificacion"> Identificación </label>
+            <input type="number" id="identificacion">
+
             <label for="nombre"> Nombre </label>
             <input type="text" id="nombre">
-            
+        
+            <label for="contrasena"> Contraseña </label>
+            <input type="password" id="contrasena">
+
             <label for="correo"> Correo </label>
             <input type="email" id="correo">
             
@@ -847,6 +876,9 @@ function formularioRegistraEmpresa(input) {
 }
 
 function formularioDefineProblema(input) {
+
+    // Checkeacion de tipo de usuario
+    if (!controladorRelacionDinamica("Representante")) {return;}
 
     // Obteniendo los valores preestablecidos para llenar el formulario
     const empresasHTML = obtenerDatosSelect("empresa", "Nombre Empresa", empresas);
@@ -907,6 +939,9 @@ function formularioDefineProblema(input) {
 }
 
 function formularioValidaProblema(input) {
+
+    // Checkeacion de tipo de usuario
+    if (!controladorRelacionDinamica("Profesor")) {return;}
 
     // Obteniendo los valores preestablecidos para llenar el formulario
     const empresasHTML = obtenerDatosSelect("empresa", "Nombre Empresa", empresas);
@@ -1072,6 +1107,9 @@ function verEmpresa(input, selectEmpresa) {
 
 function formularioConstruyeCartera(input) {
 
+    // Checkeacion de tipo de usuario
+    if (!controladorRelacionDinamica("Profesor")) {return;}
+
     // Llenando los datos del formulario
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Construye Cartera de Proyecto </h1>"
 
@@ -1209,6 +1247,9 @@ function verProyecto(input) {
 }
 
 function formularioRegistraHistoria(input) {
+
+    // Checkeacion de tipo de usuario
+    if (!controladorRelacionDinamica("Estudiante")) {return;}
 
     // Llenando los datos del formulario
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Registra Historia Académica </h1>"
@@ -1408,6 +1449,9 @@ function verHistoria(input, idEstudiante) {
 
 function formularioConformaEquipo(input) {
 
+    // Checkeacion de tipo de usuario
+    if (!controladorRelacionDinamica("Profesor")) {return;}
+
     // Obteniendo los valores preestablecidos para llenar el formulario
     const empresasHTML = obtenerDatosSelect("empresa", "Empresa Proyecto", carteraDeProyectos.proyectos);
 
@@ -1551,6 +1595,10 @@ function verEquipo(input) {
 }
 
 function formularioDefineMetodologia(input) {
+    
+    // Checkeacion de tipo de usuario
+    if (!controladorRelacionDinamica("Estudiante")) {return;}
+
     // Obteniendo los valores preestablecidos para llenar el formulario
     const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
 
@@ -1604,6 +1652,9 @@ function formularioDefineMetodologia(input) {
 }
 
 function formularioEntregaInforme(input, tipoInfProt) {
+
+    // Checkeacion de tipo de usuario
+    if (!controladorRelacionDinamica("Estudiante")) {return;}
 
     // Parámetros que cambian dependiendo del tipo de informe y prototipo
     var contenido;
@@ -1986,6 +2037,9 @@ function verRetroalimentacion(input, campoEquipoSelect) {
 
 function formularioCalificaInforme(input, tipoInfProt) {
 
+    // Checkeacion de tipo de usuario
+    if (!controladorRelacionDinamica("Profesor")) {return;}
+
     // Parámetros que cambian dependiendo del tipo de informe y prototipo
     var contenido; var informePrototipo; var criterios;
 
@@ -2224,6 +2278,10 @@ function formularioCalificaInforme(input, tipoInfProt) {
 }
 
 function formularioRealizaRetroalimentacion(input) {
+    
+    // Checkeacion de tipo de usuario
+    if (!controladorRelacionDinamica("Representante")) {return;}
+
     // Obteniendo los valores preestablecidos para llenar el formulario
     const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
 
@@ -2285,6 +2343,10 @@ function formularioRealizaRetroalimentacion(input) {
 }
 
 function formularioRealizaRevision(input) {
+        
+    // Checkeacion de tipo de usuario
+    if (!controladorRelacionDinamica("Representante")) {return;}
+
     // Obteniendo los valores preestablecidos para llenar el formulario
     const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
 
@@ -3295,7 +3357,8 @@ function login(input, usuario) {
     if (usuario != "Administrador") {
         if (objeto[input[0].value] != undefined) {
             if (objeto[input[0].value].contrasena == input[1].value) {
-                usuarioActivo = objeto[input[0].value];
+                usuarioActivo.datos = objeto[input[0].value];
+                usuarioActivo.tipoUsuario = usuario;
             } else {
                 errorIngresoDatos = true;
             }
@@ -3303,8 +3366,9 @@ function login(input, usuario) {
             errorIngresoDatos = true;
         }
     } else {
-        if (objeto[input[0].value] == nombreAdministrador && objeto[input[1].value] == contrasenaSuperSecretaAdministrador) {
-            usuarioActivo = { nombre: nombreAdministrador, contrasena: contrasenaSuperSecretaAdministrador };
+        if (input[0].value == nombreAdministrador && input[1].value == contrasenaSuperSecretaAdministrador) {
+            usuarioActivo.datos = { nombre: nombreAdministrador, contrasena: contrasenaSuperSecretaAdministrador };
+            usuarioActivo.tipoUsuario = usuario;
         }
         else {
             errorIngresoDatos = true;
@@ -3316,6 +3380,15 @@ function login(input, usuario) {
     }
     else {
         alert(`Los datos ingresados no corresponden a ningun ${usuario.toLowerCase()}`);
+    }
+}
+
+function controladorRelacionDinamica(tipoUsuarioRelacion) {
+    if (usuarioActivo.tipoUsuario == tipoUsuarioRelacion){
+        return true;
+    }
+    else{
+        return false;
     }
 }
 
@@ -3766,21 +3839,23 @@ var empresas = {
 };
 
 var representantes = {
-    "Santiago Bolaños": {
+    123: {
         celular: "3123044398",
         correo: "sbols@gmail.com",
         disponibilidad: "Mucha",
+        identificacion: 123,
         nombre: "Santiago Bolaños",
         empresa: "Postobon",
         contrasena: "santiago"
     },
-    "Juan Perez": {
+    456: {
         celular: "3023139870",
         correo: "perez.juan@gmail.com",
         disponibilidad: "Poca",
+        identificacion: 456,
         empresa: "EPM",
         nombre: "Juan Perez",
-        contrasena: "santiago"
+        contrasena: "juan"
     }
 };
 
@@ -3977,6 +4052,6 @@ var retroalimentaciones = {};
 var revisiones = {};
 
 // Valores para sesión
-var usuarioActivo;
+var usuarioActivo = {datos:{}, tipoUsuario:""};
 
 window.addEventListener("load", inicializarPagina, false)
