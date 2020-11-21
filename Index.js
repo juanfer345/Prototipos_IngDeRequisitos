@@ -407,7 +407,15 @@ function formularioDisenaAsignatura(input) {
     if (!controladorRelacionDinamica("Profesor")) {return;}
 
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const profesoresHTML = obtenerDatosSelect("profesor", "Profesor", profesores, undefined, "nombre");
+    // const profesoresHTML = obtenerDatosSelect("profesor", "Profesor", profesores, undefined, "nombre");
+    const profesoresHTML = usuarioActivo.datos.nombre; var asignaturaHTML = ""; var auxDisabled = ""
+    for (var value of Object.values(asignaturas)) {
+        if (value.profesor == profesoresHTML){
+            asignaturaHTML = value.nombre
+            auxDisabled = "disabled";
+            break;
+        }
+    }
 
     // Llenando los datos del formulario
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Diseña Asignatura </h1>"
@@ -422,10 +430,10 @@ function formularioDisenaAsignatura(input) {
 
         <div id="datosDiseñaAsignatura" class="campos">
             <label for="nombre"> Nombre </label>
-            <input type="text" id="nombre">
+            <input type="text" id="nombre" value="${asignaturaHTML}" ${auxDisabled}>
 
-            ${profesoresHTML}
-            
+            <label for="profesor"> Profesor </label>
+            <input type="text" id="nombre" disabled value="${profesoresHTML}">
         </div>
 
         <h2 class='subtituloForm'> Contenido </h2>
@@ -611,7 +619,15 @@ function formularioDisenaClase(input) {
     if (!controladorRelacionDinamica("Profesor")) {return;}
 
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const asignaturasHTML = obtenerDatosSelect("asignatura", "Asignatura", asignaturas);
+    const profesoresHTML = usuarioActivo.datos.nombre; var asignaturaHTML = ""; var auxDisabled = ""
+    for (var value of Object.values(asignaturas)) {
+        if (value.profesor == profesoresHTML){
+            const asignaturasHTML = obtenerDatosSelect("asignatura", "Profesor", profesores, undefined, "nombre");
+            asignaturaHTML = value.nombre
+            auxDisabled = "disabled";
+            break;
+        }
+    }
 
     // Llenando los datos del formulario
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Diseña Clase </h1>"
@@ -1269,23 +1285,8 @@ function formularioRegistraHistoria(input) {
             <label for="nombre"> Nombre </label>
             <input type="text" id="nombre" disabled>
 
-            <label for="identificacion"> Identificación </label>
-            <input type="number" id="identificacion" min="0" disabled>
-            
-            <label for="direccion"> Dirección </label>
-            <textarea id="direccion" disabled></textarea>
-            
-            <label for="celular"> Celular </label>
-            <input type="number" id="celular" min="0" disabled>
-
-            <label for="correo"> Correo </label>
-            <input type="email" id="correo" disabled>
-
-            <label for="carrera"> Carrera </label>
-            <input type="text" id="carrera" disabled>
-
-            <label for="semestre"> Semestre </label>
-            <input type="text" id="semestre" disabled>
+            <label for="participacion"> Participacion </label>
+            <input type="text" id="participacion">
 
             <label> Competencia </label>
 
@@ -1337,7 +1338,7 @@ function formularioRegistraHistoria(input) {
         () => {
             const llaveEstudiante = document.querySelector("#datosRegistraEstudiante").querySelectorAll("input")[1].value;
 
-            guardarDatos(document.querySelector("#datosRegistraEstudiante").querySelectorAll("input, textarea"), "Estudiante", llaveEstudiante,
+            guardarDatos(document.querySelector("#datosRegistraEstudiante").querySelectorAll("input"), "Estudiante", llaveEstudiante,
                 document.querySelector("#datosAgregaAsig").querySelectorAll("input"));
         }
     );
@@ -2882,8 +2883,15 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                         break;
 
                     case "Profesor":
-                        cadenaAux1 = `El profesor ${llave}`; cadenaAux2 = "registrado";
-                        objeto = profesores;
+
+                        if (Object.keys(profesores).length == 1){
+                            errorIngresoDatos = true;
+                            cadenaAux1 = "Este sistema solo está diseñado para una asignatura con su respectivo profesor, por tanto no puede haber más de un profesor registrado"
+                        }
+                        else{
+                            cadenaAux1 = `El profesor ${llave}`; cadenaAux2 = "registrado";
+                            objeto = profesores;
+                        }
                         break;
 
                     case "Semestre":
@@ -2891,6 +2899,9 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                         objeto = semestresCod;
                         break;
                 }
+
+                if (errorIngresoDatos){break;}
+
                 if (casoMixto != "Semestre") {
                     objeto[llave] = crearObjeto(input);
                 }
@@ -2902,13 +2913,18 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                 break;
 
             case "Asignatura":
+                if (Object.keys(asignaturas).length != 1){
                 cadenaAux1 = `La asignatura ${llave}`; cadenaAux2 = "diseñada"
                 asignaturas[llave] = crearObjeto(input);
 
                 asignaturas[llave]["contenidos"] = {};
                 adicionarAobjeto(asignaturas[llave]["contenidos"], nuevoAgrega);
 
-                asignaturas[llave].estado = "Diseñada"
+                asignaturas[llave].estado = "Diseñada"}
+                else{
+                    errorIngresoDatos = true;
+                    cadenaAux1 = "Este sistema solo está diseñado para una asignatura con su respectivo profesor, por tanto no puede haber más de un profesor registrado"
+                }
                 break;
 
             case "Clase":
@@ -2995,7 +3011,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                 break;
 
             case "Estudiante":
-
+                //La historia académica ha sido registrada o algo así y ya no
                 cadenaAux1 = `El estudiante ${input[0].value} y su historia académica`;
                 cadenaAux2 = `registrados`; cadenaAux3 = "han sido"
                 condicionPlural = true;
@@ -3388,7 +3404,7 @@ function controladorRelacionDinamica(tipoUsuarioRelacion) {
         return true;
     }
     else{
-        return false;
+        return true;
     }
 }
 
@@ -3667,22 +3683,22 @@ function denominadorEsCero(lista) {
 var profesores = {
     1: {
         contrasena: "carlos", nombre: "Carlos Lopez", correo: "carlop@gmail.com", celular: "3173022932", direccion: "Cll 123A #12A-32", identificacion: "1"
-    },
-    2: {
-        contrasena: "daniel", nombre: "Daniel Delgado", correo: "dldelgado@unal.edu.co", celular: "3013215643", direccion: "Cra. 58 #32-12", identificacion: "2"
-    },
-    3: {
-        contrasena: "sara", nombre: "Sara Berrio", correo: "sraberr@gmail.com", celular: "3053876514", direccion: "Cll 93B #24-43", identificacion: "3"
-    },
-    4: {
-        contrasena: "manuel", nombre: "Manuel Guisao", correo: "manuel@gmail.com", celular: "3022839228", direccion: "Carrera 4 # 5-28", identificacion: "4"
-    },
-    5: {
-        contrasena: "esteban", nombre: "Esteban Huarnición", correo: "esteban@gmail.com", celular: "3103043829", direccion: "Calle 83 # 8 - 31", identificacion: "5"
-    },
-    6: {
-        celular: "123", contrasena: "elber", correo: "elber@elber.com", direccion: "Jungla # 32", identificacion: "6", nombre: "Elber Gomez Torba"
     }
+    // 2: {
+    //     contrasena: "daniel", nombre: "Daniel Delgado", correo: "dldelgado@unal.edu.co", celular: "3013215643", direccion: "Cra. 58 #32-12", identificacion: "2"
+    // },
+    // 3: {
+    //     contrasena: "sara", nombre: "Sara Berrio", correo: "sraberr@gmail.com", celular: "3053876514", direccion: "Cll 93B #24-43", identificacion: "3"
+    // },
+    // 4: {
+    //     contrasena: "manuel", nombre: "Manuel Guisao", correo: "manuel@gmail.com", celular: "3022839228", direccion: "Carrera 4 # 5-28", identificacion: "4"
+    // },
+    // 5: {
+    //     contrasena: "esteban", nombre: "Esteban Huarnición", correo: "esteban@gmail.com", celular: "3103043829", direccion: "Calle 83 # 8 - 31", identificacion: "5"
+    // },
+    // 6: {
+    //     celular: "123", contrasena: "elber", correo: "elber@elber.com", direccion: "Jungla # 32", identificacion: "6", nombre: "Elber Gomez Torba"
+    // }
 };
 
 var semestresCod = {
@@ -3696,19 +3712,19 @@ var asignaturas = {
         estado: "Diseñada",
         nombre: "Ingeniería de Software",
         profesor: "Carlos Lopez"
-    },
-    "Programación Orientada a Objetos": {
-        contenidos: { contenido_1: "Clases", contenido_2: "Objetos" },
-        nombre: "Programación Orientada a Objetos",
-        profesor: "Daniel Delgado",
-        estado: "Diseñada"
-    },
-    "Ingeniería de Requisitos": {
-        contenidos: { contenido_1: "Casos de Uso", contenido_2: "Diagrama de Procesos" },
-        estado: "Diseñada",
-        nombre: "Ingeniería de Requisitos",
-        profesor: "Sara Berrio"
     }
+    // "Programación Orientada a Objetos": {
+    //     contenidos: { contenido_1: "Clases", contenido_2: "Objetos" },
+    //     nombre: "Programación Orientada a Objetos",
+    //     profesor: "Daniel Delgado",
+    //     estado: "Diseñada"
+    // },
+    // "Ingeniería de Requisitos": {
+    //     contenidos: { contenido_1: "Casos de Uso", contenido_2: "Diagrama de Procesos" },
+    //     estado: "Diseñada",
+    //     nombre: "Ingeniería de Requisitos",
+    //     profesor: "Sara Berrio"
+    // }
 };
 
 var clases = {
@@ -3920,7 +3936,8 @@ var estudiantes = {
         identificacion: "123",
         contrasena: "elber",
         nombre: "Elber Galarga",
-        semestre: "2020-III"
+        semestre: "2020-III",
+        participacion: "No participador"
     },
     456: {
         carrera: "Actuación Erotica",
@@ -3939,7 +3956,8 @@ var estudiantes = {
         identificacion: "456",
         nombre: "Esteban Dido",
         contrasena: "esteban",
-        semestre: "el último"
+        semestre: "el último",
+        participacion: "No participador"
     },
     238: {
         carrera: "Ingeniería de Ingenieros",
@@ -3949,7 +3967,8 @@ var estudiantes = {
         direccion: "calle verdadera 123",
         identificacion: "238",
         nombre: "Johnny Melas Lavo",
-        semestre: "Este"
+        semestre: "Este",
+        participacion: "No participador"
     },
     2929: {
         carrera: "Ingenieria de Alimentos",
@@ -3959,7 +3978,8 @@ var estudiantes = {
         direccion: "Enrique Segoviano",
         identificacion: "2929",
         nombre: "Benito Camelo",
-        semestre: "2020-I"
+        semestre: "2020-I",
+        participacion: "No participador"
     }
 };
 

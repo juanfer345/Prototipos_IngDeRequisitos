@@ -1,7 +1,13 @@
 - Registra historia academica no se ingresan datos estudiante (se queda competencia y participacion), elije el que ya está.
+- Tematica clase
+- solo 1 profe solo 1 asignatura
+- en registra historia solo nombre estudiante, incluir participación y dejar competencia
+- entrega informe y prototipo campo no mod, y nombre es nombre empresa y no editable
+- retroalimentacion, filtrar por equipos, y poner un mas que agrega criterio, valoracion y sugerencia
+- En ver prototipo beta poner la revision del prototipo beta.
+- Subir archivo boton y campo no mod en entrega inf, simular entrega proyect
 - Guardar datos
-
-- Quien registra repre? -> Preguntar profe
+- Borrar datos?
 
 localStogare.setItem("nombre", JSON.stringify(object))
 
