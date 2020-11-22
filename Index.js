@@ -2068,7 +2068,7 @@ function verRetroalimentacion(input, campoEquipoSelect) {
 
     // Obteniendo los valores preestablecidos para llenar el formulario
     // const equiposHTML = obtenerDatosSelect("equipoVer", "Código Equipo", equipos, equipoSeleccionado);
-    
+
     // Llenando los datos del formulario
     document.getElementById("barraForm2").innerHTML = "<h1 class='tituloForm'> Ver Retroalimentación </h1>"
 
@@ -2333,23 +2333,23 @@ function formularioCalificaInforme(input, tipoInfProt) {
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-    document.getElementById("equipo").addEventListener("change",
-        () => {
-            actualizarCamposSelect("equipo", "datosCalifica", informePrototipo);
-            llenarTablaSelect(document.getElementById("equipo").value, "datosCriteriosEval", criterios, "CriteriosCalifica")
+    // document.getElementById("equipo").addEventListener("change",
+    //     () => {
+    //         actualizarCamposSelect("equipo", "datosCalifica", informePrototipo);
+    //         llenarTablaSelect(document.getElementById("equipo").value, "datosCriteriosEval", criterios, "CriteriosCalifica")
 
-            if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
-                llenarTablaSelect(document.getElementById("equipo").value, "datosSecciones", informePrototipo, "Secciones")
-            }
+    //         if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
+    //             llenarTablaSelect(document.getElementById("equipo").value, "datosSecciones", informePrototipo, "Secciones")
+    //         }
 
-            // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
-            expansionTextAreaDisabled(document.querySelector("#datosCalifica").querySelectorAll("textarea"));
-            expansionTextAreaDisabled(document.querySelector("#datosCriteriosEval").querySelectorAll("textarea"));
+    //         // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+    //         expansionTextAreaDisabled(document.querySelector("#datosCalifica").querySelectorAll("textarea"));
+    //         expansionTextAreaDisabled(document.querySelector("#datosCriteriosEval").querySelectorAll("textarea"));
 
-            // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
-            AsignacionExpansionTextArea(document.querySelector("#datosCriteriosEval").querySelectorAll("textarea"));
-        }
-    );
+    //         // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+    //         AsignacionExpansionTextArea(document.querySelector("#datosCriteriosEval").querySelectorAll("textarea"));
+    //     }
+    // );
     actualizarCamposSelect("equipo", "datosCalifica", informePrototipo);
     llenarTablaSelect(document.getElementById("equipo").value, "datosCriteriosEval", criterios, "CriteriosCalifica")
 
@@ -2371,13 +2371,20 @@ function formularioRealizaRetroalimentacion(input) {
     if (!controladorRelacionDinamica("Representante")) { return; }
 
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
+    // const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos, undefined,undefined,"empresa");   
+    var equiposHTML = `<label for='equipo'> Código Equipo </label> <select id='equipo'>`;
+    for (var [key, value] of Object.entries(equipos)) {
+        if (usuarioActivo.datos.empresa == key.split(" ")[0]) {
+            equiposHTML += `<option value='${key}'> ${key} </option>`;
+        }
+    }
+    equiposHTML += "</select>";
 
     // Llenando los datos del formulario
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Realiza Retroalimentación </h1>"
 
     document.getElementById("Form1").innerHTML = `
-        <div class="ayuda">
+        <div class="ayuda" id="ayuda">
             <p> 
                 Por favor seleccione el código equipo, ingrese la valoración (cualitativa) y la sugerencia, y dé 
                 clic en el botón “Realizar” para guardar los datos
@@ -2391,14 +2398,19 @@ function formularioRealizaRetroalimentacion(input) {
             <label for="link"> Link </label>
             <input type="text" id="link" disabled>
 
-            <label for="valoracion"> Valoración </label>
-            <textarea id="valoracion"></textarea>
-
-            <label for="sugerencia"> Sugerencia </label>
-            <textarea id="sugerencia"></textarea>
-
         </div>
 
+        <img class="iconos" src="Iconos/Nuevo.png" title="Agregar" id="agregar"/>
+
+        <div id="columnas" class="titulosTabla">
+            <label> Criterio </label>
+            <label> Valoracion </label>
+            <label> Sugerencia </label>
+            <label> Remover </label>
+        </div>
+
+        <div id="datosRetro" class="tablaCriterios"> </div>
+        
         <div class="botones">
             <button id="confirmarForm1" type="button" class="botonConfirmar"> Realizar </button>
             <button type="reset" class="botonBorrar"> Limpiar Campos </button>
@@ -2406,9 +2418,17 @@ function formularioRealizaRetroalimentacion(input) {
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
     `;
 
+    document.getElementById("columnas").style.gridTemplateColumns = "100px 100px 100px 70px";
+    document.getElementById("datosRetro").style.gridTemplateColumns = "100px 100px 100px 70px";
+    document.getElementById("ayuda").style.width = "370px";
+
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm1");
     mostracionFormulario(input, divform)
+
+    // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
+    llenarBotonesExpansibles("agregar", "datosRetro", [["textarea", "criterio"], ["textarea", "valoracion"], ["textarea", "sugerencia"]],
+        "100px 100px 100px 70px", "Remover");
 
     // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
     AsignacionExpansionTextArea(document.querySelector("#datosRetroalimentacion").querySelectorAll("textarea"));
@@ -2423,8 +2443,7 @@ function formularioRealizaRetroalimentacion(input) {
 
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
-            guardarDatos(document.querySelector("#datosRetroalimentacion").querySelectorAll("select, input, textarea"), "Retroalimentacion", undefined, undefined,
-                [false, false, true, true]);
+            guardarDatos(document.querySelector("#datosRetro").querySelectorAll("textarea"), "Retroalimentacion", document.getElementById("equipo").value);
         }
     );
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
@@ -2891,7 +2910,6 @@ function indicesBotonesExpansibles(idDivContenido, arregloTipoInputs) {
 function obtenerDatosSelect(id, display, arreglo, seleccionado = "", atributoPorMostrar = undefined, atributoCondicional = undefined, valoresAtributoCondicional = undefined,
     arregloComparacion = undefined, mostrarValue = false) {
 
-
     if (display != "") {
         var salidaHTML = `<label for='${id}'> ${display} </label> <select id='${id}'>`;
     }
@@ -3126,7 +3144,6 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                 break;
 
             case "Estudiante":
-                //La historia académica ha sido registrada o algo así y ya no
                 cadenaAux1 = `La historia académica del estudiante ${input[0].value}`;
                 cadenaAux2 = `registrada`
 
@@ -3347,7 +3364,11 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
 
             case "Retroalimentacion":
                 cadenaAux1 = `La retroalimentación del prototipo alpha del equipo ${llave}`; cadenaAux2 = "realizada"
-                retroalimentaciones[llave] = crearObjeto(input, AgregaConCondicion);
+                retroalimentaciones[llave] = {};
+
+                for (let index = 0; index < input.length; index += 3) {
+                    retroalimentaciones[llave]["elemento " + index / 3] = crearObjeto(Array.from(input).slice(index, index + 3));
+                }
                 break;
 
             case "Revision":
@@ -4160,7 +4181,11 @@ var informesProgreso = {};
 
 var informesFinales = {};
 
-var prototiposAlpha = {};
+var prototiposAlpha = {
+    "EPM 1": {
+        link: "LinkZaso"
+    }
+};
 
 var prototiposBeta = {
     "EPM 1": {
@@ -4189,7 +4214,25 @@ var prototiposBeta = {
     }
 };
 
-var retroalimentaciones = {};
+var retroalimentaciones = {
+    "EPM 1": {
+        "elemento 0": {
+            criterio_1: "La bebecita bebe lean y bebe whisky↵Fuma marihuana y también se mete picky↵Senda bellacona, frikitona, friky, friky",
+            sugerencia_1: "Senda bellacona, frikitona, friky, friky↵En la cama una salvaje y la castigo con mi dicky",
+            valoracion_1: "Es media salvaje, ella es adicta a mi dicky↵Le mete al lean, le mete al whisky↵Fuma marihuana y también se mete picky"
+        },
+        "elemento 1": {
+            criterio_2: "Ellos rezan todos los días pa que nosotros nos caigamos (uh uh uh uh)↵No nos dejamos ver pero todo el mundo sabe dónde es que estamos, ey (uh uh uh uh)↵La presión se siente siempre que llegamos, ey, ey (uh uh uh uh)↵Le caemos solos y con babies nos vamos (uh uh uh uh)",
+            sugerencia_2: "Tú sabes ya que yo venía a darte↵No me vengas con que tú nos llegas tarde (no stop)↵Avísame, que tu amiguita está en fila pa darle (ey, ey, ey)",
+            valoracion_2: "Y si vas a matar la vibra pues salte (salte)↵Tú sabes ya que yo venía a darte↵No me vengas con que tú nos llegas tarde↵Avísame, que tu amiguita está en fila pa darle (ey, ey)↵Y si vas a matar la vibra pues salte (Salte)"
+        },
+        "elemento 2": {
+            criterio_3: "Mi mamisonga es senda putonga↵No se pone panty y le digo que se lo ponga↵Ella esta loca, que se lo ponga↵Yo le digo mi amor no te pongas",
+            sugerencia_3: "Mi mamisonga es senda putonga↵No se pone panty y le digo que se lo ponga↵Ella esta loca, que se lo ponga↵Yo le digo mi amor no te pongas",
+            valoracion_3: "Es que me pongo demasiado de bellaco↵Es que tu tienes un culo ni el verraco↵Por una esquinita me lo saco↵Mami ponte Jordan, no te pongas tacos"
+        }
+    }
+};
 
 var revisiones = {};
 

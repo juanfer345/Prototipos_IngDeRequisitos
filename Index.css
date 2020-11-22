@@ -274,3 +274,10 @@ select {
 	padding: 1px 12px;
 	justify-self: center;
 }
+
+.iconos {
+	width: 25px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}

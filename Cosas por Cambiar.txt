@@ -1,10 +1,11 @@
-- retroalimentacion, filtrar por equipos, y poner un mas que agrega criterio, valoracion y sugerencia
 - En ver prototipo beta poner la revision del prototipo beta.
-- Subir archivo boton y campo no mod en entrega inf, simular entrega proyect
-- Guardar datos
+- boton Subir archivo pa simular entrega proyect
+- Guardar datos -> localStogare.setItem("nombre", JSON.stringify(object))
 - Eventos
+
+- Revision noes mejor intercambiar por retroalim?
 - Borrar datos?
 
-localStogare.setItem("nombre", JSON.stringify(object))
+
 
 
