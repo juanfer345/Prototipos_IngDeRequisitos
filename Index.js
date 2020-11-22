@@ -2082,27 +2082,23 @@ function verRetroalimentacion(input, campoEquipoSelect) {
 
             <label for="link"> Link </label>
             <input type="text" id="link" disabled>
-
-            <label for="calidad"> Calidad </label>
-            <input type="text" id="calidad" disabled>
             
         </div>
 
-        <div id="datosRetroalimentacion" class="campos">
-
-            <label for="valoracion"> Valoración </label>
-            <textarea id="valoracion" disabled></textarea>
-
-            <label for="sugerencia"> Sugerencia </label>
-            <textarea id="sugerencia" disabled></textarea>
-
+        <div id="columnas" class="titulosTabla">
+            <label> Criterio </label>
+            <label> Valoracion </label>
+            <label> Sugerencia </label>
         </div>
+
+        <div id="datosRetroalimentacionVer" class="tablaCriterios"> </div>
 
         <button id="cerrarForm2" type="button" class="botonCerrar"> Cerrar </button>
     `;
-    document.getElementById("datosEquipos").style.gridTemplateColumns = "60px 150px";
-    document.getElementById("datosPrototipoAlpha").style.gridTemplateColumns = "60px 150px";
-    document.getElementById("datosRetroalimentacion").style.gridTemplateColumns = "60px 150px";
+    // document.getElementById("datosEquipos").style.gridTemplateColumns = "60px 1fr";
+    // document.getElementById("datosPrototipoAlpha").style.gridTemplateColumns = "60px 1fr";
+    document.getElementById("columnas").style.gridTemplateColumns = "100px 100px 100px";
+    document.getElementById("datosRetroalimentacionVer").style.gridTemplateColumns = "100px 100px 100px";
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm2");
@@ -2116,11 +2112,12 @@ function verRetroalimentacion(input, campoEquipoSelect) {
     //         actualizarCamposSelect("equipoVer", "datosRetroalimentacion", retroalimentaciones);
     //     }
     // );
+
     actualizarCamposSelect("equipoVer", "datosPrototipoAlpha", prototiposAlpha);
-    actualizarCamposSelect("equipoVer", "datosRetroalimentacion", retroalimentaciones);
+    llenarTablaSelect(document.getElementById("equipoVer").value, "datosRetroalimentacionVer", retroalimentaciones, "TablaRetroalimentacion");
 
     // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
-    expansionTextAreaDisabled(document.querySelector("#datosRetroalimentacion").querySelectorAll("textarea"));
+    expansionTextAreaDisabled(document.querySelector("#datosRetroalimentacionVer").querySelectorAll("textarea"));
 }
 
 function formularioCalificaInforme(input, tipoInfProt) {
@@ -2783,6 +2780,20 @@ function llenarTablaSelect(llave, nombreContenedorCampos, arreglo = undefined, c
                     acumulador += `<label> ${value} </label>`;
                 }
                 break;
+
+            case "TablaRetroalimentacion":
+
+                var id = 1;
+                for (var [key, value] of Object.entries(arreglo[llave])) {
+
+                    acumulador += `
+                        <textarea disabled> ${value["criterio_" + id]} </textarea>
+                        <textarea disabled> ${value["valoracion_" + id]} </textarea>
+                        <textarea disabled> ${value["sugerencia_" + id]} </textarea>
+                    `;
+                    id++;
+                }
+            break;
         }
     }
     document.getElementById(nombreContenedorCampos).innerHTML = acumulador;
