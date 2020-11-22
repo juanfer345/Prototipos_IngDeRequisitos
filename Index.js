@@ -1650,8 +1650,19 @@ function formularioDefineMetodologia(input) {
     // Checkeacion de tipo de usuario
     if (!controladorRelacionDinamica("Estudiante")) { return; }
 
-    // Obteniendo los valores preestablecidos para llenar el formulario
-    const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
+    // // Obteniendo los valores preestablecidos para llenar el formulario
+    // const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
+    var equiposHTML = "";
+    for (var [key, value] of Object.entries(equipos)) {
+        for (var value2 of Object.values(value.integrantes)) {
+            if (estudiantes[value2] != undefined) {
+                if (value2 == usuarioActivo.datos.identificacion) {
+                    equiposHTML = key;
+                    break;
+                }
+            }
+        }
+    }
 
     // Llenando los datos del formulario
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Define Metodologia de Desarrollo </h1>"
@@ -1666,7 +1677,8 @@ function formularioDefineMetodologia(input) {
 
         <div id="datosMetodologia" class="campos">
 
-            ${equiposHTML}
+            <label for="equipo"> Código Equipo </label>
+            <input type="text" id="equipo" disabled value="${equiposHTML}">
 
             <label for="nombre"> Nombre </label>
             <input type="text" id="nombre">

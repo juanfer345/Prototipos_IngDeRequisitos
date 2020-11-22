@@ -2,6 +2,7 @@
 - En ver prototipo beta poner la revision del prototipo beta.
 - Subir archivo boton y campo no mod en entrega inf, simular entrega proyect
 - Guardar datos
+- Eventos
 - Borrar datos?
 
 localStogare.setItem("nombre", JSON.stringify(object))
