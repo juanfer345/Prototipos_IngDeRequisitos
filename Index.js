@@ -933,7 +933,8 @@ function formularioDefineProblema(input) {
     if (!controladorRelacionDinamica("Representante")) { return; }
 
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const empresasHTML = obtenerDatosSelect("empresa", "Nombre Empresa", empresas);
+    // const empresasHTML = obtenerDatosSelect("empresa", "Nombre Empresa", empresas);
+    const empresasHTML = usuarioActivo.datos.empresa;
 
     // Llenando los datos del formulario
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Define Problema </h1>"
@@ -949,7 +950,8 @@ function formularioDefineProblema(input) {
 
         <div id="datosDefineProblema" class="campos">
 
-            ${empresasHTML}
+            <label for="empresa"> Nombre Empresa </label>
+            <input type="text" id="empresa" disabled value="${empresasHTML}">
 
             <label for="causa"> Causa </label>
             <textarea id="causa"></textarea>
@@ -986,7 +988,7 @@ function formularioDefineProblema(input) {
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
             guardarDatos(document.querySelector("#datosDefineProblema").querySelectorAll("input, select, textarea"), "Problema");
-        }, false);
+        });
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
