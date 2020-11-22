@@ -1961,10 +1961,12 @@ function verCalificacion(input, campoEquipoSelect, tipoInfProt) {
     }
     else {
         contenido = `
-         <div id="datosVerCalificacion" class="campos">
-         
+        <div id="datosEquipos" class="campos">
             <label for="equipoVer"> Código Equipo </label>
             <input type="text" id="equipoVer" disabled value="${equipoSeleccionado}">
+        </div>
+
+         <div id="datosVerCalificacion" class="campos">
 
              <label for="link"> Link </label>
              <input type="url" id="link" disabled>
