@@ -1994,7 +1994,7 @@ function verCalificacion(input, campoEquipoSelect, tipoInfProt) {
 
         </div>
 
-        <h3 class="subsubtituloForm"> Criterios de Evaluación </h3>
+        <h3 class="subsubtituloForm"> Criterios de Evaluación y Calificación </h3>
 
         <div id="columnas" class="titulosTabla">
             <label> Nombre </label>
@@ -2228,7 +2228,7 @@ function formularioCalificaInforme(input, tipoInfProt) {
 
         </div>
 
-        <h3 class="subsubtituloForm"> Criterios de Evaluación </h3>
+        <h3 class="subsubtituloForm"> Criterios de Evaluación y Calificación </h3>
 
         <div id="columnas" class="titulosTabla">
             <label> Nombre </label>
