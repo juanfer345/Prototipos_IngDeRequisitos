@@ -422,9 +422,9 @@ function formularioDisenaAsignatura(input) {
 
     document.getElementById("Form1").innerHTML = `
         <div class="ayuda">
-            <p> Por favor ingrese el nombre de la asignatura, seleccione el profesor y dé clic en 
-                “Agregar Contenido” por cada contenido que necesite agregar, luego dé clic en 
-                “Diseñar” para guardar los datos
+            <p> 
+                Por favor ingrese el nombre de la asignatura y dé clic en “Agregar Contenido” por 
+                cada contenido que necesite agregar, luego dé clic en “Diseñar” para guardar los datos
             </p>
         </div>
 
@@ -668,8 +668,8 @@ function formularioDisenaClase(input) {
     document.getElementById("Form1").innerHTML = `
         <div class="ayuda">
             <p> 
-                Por favor seleccione el nombre de la asignatura, seleccione el contenido correspondiente, 
-                ingrese el número y temática de la clase, luego dé clic en “Diseñar” para guardar los datos
+                Por favor, seleccione el contenido correspondiente, ingrese el número y temática de la 
+                clase, luego dé clic en “Diseñar” para guardar los datos
             </p>
         </div>
 
@@ -781,7 +781,7 @@ function verCriterios(input, selectRubrica) {
 
     var rubrica = document.getElementById(selectRubrica).value;
 
-    const rubricaHTML = obtenerDatosSelect("rubricaVer", "Rúbrica Asociada", { "Informe Inicial": {}, "Informe de Progreso": {}, "Informe Final": {}, "Prototipo Alpha": {}, "Prototipo Beta": {} }, rubrica);
+    const rubricaHTML = obtenerDatosSelect("rubricaVer", "Nombre de la Rúbrica", { "Informe Inicial": {}, "Informe de Progreso": {}, "Informe Final": {}, "Prototipo Alpha": {}, "Prototipo Beta": {} }, rubrica);
 
     document.getElementById("barraForm2").innerHTML = `<h1 class='tituloForm'> Ver Criterios </h1>`
 
@@ -942,13 +942,15 @@ function formularioDefineProblema(input) {
     document.getElementById("Form1").innerHTML = `
         <div class="ayuda">
             <p> 
-            Por favor seleccione el nombre de la empresa, ingrese los datos del problema y en la 
-            sección de “Actor Involucrado” introduzca los actores separados por comas y dé clic en 
-            “Definir” para guardar los datos
+                Por favor ingrese los datos del problema y en la sección de “Actor Involucrado” 
+                introduzca los actores separados por comas y dé clic en “Definir” para guardar los datos
             </p>
         </div>
 
         <div id="datosDefineProblema" class="campos">
+            
+            <label for="representante"> Nombre Representante </label>
+            <input type="text" id="representante" disabled value="${usuarioActivo.datos.nombre}">
 
             <label for="empresa"> Nombre Empresa </label>
             <input type="text" id="empresa" disabled value="${empresasHTML}">
@@ -1425,6 +1427,9 @@ function verHistoria(input, idEstudiante) {
             <label for="semestre"> Semestre </label>
             <input type="text" id="semestre" disabled>
 
+            <label for="participacion"> Participacion </label>
+            <input type="text" id="participacion" disabled>
+
             <label for="competencia"> Competencia </label>
             <input type="text" id="competencia" disabled>
 
@@ -1672,8 +1677,8 @@ function formularioDefineMetodologia(input) {
     document.getElementById("Form1").innerHTML = `
         <div class="ayuda">
             <p> 
-                Por favor seleccione el código equipo, ingrese el nombre de la metodología, los pasos separados por comas 
-                y los roles separados por comas, y dé clic en el botón “Definir” para guardar los datos
+                Por favor ingrese el nombre de la metodología, los pasos separados por comas y los roles separados por 
+                comas, y dé clic en el botón “Definir” para guardar los datos
             </p>
         </div>
 
@@ -1753,9 +1758,9 @@ function formularioEntregaInforme(input, tipoInfProt) {
                 contenido = `
                     <div class="ayuda">
                         <p> 
-                            Por favor seleccione el código equipo, ingrese los campos tema e idea de desarrollo, seleccione 
-                            el botón “Agregar Sección” las veces que necesite para agregar las secciones, seleccione el botón 
-                            “Subir Archivo” para agregar el archivo y dé clic en botón “Entregar” para guardar los datos
+                            Por favor  ingrese los campos tema e idea de desarrollo, seleccione el botón “Subir Archivo” 
+                            para agregar el archivo, seleccione el botón “Agregar Sección” las veces que necesite para 
+                            agregar las secciones y dé clic en botón “Entregar” para guardar los datos
                         </p>
                     </div>
 
@@ -1780,9 +1785,9 @@ function formularioEntregaInforme(input, tipoInfProt) {
                 contenido = `
                     <div class="ayuda">
                         <p> 
-                            Por favor seleccione el código equipo, ingrese los campos tema y avance, seleccione el 
-                            botón “Agregar Sección” las veces que necesite para agregar las secciones, seleccione el 
-                            botón “Subir Archivo” para agregar el archivo y dé clic en el botón “Entregar” para guardar los datos
+                            Por favor ingrese los campos tema y avance, seleccione el botón “Subir Archivo” para 
+                            agregar el archivo, seleccione el botón “Agregar Sección” las veces que necesite para 
+                            agregar las secciones y dé clic en botón “Entregar” para guardar los datos
                         </p>
                     </div>
 
@@ -1807,9 +1812,9 @@ function formularioEntregaInforme(input, tipoInfProt) {
                 contenido = `
                     <div class="ayuda">
                         <p> 
-                            Por favor seleccione el código equipo, ingrese los campos tema y conclusión, seleccione el 
-                            botón “Agregar Sección” las veces que necesite para agregar las secciones, seleccione el botón 
-                            “Subir Archivo” para agregar el archivo y dé clic en el botón “Entregar” para guardar los datos
+                            Por favor ingrese los campos tema y conclusión, seleccione el botón “Agregar Sección” las veces 
+                            que necesite para agregar las secciones, seleccione el botón “Subir Archivo” para agregar el 
+                            archivo y dé clic en el botón “Entregar” para guardar los datos
                         </p>
                     </div>
 
@@ -1840,8 +1845,7 @@ function formularioEntregaInforme(input, tipoInfProt) {
         contenido = `
             <div class="ayuda">
                 <p> 
-                    Por favor seleccione el código equipo, ingrese el link del prototipo y dé clic en el botón “Entregar” 
-                    para guardar los datos
+                    Por favor ingrese el link del prototipo y dé clic en el botón “Entregar” para guardar los datos
                 </p>
             </div>
 
@@ -2147,9 +2151,8 @@ function formularioCalificaInforme(input, tipoInfProt) {
         contenido = `
             <div class="ayuda" id="ayuda">
                 <p> 
-                    Por favor seleccione el código equipo, seleccione el estado, ingrese las valoraciones (cualitativas), 
-                    los comentarios y las notas según los criterios de evaluación, y dé clic en el botón “Calificar” para 
-                    guardar los datos
+                    Por favor seleccione el código equipo, seleccione la calidad, ingrese las valoraciones (cualitativas), los comentarios 
+                    y las notas según los criterios de evaluación, y dé clic en el botón “Calificar” para guardar los datos
                 </p>
             </div>
 
@@ -2201,9 +2204,8 @@ function formularioCalificaInforme(input, tipoInfProt) {
         contenido = `
             <div class="ayuda" id="ayuda">
                 <p> 
-                    Por favor seleccione el código equipo, seleccione el estado, ingrese las valoraciones (cualitativas), 
-                    los comentarios y las notas según los criterios de evaluación, y dé clic en el botón “Calificar” para 
-                    guardar los datos
+                    Por favor seleccione el código equipo, seleccione la calidad, ingrese las valoraciones (cualitativas), los comentarios 
+                    y las notas según los criterios de evaluación, y dé clic en el botón “Calificar” para guardar los datos
                 </p>
             </div>
             
@@ -2392,8 +2394,8 @@ function formularioRealizaRetroalimentacion(input) {
     document.getElementById("Form1").innerHTML = `
         <div class="ayuda" id="ayuda">
             <p> 
-                Por favor seleccione el código equipo, ingrese la valoración (cualitativa) y la sugerencia, y dé 
-                clic en el botón “Realizar” para guardar los datos
+                Por favor seleccione el código equipo, y de clic en el “+” por cada criterio, valoración (cualitativa) 
+                y sugerencia que desee agregar, una vez ingresada esta información dé clic en el botón “Realizar” para guardar los datos
             </p>
         </div>
 
