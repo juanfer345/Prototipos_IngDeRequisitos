@@ -1906,7 +1906,6 @@ function verCalificacion(input, campoEquipoSelect, tipoInfProt) {
     // Obteniendo los valores preestablecidos para llenar el formulario
     // const equiposHTML = obtenerDatosSelect("equipoVer", "Código Equipo", equipos, equipoSeleccionado);
 
-
     // Parámetros que cambian dependiendo del tipo de informe y prototipo
     var contenido; var informePrototipo; var criterios;
 
@@ -2068,15 +2067,18 @@ function verRetroalimentacion(input, campoEquipoSelect) {
     var equipoSeleccionado = document.getElementById(campoEquipoSelect).value;
 
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const equiposHTML = obtenerDatosSelect("equipoVer", "Código Equipo", equipos, equipoSeleccionado);
-
+    // const equiposHTML = obtenerDatosSelect("equipoVer", "Código Equipo", equipos, equipoSeleccionado);
+    
     // Llenando los datos del formulario
     document.getElementById("barraForm2").innerHTML = "<h1 class='tituloForm'> Ver Retroalimentación </h1>"
 
     document.getElementById("Form2").innerHTML = `
-        <div id="datosPrototipoAlpha" class="campos">
+        <div id="datosEquipos" class="campos">
+            <label for="equipoVer"> Código Equipo </label>
+            <input type="text" id="equipoVer" disabled value="${equipoSeleccionado}">
+        </div>
 
-            ${equiposHTML}
+        <div id="datosPrototipoAlpha" class="campos">
 
             <label for="link"> Link </label>
             <input type="text" id="link" disabled>
@@ -2098,6 +2100,7 @@ function verRetroalimentacion(input, campoEquipoSelect) {
 
         <button id="cerrarForm2" type="button" class="botonCerrar"> Cerrar </button>
     `;
+    document.getElementById("datosEquipos").style.gridTemplateColumns = "60px 150px";
     document.getElementById("datosPrototipoAlpha").style.gridTemplateColumns = "60px 150px";
     document.getElementById("datosRetroalimentacion").style.gridTemplateColumns = "60px 150px";
 
@@ -2107,14 +2110,14 @@ function verRetroalimentacion(input, campoEquipoSelect) {
 
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("cerrarForm2").onclick = () => { divform.style.display = "none" };
-    document.getElementById("equipo").addEventListener("change",
-        () => {
-            actualizarCamposSelect("equipo", "datosPrototipoAlpha", prototiposAlpha);
-            actualizarCamposSelect("equipo", "datosRetroalimentacion", retroalimentaciones);
-        }
-    );
-    actualizarCamposSelect("equipo", "datosPrototipoAlpha", prototiposAlpha);
-    actualizarCamposSelect("equipo", "datosRetroalimentacion", retroalimentaciones);
+    // document.getElementById("equipoVer").addEventListener("change",
+    //     () => {
+    //         actualizarCamposSelect("equipoVer", "datosPrototipoAlpha", prototiposAlpha);
+    //         actualizarCamposSelect("equipoVer", "datosRetroalimentacion", retroalimentaciones);
+    //     }
+    // );
+    actualizarCamposSelect("equipoVer", "datosPrototipoAlpha", prototiposAlpha);
+    actualizarCamposSelect("equipoVer", "datosRetroalimentacion", retroalimentaciones);
 
     // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
     expansionTextAreaDisabled(document.querySelector("#datosRetroalimentacion").querySelectorAll("textarea"));
