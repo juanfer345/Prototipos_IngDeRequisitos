@@ -1300,6 +1300,9 @@ function verProyecto(input) {
 
 function formularioRegistraHistoria(input) {
 
+    // Obteniendo los valores preestablecidos para llenar el formulario
+    const estudiantesHTML = usuarioActivo.datos.nombre;
+
     // Checkeacion de tipo de usuario
     if (!controladorRelacionDinamica("Estudiante")) { return; }
 
@@ -1319,7 +1322,7 @@ function formularioRegistraHistoria(input) {
 
         <div id="datosRegistraEstudiante" class="campos">
             <label for="nombre"> Nombre </label>
-            <input type="text" id="nombre" disabled>
+            <input type="text" id="nombre" disabled value="${estudiantesHTML}">
 
             <label for="participacion"> Participacion </label>
             <input type="text" id="participacion">
@@ -1367,25 +1370,29 @@ function formularioRegistraHistoria(input) {
     AsignacionExpansionTextArea(document.querySelector("#datosRegistraEstudiante").querySelectorAll("textarea"));
 
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
-    llenarBotonesExpansibles("agregarAsignatura", "datosAgregaAsig", [["input", "nombre"], ["input", "nota", "number"], ["input", "semestre"]],
+    llenarBotonesExpansibles("agregarAsignatura", "datosAgregaAsig", [["input", "nombre"], ["input", "nota", "number", 0, 5], ["input", "semestre"]],
         "100px 30px 50px 70px", "Remover Asignatura");
 
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
-            const llaveEstudiante = document.querySelector("#datosRegistraEstudiante").querySelectorAll("input")[1].value;
+            // const llaveEstudiante = document.querySelector("#datosRegistraEstudiante").querySelectorAll("input")[1].value;
 
-            guardarDatos(document.querySelector("#datosRegistraEstudiante").querySelectorAll("input"), "Estudiante", llaveEstudiante,
+            // guardarDatos(document.querySelector("#datosRegistraEstudiante").querySelectorAll("input"), "Estudiante", llaveEstudiante,
+            //     document.querySelector("#datosAgregaAsig").querySelectorAll("input"));
+
+            guardarDatos(document.querySelector("#datosRegistraEstudiante").querySelectorAll("input"), "Estudiante", usuarioActivo.datos.identificacion,
                 document.querySelector("#datosAgregaAsig").querySelectorAll("input"));
         }
     );
-    document.getElementById("verHistoria").onclick = () => { verHistoria(event, document.getElementById("identificacion").value) };
+    // document.getElementById("verHistoria").onclick = () => { verHistoria(event, document.getElementById("identificacion").value) };
+    document.getElementById("verHistoria").onclick = () => { verHistoria(event, usuarioActivo.datos.identificacion) };
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
 function verHistoria(input, idEstudiante) {
 
-    // Obteniendo los valores preestablecidos para llenar el formulario
-    const estudiantesHTML = obtenerDatosSelect("estudiante", "Nombre Estudiante", estudiantes, idEstudiante, "nombre");
+    // // Obteniendo los valores preestablecidos para llenar el formulario
+    // const estudiantesHTML = obtenerDatosSelect("estudiante", "Nombre Estudiante", estudiantes, idEstudiante, "nombre");
 
     // Llenando los datos del formulario
     document.getElementById("barraForm2").innerHTML = "<h1 class='tituloForm'> Ver Historia Académica </h1>"
@@ -1395,8 +1402,8 @@ function verHistoria(input, idEstudiante) {
         <h2 class='subtituloForm'> Datos Estudiante </h2>
 
         <div id="datosEstudiante" class="campos">
-
-            ${estudiantesHTML}
+            <label for="nombre"> Nombre </label>
+            <input type="text" id="nombre" disabled>
 
             <label for="identificacion"> Identificación </label>
             <input type="number" id="identificacion" min="0" disabled>
@@ -1451,32 +1458,39 @@ function verHistoria(input, idEstudiante) {
     document.getElementById("cerrarForm2").onclick = () => { divform.style.display = "none" };
 
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-    document.getElementById("estudiante").addEventListener("change",
-        () => {
-            var idEstudiante = estudiantes[document.getElementById("estudiante").value].identificacion;
+    // document.getElementById("estudiante").addEventListener("change",
+    //     () => {
+    //         var idEstudiante = estudiantes[document.getElementById("estudiante").value].identificacion;
 
-            actualizarCamposSelect("estudiante", "datosEstudiante", estudiantes);
-            llenarTablaSelect(idEstudiante, "datosVerHistoria", estudiantes, "Historia");
+    //         actualizarCamposSelect("estudiante", "datosEstudiante", estudiantes);
+    //         llenarTablaSelect(idEstudiante, "datosVerHistoria", estudiantes, "Historia");
 
-            var estudiante = estudiantes[document.getElementById("estudiante").value];
+    //         var estudiante = estudiantes[document.getElementById("estudiante").value];
 
-            if (estudiante.historia != undefined) {
-                document.getElementById("promedio").value = estudiante.historia.promedio.toFixed(2);
-            } else {
-                document.getElementById("promedio").value = "";
-            }
+    //         if (estudiante.historia != undefined) {
+    //             document.getElementById("promedio").value = estudiante.historia.promedio.toFixed(2);
+    //         } else {
+    //             document.getElementById("promedio").value = "";
+    //         }
 
-            // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
-            expansionTextAreaDisabled(document.querySelector("#datosEstudiante").querySelectorAll("textarea"));
-        }
-    );
-    actualizarCamposSelect("estudiante", "datosEstudiante", estudiantes);
+    //         // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+    //         expansionTextAreaDisabled(document.querySelector("#datosEstudiante").querySelectorAll("textarea"));
+    //     }
+    // );
+
+    // actualizarCamposSelect("nombre", "datosEstudiante", estudiantes);
+    actualizarCamposSelect(idEstudiante, "datosEstudiante", estudiantes, undefined, undefined, true);
     llenarTablaSelect(idEstudiante, "datosVerHistoria", estudiantes, "Historia");
 
-    var estudiante = estudiantes[document.getElementById("estudiante").value];
+    // var estudiante = estudiantes[document.getElementById("estudiante").value];
 
-    if (estudiante.historia != undefined) {
-        document.getElementById("promedio").value = estudiante.historia.promedio.toFixed(2);
+    // if (estudiante.historia != undefined) {
+    //     document.getElementById("promedio").value = estudiante.historia.promedio.toFixed(2);
+    // } else {
+    //     document.getElementById("promedio").value = "";
+    // }
+    if (usuarioActivo.datos.historia != undefined) {
+        document.getElementById("promedio").value = usuarioActivo.datos.historia.promedio.toFixed(2);
     } else {
         document.getElementById("promedio").value = "";
     }
@@ -2444,9 +2458,16 @@ function formularioRealizaRevision(input) {
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
 
-function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, buscaAtributo = undefined, devuelveAtributo = undefined) {
+function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, buscaAtributo = undefined, devuelveAtributo = undefined, condicionLlaveDirecta = false) {
 
-    const llave = document.getElementById(nombreSelect).value;
+    var llave;
+    if (!condicionLlaveDirecta) {
+        llave = document.getElementById(nombreSelect).value;
+    }
+    else {
+        llave = nombreSelect
+    }
+
     var campos = document.querySelector("#" + nombreContenedorCampos).querySelectorAll("input, textarea, select");
     var condicionEncontracion = false;
 
@@ -2739,6 +2760,19 @@ function llenarBotonesExpansibles(idBotonDisparo, idDivContenido, arregloTipoInp
                             var campo = document.createElement(input[0]);
                             if (input[0] == "input") { campo.setAttribute("type", input[2]); }
                             campo.setAttribute("id", input[1] + '_' + identificador);
+
+                            // Minimo y máximo si es input tipo número y jueron ingresados
+                            if (input[0] == "input") {
+                                if (input[2] == "number") {
+                                    if (input[3] != undefined) {
+                                        campo.setAttribute("min", input[3]);
+                                    }
+                                    if (input[4] != undefined) {
+                                        campo.setAttribute("max", input[4]);
+                                    }
+                                }
+                            }
+
                             div.appendChild(campo); auxiliar.push(campo);
 
                             if (input[0] == "textarea") {
@@ -3056,11 +3090,10 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
 
             case "Estudiante":
                 //La historia académica ha sido registrada o algo así y ya no
-                cadenaAux1 = `El estudiante ${input[0].value} y su historia académica`;
-                cadenaAux2 = `registrados`; cadenaAux3 = "han sido"
-                condicionPlural = true;
+                cadenaAux1 = `La historia académica del estudiante ${input[0].value}`;
+                cadenaAux2 = `registrada`
 
-                estudiantes[llave] = crearObjeto(input);
+                adicionarAobjeto(estudiantes[llave], input);
 
                 var asignaturasHist = {}; var promedio = 0;
                 for (let index = 0; index < nuevoAgrega.length; index += 3) {
@@ -3752,11 +3785,11 @@ var semestresCod = {
 
 var asignaturas = {
     "Ingeniería de Software": {
-        contenidos: { 
+        contenidos: {
             contenido_1: "Metodologías de Desarrollo",
             contenido_2: "Diagramas Lorenzos",
             contenido_3: "Diagramas Especiales",
-         },
+        },
         estado: "Diseñada",
         nombre: "Ingeniería de Software",
         profesor: "Carlos Lopez"
