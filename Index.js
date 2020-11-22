@@ -558,7 +558,8 @@ function verClases(input, nombreSelect = "") {
             <input type="text" id="nombre" disabled value="${asignaturasHTML}">
         </div>
 
-        <div class="titulosTabla">
+        <div class="titulosTabla" id="tituloTabla2">
+            <label> Contenido </label>
             <label> Número </label>
             <label> Temática </label>
         </div>
@@ -569,6 +570,9 @@ function verClases(input, nombreSelect = "") {
             <button id="cerrarForm3" type="button" class="botonCerrar"> Cerrar </button>
         </div>
     `;
+
+    document.getElementById("tituloTabla2").style.gridTemplateColumns = "repeat(3, minmax(0, 1fr))";
+    document.getElementById("datosVerClases").style.gridTemplateColumns = "repeat(3, minmax(0, 1fr))";
 
     // Mostrando el formulario y ubicándolo en la posición adecuada
     var divform = document.getElementById("divForm3");
@@ -2550,6 +2554,7 @@ function llenarTablaSelect(llave, nombreContenedorCampos, arreglo = undefined, c
                 for (var [key, value] of Object.entries(arreglo)) {
                     if (value.asignatura == llave) {
                         acumulador += `
+                            <label> ${value.contenido} </label>
                             <label> ${value.numero} </label>
                             <label> ${value.tematica} </label>
                         `;
@@ -2964,8 +2969,11 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                 break;
 
             case "Clase":
-                cadenaAux1 = `La clase número ${input[2].value} de la asignatura ${input[0].value}`; cadenaAux2 = "diseñada"
+                cadenaAux1 = `La clase número ${input[3].value} de la asignatura ${input[0].value}`; cadenaAux2 = "diseñada"
                 clases[llave] = crearObjeto(input);
+
+                clases[llave].contenido = asignaturas[input[0].value].contenidos[input[1].value]
+
                 break;
 
             case "Criterio":
@@ -3744,7 +3752,11 @@ var semestresCod = {
 
 var asignaturas = {
     "Ingeniería de Software": {
-        contenidos: { contenido_1: "Esquema Preconceptual" },
+        contenidos: { 
+            contenido_1: "Metodologías de Desarrollo",
+            contenido_2: "Diagramas Lorenzos",
+            contenido_3: "Diagramas Especiales",
+         },
         estado: "Diseñada",
         nombre: "Ingeniería de Software",
         profesor: "Carlos Lopez"
@@ -3777,22 +3789,26 @@ var clases = {
     Scrum: {
         tematica: "Scrum",
         numero: "1",
-        asignatura: "Ingeniería de Software"
+        asignatura: "Ingeniería de Software",
+        contenido: "Metodologías de Desarrollo"
     },
     RUP: {
         tematica: "RUP",
         numero: "2",
-        asignatura: "Ingeniería de Software"
+        asignatura: "Ingeniería de Software",
+        contenido: "Metodologías de Desarrollo"
     },
     Cascada: {
         tematica: "Cascada",
         numero: "3",
-        asignatura: "Ingeniería de Software"
+        asignatura: "Ingeniería de Software",
+        contenido: "Metodologías de Desarrollo"
     },
     Espiral: {
         tematica: "Espiral",
         numero: "4",
-        asignatura: "Ingeniería de Software"
+        asignatura: "Ingeniería de Software",
+        contenido: "Metodologías de Desarrollo"
     }
 };
 
