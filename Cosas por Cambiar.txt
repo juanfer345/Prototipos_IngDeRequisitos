@@ -1,4 +1,3 @@
-- entrega informe y prototipo campo no mod, y nombre es nombre empresa y no editable
 - retroalimentacion, filtrar por equipos, y poner un mas que agrega criterio, valoracion y sugerencia
 - En ver prototipo beta poner la revision del prototipo beta.
 - Subir archivo boton y campo no mod en entrega inf, simular entrega proyect
