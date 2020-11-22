@@ -1718,8 +1718,19 @@ function formularioEntregaInforme(input, tipoInfProt) {
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
         </div>
     `
-    // Obteniendo los valores preestablecidos para llenar el formulario
-    const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
+    // // Obteniendo los valores preestablecidos para llenar el formulario
+    // const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
+    var equiposHTML = "";
+    for (var [key, value] of Object.entries(equipos)) {
+        for (var value2 of Object.values(value.integrantes)) {
+            if (estudiantes[value2] != undefined) {
+                if (value2 == usuarioActivo.datos.identificacion) {
+                    equiposHTML = key;
+                    break;
+                }
+            }
+        }
+    }
 
     if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
 
@@ -1736,10 +1747,11 @@ function formularioEntregaInforme(input, tipoInfProt) {
 
                     <div id="datosEntrega" class="campos">
             
-                        ${equiposHTML}
+                        <label for="equipo"> Código Equipo </label>
+                        <input type="text" id="equipo" disabled value="${equiposHTML}">
 
                         <label for="tema"> Tema </label>
-                        <textarea id="tema"></textarea>
+                        <input id="tema" disabled value ="${equiposHTML.split(" ")[0]}">
 
                         <label for="idea"> Idea de Desarrollo </label>
                         <textarea id="idea"></textarea>
@@ -1759,10 +1771,11 @@ function formularioEntregaInforme(input, tipoInfProt) {
 
                     <div id="datosEntrega" class="campos">
             
-                        ${equiposHTML}
+                        <label for="equipo"> Código Equipo </label>
+                        <input type="text" id="equipo" disabled value="${equiposHTML}">
 
                         <label for="tema"> Tema </label>
-                        <textarea id="tema"></textarea>
+                        <input id="tema" disabled value ="${equiposHTML.split(" ")[0]}">
 
                         <label for="avance"> Avance </label>
                         <textarea id="avance"></textarea>
@@ -1781,11 +1794,12 @@ function formularioEntregaInforme(input, tipoInfProt) {
                     </div>
 
                     <div id="datosEntrega" class="campos">
-            
-                        ${equiposHTML}
+
+                        <label for="equipo"> Código Equipo </label>
+                        <input type="text" id="equipo" disabled value="${equiposHTML}">
 
                         <label for="tema"> Tema </label>
-                        <textarea id="tema"></textarea>
+                        <input id="tema" disabled value ="${equiposHTML.split(" ")[0]}">
 
                         <label for="conclusion"> Conclusión </label>
                         <textarea id="conclusion"></textarea>
@@ -1810,7 +1824,8 @@ function formularioEntregaInforme(input, tipoInfProt) {
 
             <div id="datosEntrega" class="campos">
             
-                ${equiposHTML}
+                <label for="equipo"> Código Equipo </label>
+                <input type="text" id="equipo" disabled value="${equiposHTML}">
 
                 <label for="link"> Link </label>
                 <input type="url" id="link">
@@ -1847,7 +1862,7 @@ function formularioEntregaInforme(input, tipoInfProt) {
         document.getElementById("confirmarForm1").addEventListener("click",
             () => {
                 guardarDatos(document.querySelector("#datosEntrega").querySelectorAll("select, input, textarea"), "Entrega_" + tipoInfProt,
-                    undefined, document.getElementById("datosAgregaSecc").querySelectorAll("textarea"));
+                    undefined, document.getElementById("datosAgregaSecc").querySelectorAll("input"));
             }
         );
     } else {
@@ -1875,7 +1890,8 @@ function verCalificacion(input, campoEquipoSelect, tipoInfProt) {
     var equipoSeleccionado = document.getElementById(campoEquipoSelect).value;
 
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const equiposHTML = obtenerDatosSelect("equipoVer", "Código Equipo", equipos, equipoSeleccionado);
+    // const equiposHTML = obtenerDatosSelect("equipoVer", "Código Equipo", equipos, equipoSeleccionado);
+
 
     // Parámetros que cambian dependiendo del tipo de informe y prototipo
     var contenido; var informePrototipo; var criterios;
@@ -1884,7 +1900,8 @@ function verCalificacion(input, campoEquipoSelect, tipoInfProt) {
 
         contenido = `
          <div id="datosEquipos" class="campos">
-             ${equiposHTML}
+            <label for="equipoVer"> Código Equipo </label>
+            <input type="text" id="equipoVer" disabled value="${equipoSeleccionado}">
          </div>
 
          <h2 class="subtituloForm"> Secciones </h2>
@@ -1932,7 +1949,8 @@ function verCalificacion(input, campoEquipoSelect, tipoInfProt) {
         contenido = `
          <div id="datosVerCalificacion" class="campos">
          
-             ${equiposHTML}
+            <label for="equipoVer"> Código Equipo </label>
+            <input type="text" id="equipoVer" disabled value="${equipoSeleccionado}">
 
              <label for="link"> Link </label>
              <input type="url" id="link" disabled>
@@ -1995,22 +2013,22 @@ function verCalificacion(input, campoEquipoSelect, tipoInfProt) {
     document.getElementById("cerrarForm2").onclick = () => { divform.style.display = "none" };
 
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-    document.getElementById("equipo").addEventListener("change",
-        () => {
+    // document.getElementById("equipo").addEventListener("change",
+    //     () => {
 
-            actualizarCamposSelect("equipoVer", "datosVerCalificacion", informePrototipo);
-            if (informePrototipo[equipoSeleccionado] != undefined) { document.getElementById("nota").value = informePrototipo[equipoSeleccionado].rubrica.nota.toFixed(2); }
-            llenarTablaSelect(document.getElementById("equipoVer").value, "datosCriteriosVer", informePrototipo, "CriteriosVerCalifica", criterios);
+    //         actualizarCamposSelect("equipoVer", "datosVerCalificacion", informePrototipo);
+    //         if (informePrototipo[equipoSeleccionado] != undefined) { document.getElementById("nota").value = informePrototipo[equipoSeleccionado].rubrica.nota.toFixed(2); }
+    //         llenarTablaSelect(document.getElementById("equipoVer").value, "datosCriteriosVer", informePrototipo, "CriteriosVerCalifica", criterios);
 
-            if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
-                llenarTablaSelect(document.getElementById("equipoVer").value, "datosSeccionesVer", informePrototipo, "Secciones");
-            }
+    //         if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
+    //             llenarTablaSelect(document.getElementById("equipoVer").value, "datosSeccionesVer", informePrototipo, "Secciones");
+    //         }
 
-            // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
-            expansionTextAreaDisabled(document.querySelector("#datosVerCalificacion").querySelectorAll("textarea"));
-            expansionTextAreaDisabled(document.querySelector("#datosCriteriosVer").querySelectorAll("textarea"));
-        }
-    );
+    //         // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+    //         expansionTextAreaDisabled(document.querySelector("#datosVerCalificacion").querySelectorAll("textarea"));
+    //         expansionTextAreaDisabled(document.querySelector("#datosCriteriosVer").querySelectorAll("textarea"));
+    //     }
+    // );
     actualizarCamposSelect("equipoVer", "datosVerCalificacion", informePrototipo);
     if (informePrototipo[equipoSeleccionado] != undefined) {
         if (informePrototipo[equipoSeleccionado].rubrica != undefined) {

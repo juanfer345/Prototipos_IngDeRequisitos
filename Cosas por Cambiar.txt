@@ -1,6 +1,3 @@
-- Registra historia academica no se ingresan datos estudiante (se queda competencia y participacion), elije el que ya está.
-
-- en registra historia solo nombre estudiante, incluir participación y dejar competencia
 - entrega informe y prototipo campo no mod, y nombre es nombre empresa y no editable
 - retroalimentacion, filtrar por equipos, y poner un mas que agrega criterio, valoracion y sugerencia
 - En ver prototipo beta poner la revision del prototipo beta.
