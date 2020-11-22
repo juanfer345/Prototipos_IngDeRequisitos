@@ -1769,6 +1769,9 @@ function formularioEntregaInforme(input, tipoInfProt) {
 
                         <label for="idea"> Idea de Desarrollo </label>
                         <textarea id="idea"></textarea>
+
+                        <button type="button" id="subirArchivo" class="botonExtra"> Subir Archivo </button>
+                        <input type="text" id="subirArchivo" disabled>
                     </div>
                 `
                 break;
@@ -1793,6 +1796,9 @@ function formularioEntregaInforme(input, tipoInfProt) {
 
                         <label for="avance"> Avance </label>
                         <textarea id="avance"></textarea>
+
+                        <button type="button" id="subirArchivo" class="botonExtra"> Subir Archivo </button>
+                        <input type="text" id="subirArchivo" disabled>
                     </div>
                 `
                 break;
@@ -1817,6 +1823,9 @@ function formularioEntregaInforme(input, tipoInfProt) {
 
                         <label for="conclusion"> Conclusión </label>
                         <textarea id="conclusion"></textarea>
+
+                        <button type="button" id="subirArchivo" class="botonExtra"> Subir Archivo </button>
+                        <input type="text" id="subirArchivo" disabled>
                     </div>
                 `
                 break;
@@ -3550,7 +3559,7 @@ function controladorRelacionDinamica(tipoUsuarioRelacion) {
         return true;
     }
     else {
-        return true;
+        return false;
     }
 }
 
@@ -4250,14 +4259,8 @@ var revisiones = {};
 // Valores para sesión
 var usuarioActivo = {
     datos: {
-        celular: "3173022932",
-        contrasena: "carlos",
-        correo: "carlop@gmail.com",
-        direccion: "Cll 123A #12A-32",
-        identificacion: "1",
-        nombre: "Carlos Lopez"
     },
-    tipoUsuario: "Profesor"
+    tipoUsuario: ""
 };
 
 window.addEventListener("load", inicializarPagina, false)

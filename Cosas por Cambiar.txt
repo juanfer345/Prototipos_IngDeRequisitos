@@ -1,3 +1,4 @@
+- Cuando se entregan los informes el estado por defecto será “No Calificado” hasta que el profesor lo califique y le ponga otro estado
 - En ver prototipo beta poner la revision del prototipo beta.
 - boton Subir archivo pa simular entrega proyect
 - Guardar datos -> localStogare.setItem("nombre", JSON.stringify(object))
