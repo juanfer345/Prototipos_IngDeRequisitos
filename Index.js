@@ -2565,7 +2565,7 @@ function formularioRealizaRevision(input) {
     equiposHTML += "</select>";
 
     // Llenando los datos del formulario
-    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Realiza Revisión </h1>"
+    document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Revisa Prototipo Beta </h1>"
 
     document.getElementById("Form1").innerHTML = `
         <div class="ayuda">
