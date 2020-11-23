@@ -2365,23 +2365,23 @@ function formularioCalificaInforme(input, tipoInfProt) {
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 
     // Añadiendo escuchador de listas desplegables y ejecutandola pa los datos iniciales
-    // document.getElementById("equipo").addEventListener("change",
-    //     () => {
-    //         actualizarCamposSelect("equipo", "datosCalifica", informePrototipo);
-    //         llenarTablaSelect(document.getElementById("equipo").value, "datosCriteriosEval", criterios, "CriteriosCalifica")
+    document.getElementById("equipo").addEventListener("change",
+        () => {
+            actualizarCamposSelect("equipo", "datosCalifica", informePrototipo);
+            llenarTablaSelect(document.getElementById("equipo").value, "datosCriteriosEval", criterios, "CriteriosCalifica")
 
-    //         if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
-    //             llenarTablaSelect(document.getElementById("equipo").value, "datosSecciones", informePrototipo, "Secciones")
-    //         }
+            if (tipoInfProt == "Informe Inicial" || tipoInfProt == "Informe de Progreso" || tipoInfProt == "Informe Final") {
+                llenarTablaSelect(document.getElementById("equipo").value, "datosSecciones", informePrototipo, "Secciones")
+            }
 
-    //         // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
-    //         expansionTextAreaDisabled(document.querySelector("#datosCalifica").querySelectorAll("textarea"));
-    //         expansionTextAreaDisabled(document.querySelector("#datosCriteriosEval").querySelectorAll("textarea"));
+            // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+            expansionTextAreaDisabled(document.querySelector("#datosCalifica").querySelectorAll("textarea"));
+            expansionTextAreaDisabled(document.querySelector("#datosCriteriosEval").querySelectorAll("textarea"));
 
-    //         // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
-    //         AsignacionExpansionTextArea(document.querySelector("#datosCriteriosEval").querySelectorAll("textarea"));
-    //     }
-    // );
+            // Añadiendo escuchador pa q los text area crezcan según el texto ingresado
+            AsignacionExpansionTextArea(document.querySelector("#datosCriteriosEval").querySelectorAll("textarea"));
+        }
+    );
     actualizarCamposSelect("equipo", "datosCalifica", informePrototipo);
     llenarTablaSelect(document.getElementById("equipo").value, "datosCriteriosEval", criterios, "CriteriosCalifica")
 
@@ -2820,8 +2820,10 @@ function llenarTablaSelect(llave, nombreContenedorCampos, arreglo = undefined, c
                 if (llave == "") {
                     llave = arreglo[Object.keys(arreglo)[0]];
                 }
-                for (var value of Object.values(arreglo[llave].secciones)) {
-                    acumulador += `<label> ${value} </label>`;
+                if (arreglo[llave] != undefined) {
+                    for (var value of Object.values(arreglo[llave].secciones)) {
+                        acumulador += `<label> ${value} </label>`;
+                    }
                 }
                 break;
 

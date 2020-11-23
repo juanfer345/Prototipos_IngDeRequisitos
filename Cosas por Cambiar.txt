@@ -1,4 +1,3 @@
-- Cuando se entregan los informes el estado por defecto será “No Calificado” hasta que el profesor lo califique y le ponga otro estado
 - boton Subir archivo pa simular entrega proyect
 - Guardar datos -> localStogare.setItem("nombre", JSON.stringify(object))
 - Eventos
