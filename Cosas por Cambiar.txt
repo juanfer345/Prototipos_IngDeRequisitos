@@ -1,10 +1,10 @@
 - Cuando se entregan los informes el estado por defecto será “No Calificado” hasta que el profesor lo califique y le ponga otro estado
-- En ver prototipo beta poner la revision del prototipo beta.
 - boton Subir archivo pa simular entrega proyect
 - Guardar datos -> localStogare.setItem("nombre", JSON.stringify(object))
 - Eventos
 
 - Como hacer que se vea el archivo?
+-que se vea en califica y en ver o q?
 - Los Links de los prototipos a la hora de calificarlos no estan cambiando (como asi)
 
 

@@ -1776,7 +1776,7 @@ function formularioEntregaInforme(input, tipoInfProt) {
                         <textarea id="idea"></textarea>
 
                         <button type="button" id="subirArchivo" class="botonExtra"> Subir Archivo </button>
-                        <input type="text" id="subirArchivo" disabled>
+                        <input type="text" id="archivo" disabled value="ño">
                     </div>
                 `
                 break;
@@ -1803,7 +1803,7 @@ function formularioEntregaInforme(input, tipoInfProt) {
                         <textarea id="avance"></textarea>
 
                         <button type="button" id="subirArchivo" class="botonExtra"> Subir Archivo </button>
-                        <input type="text" id="subirArchivo" disabled>
+                        <input type="text" id="archivo" disabled value="ño">
                     </div>
                 `
                 break;
@@ -1830,7 +1830,7 @@ function formularioEntregaInforme(input, tipoInfProt) {
                         <textarea id="conclusion"></textarea>
 
                         <button type="button" id="subirArchivo" class="botonExtra"> Subir Archivo </button>
-                        <input type="text" id="subirArchivo" disabled>
+                        <input type="text" id="archivo" disabled value="ño">
                     </div>
                 `
                 break;
@@ -1936,7 +1936,7 @@ function verCalificacion(input, campoEquipoSelect, tipoInfProt) {
          <div id="datosVerCalificacion" class="campos">
 
              <label for="tema"> Tema </label>
-             <textarea id="tema" disabled></textarea>
+             <input type="text" id="tema" disabled>
      `
         switch (tipoInfProt) {
             case "Informe Inicial":
@@ -2595,7 +2595,9 @@ function actualizarCamposSelect(nombreSelect, nombreContenedorCampos, arreglo, b
                                         return campo.value == value2;
                                     }
                                 );
-                                element.selected = true;
+                                if (element != undefined) {
+                                    element.selected = true;
+                                }
                             }
                         }
                     }
@@ -3297,34 +3299,42 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                     }
                 }
 
+                var esInforme = false; var objeto;
                 switch (casoMixto) {
                     case "Informe Inicial":
                         cadenaAux1 = `El informe inicial del equipo ${llave}`; cadenaAux2 = "entregado";
-                        informesIniciales[llave] = crearObjeto(Array.from(input).slice(1, input.length));
-                        informesIniciales[llave].secciones = crearObjeto(nuevoAgrega);
+                        objeto = informesIniciales;
+                        esInforme = true;
                         break;
 
                     case "Informe de Progreso":
                         cadenaAux1 = `El informe de progreso del equipo ${llave}`; cadenaAux2 = "entregado";
-                        informesProgreso[llave] = crearObjeto(Array.from(input).slice(1, input.length));
-                        informesProgreso[llave].secciones = crearObjeto(nuevoAgrega);
+                        objeto = informesProgreso;
+                        esInforme = true;
                         break;
 
                     case "Informe Final":
                         cadenaAux1 = `El informe final del equipo ${llave}`; cadenaAux2 = "entregado";
-                        informesFinales[llave] = crearObjeto(Array.from(input).slice(1, input.length));
-                        informesFinales[llave].secciones = crearObjeto(nuevoAgrega);
+                        objeto = informesFinales;
+                        esInforme = true;
                         break;
 
                     case "Prototipo Alpha":
                         cadenaAux1 = `El prototipo alpha del equipo ${llave}`; cadenaAux2 = "entregado";
-                        prototiposAlpha[llave] = crearObjeto(Array.from(input).slice(1, input.length));
+                        objeto = prototiposAlpha;
                         break;
 
                     case "Prototipo Beta":
                         cadenaAux1 = `El prototipo beta del equipo ${llave}`; cadenaAux2 = "entregado";
-                        prototiposBeta[llave] = crearObjeto(Array.from(input).slice(1, input.length));
+                        objeto = prototiposBeta;
                         break;
+                }
+
+                objeto[llave] = crearObjeto(Array.from(input).slice(1, input.length));
+
+                if (esInforme) {
+                    objeto[llave].secciones = crearObjeto(nuevoAgrega);
+                    objeto[llave].estado = "No calificado"
                 }
                 break;
 
@@ -3396,7 +3406,6 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                         objeto[llave].calidad = input[0].value;
                     }
                     document.getElementById(input[1].id).value = notaRubrica.toFixed(2);
-
 
                     if (!condicionEspecial) {
                         for (let index = 0; index < auxCriterios.length; index += 4) {
@@ -4101,7 +4110,6 @@ var carteraDeProyectos = {
     cantidadProyectos: 1,
     proyectos: {
         EPM: {
-            descripcionProyecto: "Está bien dificil loks",
             descripcionProyecto: "Es un buen proyecto, muy bien encaminado a la metodolgía de la asignatura",
             empresa: "EPM",
             objetivoProyecto: "Solucionar el problema"
