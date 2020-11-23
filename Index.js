@@ -1969,6 +1969,9 @@ function verCalificacion(input, campoEquipoSelect, tipoInfProt) {
         contenido += `
             <label for="estado"> Estado </label>
             <input type="text" id="estado" disabled>
+            
+            <label for="archivo"> Archivo </label>
+            <input type="text" id="archivo" disabled>
         </div>`
     }
     else {
@@ -1996,6 +1999,9 @@ function verCalificacion(input, campoEquipoSelect, tipoInfProt) {
             criterios = criteriosBeta;
 
             contenido += `
+            
+            <h2 class='subtituloForm'> Revisión </h2>
+
             <div id="datosVerRevision" class="campos">
 
                 <label for="valoracion"> Valoración </label>
