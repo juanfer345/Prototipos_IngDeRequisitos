@@ -2424,7 +2424,7 @@ function formularioCalificaInformePrototipo(input, tipoInfProt) {
                 document.getElementById("calidad").value = "Baja";
             }
 
-            document.getElementById("nota").value = "";
+            document.getElementById("nota").value = "0";
 
             Array.from(document.querySelector("#datosCriteriosEval").querySelectorAll("input, textarea")).forEach(
                 (campo) => { if (campo.disabled == false) { campo.value = ""; } }
