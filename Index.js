@@ -1985,15 +1985,27 @@ function verCalificacion(input, campoEquipoSelect, tipoInfProt) {
 
              <label for="calidad"> Calidad </label>
              <input type="text" id="calidad" disabled>
-             
-         </div>
+        </div>
         `
         if (tipoInfProt == "Prototipo Alpha") {
             informePrototipo = prototiposAlpha;
             criterios = criteriosAlpha;
+
         } else {
             informePrototipo = prototiposBeta;
             criterios = criteriosBeta;
+
+            contenido += `
+            <div id="datosVerRevision" class="campos">
+
+                <label for="valoracion"> Valoración </label>
+                <textarea id="valoracion" disabled></textarea>
+
+                <label for="comentario"> Comentario </label>
+                <textarea id="comentario" disabled></textarea>
+                
+            </div>
+            `
         }
     }
 
@@ -2058,6 +2070,12 @@ function verCalificacion(input, campoEquipoSelect, tipoInfProt) {
     //     }
     // );
     actualizarCamposSelect("equipoVer", "datosVerCalificacion", informePrototipo);
+
+    if (tipoInfProt == "Prototipo Beta") {
+        actualizarCamposSelect("equipoVer", "datosVerRevision", revisiones);
+        expansionTextAreaDisabled(document.querySelector("#datosVerRevision").querySelectorAll("textarea"));
+    }
+
     if (informePrototipo[equipoSeleccionado] != undefined) {
         if (informePrototipo[equipoSeleccionado].rubrica != undefined) {
             document.getElementById("nota").value = informePrototipo[equipoSeleccionado].rubrica.nota.toFixed(2);
@@ -2463,7 +2481,14 @@ function formularioRealizaRevision(input) {
     if (!controladorRelacionDinamica("Representante")) { return; }
 
     // Obteniendo los valores preestablecidos para llenar el formulario
-    const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
+    // const equiposHTML = obtenerDatosSelect("equipo", "Código Equipo", equipos);
+    var equiposHTML = `<label for='equipo'> Código Equipo </label> <select id='equipo'>`;
+    for (var [key, value] of Object.entries(equipos)) {
+        if (usuarioActivo.datos.empresa == key.split(" ")[0]) {
+            equiposHTML += `<option value='${key}'> ${key} </option>`;
+        }
+    }
+    equiposHTML += "</select>";
 
     // Llenando los datos del formulario
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Realiza Revisión </h1>"
@@ -2471,8 +2496,8 @@ function formularioRealizaRevision(input) {
     document.getElementById("Form1").innerHTML = `
         <div class="ayuda">
             <p> 
-                Por favor seleccione el código equipo, ingrese la valoración (cualitativa) y la sugerencia, y 
-                dé clic en el botón “Revisar” para guardar los datos
+                Por favor seleccione el código equipo, ingrese la valoración (cualitativa) y el comentario, y dé 
+                clic en el botón “Revisar” para guardar los datos
             </p>
         </div>
 
@@ -2486,13 +2511,13 @@ function formularioRealizaRevision(input) {
             <label for="valoracion"> Valoración </label>
             <textarea id="valoracion"></textarea>
 
-            <label for="sugerencia"> Sugerencia </label>
-            <textarea id="sugerencia"></textarea>
+            <label for="comentario"> Comentario </label>
+            <textarea id="comentario"></textarea>
 
         </div>
 
         <div class="botones">
-            <button id="confirmarForm1" type="button" class="botonConfirmar"> Realizar </button>
+            <button id="confirmarForm1" type="button" class="botonConfirmar"> Revisar </button>
             <button type="reset" class="botonBorrar"> Limpiar Campos </button>
         </div>
         <button id="cerrarForm1" type="button" class="botonCerrar"> Cerrar </button>
@@ -2804,7 +2829,7 @@ function llenarTablaSelect(llave, nombreContenedorCampos, arreglo = undefined, c
                     `;
                     id++;
                 }
-            break;
+                break;
         }
     }
     document.getElementById(nombreContenedorCampos).innerHTML = acumulador;
@@ -3394,7 +3419,8 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                 break;
 
             case "Revision":
-                cadenaAux1 = `La revisión del prototipo alpha del equipo ${llave}`; cadenaAux2 = "realizada"
+
+                cadenaAux1 = `El prototipo beta del equipo ${llave}`; cadenaAux2 = "revisado"
                 revisiones[llave] = crearObjeto(input, AgregaConCondicion);
                 break;
         }
@@ -4256,7 +4282,12 @@ var retroalimentaciones = {
     }
 };
 
-var revisiones = {};
+var revisiones = {
+    "EPM 1": {
+        comentario: "Bien bien bien loca",
+        valoracion: "El que lea esto es gay"
+    }
+};
 
 // Valores para sesión
 var usuarioActivo = {
