@@ -1,5 +1,14 @@
 function inicializarPagina() {
 
+    const condicionDatosViejos = false;
+
+    if (!condicionDatosViejos) {
+        controladorDatosLocal();
+    }
+    else {
+        temporalCargarDatos();
+    }
+
     // Añadiendo los escuchadores cada relación dinámica (2 por cada una pa q se le pueda dar click al texto y al "rectangulo")
     document.getElementById("loginProfesor").addEventListener("click", () => { formularioLogin(event, "Profesor") })
     document.getElementById("loginProfesorText").addEventListener("click", () => { formularioLogin(event, "Profesor") })
@@ -135,8 +144,8 @@ function inicializarPagina() {
 
     document.getElementById("revisaPrototipoBeta").addEventListener("click", formularioRealizaRevision);
     document.getElementById("revisaPrototipoBetaText").addEventListener("click", formularioRealizaRevision);
-    // document.getElementById("revisaPrototipoBeta").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Realiza Re") });
-    // document.getElementById("revisaPrototipoBetaText").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Realiza Re") });
+    document.getElementById("revisaPrototipoBeta").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Revisa Prototipo Beta") });
+    document.getElementById("revisaPrototipoBetaText").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Revisa Prototipo Beta") });
 
     //Factores criticos de exito
     document.getElementById("promoverCompetencia").addEventListener("click", formularioPromoverCompetencia)
@@ -1222,8 +1231,7 @@ function formularioConstruyeCartera(input) {
     document.getElementById("Form1").innerHTML = `
         <div class="ayuda">
             <p> 
-                Construye Cartera de Proyecto” con el mensaje de ayuda “Por favor dé clic en “Agregar Proyecto” 
-                para insertar proyectos en la cartera de proyectos
+                Por favor dé clic en “Agregar Proyecto” para insertar proyectos en la cartera de proyectos
             </p>
         </div>
 
@@ -1260,7 +1268,13 @@ function agregarProyecto(input) {
     document.getElementById("barraForm2").innerHTML = "<h1 class='tituloForm'> Agregar Proyecto </h1>"
 
     document.getElementById("Form2").innerHTML = `
-       
+        <div class="ayuda">
+            <p> 
+                Por favor seleccione el nombre de la empresa, ingrese el objetivo estratégico y descripción 
+                asociados al proyecto, luego dé clic en “Agregar Proyecto” para guardar los datos
+            </p>
+        </div>
+
         <div id="datosProyecto" class="campos">
 
             ${empresasHTML}
@@ -1808,7 +1822,7 @@ function formularioEntregaInformePrototipo(input, tipoInfProt) {
                 contenido = `
                     <div class="ayuda">
                         <p> 
-                            Por favor  ingrese los campos tema e idea de desarrollo, seleccione el botón “Subir Archivo” 
+                            Por favor ingrese la idea de desarrollo, seleccione el botón “Subir Archivo” 
                             para agregar el archivo, seleccione el botón “Agregar Sección” las veces que necesite para 
                             agregar las secciones y dé clic en botón “Entregar” para guardar los datos
                         </p>
@@ -1835,9 +1849,9 @@ function formularioEntregaInformePrototipo(input, tipoInfProt) {
                 contenido = `
                     <div class="ayuda">
                         <p> 
-                            Por favor ingrese los campos tema y avance, seleccione el botón “Subir Archivo” para 
-                            agregar el archivo, seleccione el botón “Agregar Sección” las veces que necesite para 
-                            agregar las secciones y dé clic en botón “Entregar” para guardar los datos
+                            Por favor ingrese el avance, seleccione el botón “Subir Archivo” para agregar el archivo, 
+                            seleccione el botón “Agregar Sección” las veces que necesite para agregar las secciones 
+                            y dé clic en botón “Entregar” para guardar los datos
                         </p>
                     </div>
 
@@ -1862,7 +1876,7 @@ function formularioEntregaInformePrototipo(input, tipoInfProt) {
                 contenido = `
                     <div class="ayuda">
                         <p> 
-                            Por favor ingrese los campos tema y conclusión, seleccione el botón “Agregar Sección” las veces 
+                            Por favor ingrese la conclusión, seleccione el botón “Agregar Sección” las veces 
                             que necesite para agregar las secciones, seleccione el botón “Subir Archivo” para agregar el 
                             archivo y dé clic en el botón “Entregar” para guardar los datos
                         </p>
@@ -2225,7 +2239,7 @@ function formularioCalificaInformePrototipo(input, tipoInfProt) {
         contenido = `
             <div class="ayuda" id="ayuda">
                 <p> 
-                    Por favor seleccione el código equipo, seleccione la calidad, ingrese las valoraciones (cualitativas), los comentarios 
+                    Por favor seleccione el código equipo, seleccione el estado, ingrese las valoraciones (cualitativas), los comentarios 
                     y las notas según los criterios de evaluación, y dé clic en el botón “Calificar” para guardar los datos
                 </p>
             </div>
@@ -2271,7 +2285,11 @@ function formularioCalificaInformePrototipo(input, tipoInfProt) {
                 break;
         }
 
-        contenido += `${estadosHTML} </div>`
+        contenido += `
+            <label for="archivo"> Archivo </label>
+            <input type="text" id="archivo" disabled>
+            ${estadosHTML} 
+        </div>`
 
     }
     else {
@@ -3160,7 +3178,7 @@ function guardarDatos(input, caso, llave = input[0].value, nuevoAgrega = undefin
                 }
                 else {
                     errorIngresoDatos = true;
-                    cadenaAux1 = "Este sistema solo está diseñado para una asignatura con su respectivo profesor, por tanto no puede haber más de un profesor registrado"
+                    cadenaAux1 = "Este sistema solo está diseñado para una asignatura con su respectivo profesor, por tanto no puede haber más de una asignatura registrado"
                 }
                 break;
 
@@ -3569,7 +3587,6 @@ function crearObjeto(listiviris, AgregaConCondicion = undefined, arregloCadenaVa
     else {
         return [objeto, cadena];
     }
-
 }
 
 function adicionarAobjeto(objeto, listiviris) {
@@ -3931,7 +3948,7 @@ function denominadorEsCero(lista) {
 }
 
 function formularioVerEspecificacion(input, nombreImagen, dimension = "400px") {
-    
+
     // Evitando que funcione el click derecho
     input.preventDefault();
 
@@ -3952,430 +3969,529 @@ function formularioVerEspecificacion(input, nombreImagen, dimension = "400px") {
     document.getElementById("imagen").style.width = dimension;
 }
 
-var profesores = {
-    1: {
-        contrasena: "carlos", nombre: "Carlos Lopez", correo: "carlop@gmail.com", celular: "3173022932", direccion: "Cll 123A #12A-32", identificacion: "1"
-    }
-    // 2: {
-    //     contrasena: "daniel", nombre: "Daniel Delgado", correo: "dldelgado@unal.edu.co", celular: "3013215643", direccion: "Cra. 58 #32-12", identificacion: "2"
-    // },
-    // 3: {
-    //     contrasena: "sara", nombre: "Sara Berrio", correo: "sraberr@gmail.com", celular: "3053876514", direccion: "Cll 93B #24-43", identificacion: "3"
-    // },
-    // 4: {
-    //     contrasena: "manuel", nombre: "Manuel Guisao", correo: "manuel@gmail.com", celular: "3022839228", direccion: "Carrera 4 # 5-28", identificacion: "4"
-    // },
-    // 5: {
-    //     contrasena: "esteban", nombre: "Esteban Huarnición", correo: "esteban@gmail.com", celular: "3103043829", direccion: "Calle 83 # 8 - 31", identificacion: "5"
-    // },
-    // 6: {
-    //     celular: "123", contrasena: "elber", correo: "elber@elber.com", direccion: "Jungla # 32", identificacion: "6", nombre: "Elber Gomez Torba"
-    // }
-};
-
-var semestresCod = {
-    codigoSemestre: 0,
-    semestres: {}
+function guardarDatosLocal() {
+    localStorage.setItem("profesores",JSON.stringify(profesores));
+    localStorage.setItem("semestresCod",JSON.stringify(semestresCod));
+    localStorage.setItem("asignaturas",JSON.stringify(asignaturas));
+    localStorage.setItem("clases",JSON.stringify(clases));
+    localStorage.setItem("criteriosInicial",JSON.stringify(criteriosInicial));
+    localStorage.setItem("criteriosProgreso",JSON.stringify(criteriosProgreso));
+    localStorage.setItem("criteriosFinal",JSON.stringify(criteriosFinal));
+    localStorage.setItem("criteriosAlpha",JSON.stringify(criteriosAlpha));
+    localStorage.setItem("criteriosBeta",JSON.stringify(criteriosBeta));
+    localStorage.setItem("empresas",JSON.stringify(empresas));
+    localStorage.setItem("representantes",JSON.stringify(representantes));
+    localStorage.setItem("problemas",JSON.stringify(problemas));
+    localStorage.setItem("carteraDeProyectos",JSON.stringify(carteraDeProyectos));
+    localStorage.setItem("estudiantes",JSON.stringify(estudiantes));
+    localStorage.setItem("equipos",JSON.stringify(equipos));
+    localStorage.setItem("metodologiasDesarrollo",JSON.stringify(metodologiasDesarrollo));
+    localStorage.setItem("informesIniciales",JSON.stringify(informesIniciales));
+    localStorage.setItem("informesProgreso",JSON.stringify(informesProgreso));
+    localStorage.setItem("informesFinales",JSON.stringify(informesFinales));
+    localStorage.setItem("prototiposAlpha",JSON.stringify(prototiposAlpha));
+    localStorage.setItem("prototiposBeta",JSON.stringify(prototiposBeta));
+    localStorage.setItem("retroalimentaciones",JSON.stringify(retroalimentaciones));
+    localStorage.setItem("revisiones",JSON.stringify(revisiones));
 }
 
-var asignaturas = {
-    "Ingeniería de Software": {
-        contenidos: {
-            contenido_1: "Metodologías de Desarrollo",
-            contenido_2: "Diagramas Lorenzos",
-            contenido_3: "Diagramas Especiales",
-        },
-        estado: "Diseñada",
-        nombre: "Ingeniería de Software",
-        profesor: "Carlos Lopez"
-    }
-    // "Programación Orientada a Objetos": {
-    //     contenidos: { contenido_1: "Clases", contenido_2: "Objetos" },
-    //     nombre: "Programación Orientada a Objetos",
-    //     profesor: "Daniel Delgado",
-    //     estado: "Diseñada"
-    // },
-    // "Ingeniería de Requisitos": {
-    //     contenidos: { contenido_1: "Casos de Uso", contenido_2: "Diagrama de Procesos" },
-    //     estado: "Diseñada",
-    //     nombre: "Ingeniería de Requisitos",
-    //     profesor: "Sara Berrio"
-    // }
-};
-
-var clases = {
-    // "Calidad del código": {
-    //     tematica: "Calidad del código",
-    //     numero: "1",
-    //     asignatura: "Programación Orientada a Objetos"
-    // },
-    // "Calidad de los casos de uso": {
-    //     tematica: "Calidad de los casos de uso",
-    //     numero: "1",
-    //     asignatura: "Ingeniería de Requisitos"
-    // },
-    Scrum: {
-        tematica: "Scrum",
-        numero: "1",
-        asignatura: "Ingeniería de Software",
-        contenido: "Metodologías de Desarrollo"
-    },
-    RUP: {
-        tematica: "RUP",
-        numero: "2",
-        asignatura: "Ingeniería de Software",
-        contenido: "Metodologías de Desarrollo"
-    },
-    Cascada: {
-        tematica: "Cascada",
-        numero: "3",
-        asignatura: "Ingeniería de Software",
-        contenido: "Metodologías de Desarrollo"
-    },
-    Espiral: {
-        tematica: "Espiral",
-        numero: "4",
-        asignatura: "Ingeniería de Software",
-        contenido: "Metodologías de Desarrollo"
-    }
-};
-
-var criteriosInicial = {
-    "Aproximación a los requisitos iniciales": {
-        descripcion: "Lo expuesto por el estudiante se aproxima lo suficiente a los intereses del representante",
-        nombre: "Aproximación a los requisitos iniciales",
-        peso: "70",
-        rubrica: "Informe Inicial"
-    },
-    Plenitud: {
-        descripcion: "Se describen todas las características necesarias para los objetos, actores y funciones encontradas",
-        nombre: "Plenitud",
-        peso: "30",
-        rubrica: "Informe Inicial"
-    }
-};
-
-var criteriosProgreso = {
-    "Avance en los requisitos": {
-        descripcion: "Se nota el avance entre definir el contexto, analizar el problema y empezar a modelar la solución",
-        nombre: "Avance en los requisitos",
-        peso: "50",
-        rubrica: "Informe de Progreso"
-    },
-    Plenitud: {
-        descripcion: "Se describen y se asocian los objetivos y problemas, se establecen todos los procesos",
-        nombre: "Plenitud",
-        peso: "50",
-        rubrica: "Informe de Progreso"
-    }
-};
-
-var criteriosFinal = {
-
-};
-
-var criteriosAlpha = {
-    "Funcionalidad": {
-        descripcion: "Todas las funciones estan correctas sin errores",
-        nombre: "Exito de funciones",
-        peso: "50",
-        rubrica: "Prototipo Alpha"
-    },
-    "Completitud": {
-        descripcion: "El prototipo tiene todo lo pedido por la interesada",
-        nombre: "Completitud",
-        peso: "50",
-        rubrica: "Prototipo Alpha"
-    }
-};
-
-var criteriosBeta = {
-    "Diseño": {
-        descripcion: "El prototipo tiene un buen diseño entendible y agradable a la vista",
-        nombre: "Diseño",
-        peso: "20",
-        rubrica: "Prototipo Beta"
-    },
-    "Funcionalidad": {
-        descripcion: "Todas las funciones estan correctas sin errores",
-        nombre: "Exito de funciones",
-        peso: "40",
-        rubrica: "Prototipo Beta"
-    },
-    "Completitud": {
-        descripcion: "El prototipo tiene todo lo pedido por la interesada",
-        nombre: "Completitud",
-        peso: "40",
-        rubrica: "Prototipo Beta"
-    }
-};
-
-var empresas = {
-    Postobon: {
-        mision: "Refrescar el mundo. Inspirar momentos de optimismo y felicidad. Crear valor y marcar la diferencia.",
-        necesidad: "Software para incrementar las ventas",
-        nombre: "Postobon",
-        objetivoEmpresa: "Crear y satisfacer la demanda. Generar rentabilidad y agregar valor a la organización.",
-        vision: "Satisfacer con excelencia a los consumidores de bebidas"
-    },
-    EPM: {
-        mision: "Somos una empresa filial del Grupo Empresarial EPM que contribuye al mejoramiento de la calidad de vida de la población a través de servicios de agua y energía con sustentabilidad ambiental.",
-        necesidad: "Aplicación para ubicación del personal en la ciudad",
-        nombre: "EPM",
-        objetivoEmpresa: "Mejorar los servicios básicos",
-        vision: "En 2022 Ticsa será una empresa líder en México en excelencia operativa, reputación y transparencia, ofreciendo a los clientes y al mercado un portafolio integral de soluciones hídricas y energéticas, fundamentada en prácticas socialmente responsables con todos los grupos de ínteres y contribuyendo a la consolidación multilatina del Grupo Empresarial EPM."
-    },
-    Colcafé: {
-        mision: "Vender cafechito",
-        necesidad: "Necesitamos vender mas cafechito",
-        nombre: "Colcafé",
-        objetivoEmpresa: "Y a vece' e' Dolce, a vece' Bulgari↵Cuando te lo quito despué' de lo' partie'↵Las copa' de vino, las libra' de mari↵Tú estás bien suelta, yo de safari↵Tú muevе' el culo fenomenal↵Pa' yo dеvorarte como animal↵Si no te ha' venío', yo te vo'a esperar↵En mi cama y lo vo'a celebrar",
-        vision: "Ver cosas luego de tomar cafechito"
-    }
-};
-
-var representantes = {
-    123: {
-        celular: "3123044398",
-        correo: "sbols@gmail.com",
-        disponibilidad: "Mucha",
-        identificacion: 123,
-        nombre: "Santiago Bolaños",
-        empresa: "Postobon",
-        contrasena: "santiago"
-    },
-    456: {
-        celular: "3023139870",
-        correo: "perez.juan@gmail.com",
-        disponibilidad: "Poca",
-        identificacion: 456,
-        empresa: "EPM",
-        nombre: "Juan Perez",
-        contrasena: "juan"
-    }
-};
-
-var problemas = {
-    Postobon: {
-        actor: "Cliente",
-        causa: "Mala manipulación de la base de datos",
-        comentario: "Se hace muy difícil trabajar con un proyecto tan grande",
-        descripcionProblema: "Debido a un error en el software, muchas máquinas no proveen la bebida adecuada",
-        empresa: "Postobon",
-        impacto: "Alto",
-        proceso: "Obtención de bebidas",
-        validacion: "No Aprobado"
-    },
-    EPM: {
-        actor: "Administración",
-        causa: "Mala manipulación de la base de datos y resto del código",
-        comentario: "Buen problema para trabajar en el curso, pero se va a evitar la parte que involucra a los usuarios",
-        descripcionProblema: "No se puede acceder correctamente a la información y cuentas de algunos usuarios",
-        empresa: "EPM",
-        impacto: "Bajo",
-        proceso: "Obtención de información",
-        validacion: "Aprobado Con Ajustes"
-    },
-    Colcafé: {
-        actor: "La gente que hace el café y la gente que compra el café",
-        causa: "El cafechito no se vende lo suficiente",
-        descripcionProblema: "Baby, a ti no me opongo↵Y siempre te lo pongo (Yo te lo pongo)↵Y si tú me tira', vamo' a nadar en lo hondo (Nadar en lo hondo)↵Si es por mí te lo pongo↵De septiembre hasta agosto↵Y a mí sin cojone' lo que digan tu' amiga'",
-        empresa: "Colcafé",
-        impacto: "Que chorprecha!",
-        proceso: "El proceso de vender café"
-    }
-};
-
-var carteraDeProyectos = {
-    cantidadProyectos: 1,
-    proyectos: {
-        EPM: {
-            descripcionProyecto: "Es un buen proyecto, muy bien encaminado a la metodolgía de la asignatura",
-            empresa: "EPM",
-            objetivoProyecto: "Solucionar el problema"
+function temporalCargarDatos() {
+    profesores = {
+        1: {
+            contrasena: "carlos", nombre: "Carlos Lopez", correo: "carlop@gmail.com", celular: "3173022932", direccion: "Cll 123A #12A-32", identificacion: "1"
         }
-    }
-};
+        // 2: {
+        //     contrasena: "daniel", nombre: "Daniel Delgado", correo: "dldelgado@unal.edu.co", celular: "3013215643", direccion: "Cra. 58 #32-12", identificacion: "2"
+        // },
+        // 3: {
+        //     contrasena: "sara", nombre: "Sara Berrio", correo: "sraberr@gmail.com", celular: "3053876514", direccion: "Cll 93B #24-43", identificacion: "3"
+        // },
+        // 4: {
+        //     contrasena: "manuel", nombre: "Manuel Guisao", correo: "manuel@gmail.com", celular: "3022839228", direccion: "Carrera 4 # 5-28", identificacion: "4"
+        // },
+        // 5: {
+        //     contrasena: "esteban", nombre: "Esteban Huarnición", correo: "esteban@gmail.com", celular: "3103043829", direccion: "Calle 83 # 8 - 31", identificacion: "5"
+        // },
+        // 6: {
+        //     celular: "123", contrasena: "elber", correo: "elber@elber.com", direccion: "Jungla # 32", identificacion: "6", nombre: "Elber Gomez Torba"
+        // }
+    };
 
-var estudiantes = {
-    123: {
-        carrera: "Enfriación de Ladrillos",
-        celular: "456",
-        competencia: "Social",
-        correo: "elber@elber.com",
-        direccion: "Calle falsa 123",
-        historia: {
-            promedio: 3.5666666666666664,
-            asignaturasHist: {
-                nombre_1: { nombre_1: "Ladrillos I", nota_1: "2.3", semestre_1: "2015-I" },
-                nombre_2: { nombre_2: "Ladrillos II", nota_2: "3.4", semestre_2: "2016-III" },
-                nombre_3: { nombre_3: "Enfriación II", nota_3: "5", semestre_3: "2017" }
-            }
-        },
-        identificacion: "123",
-        contrasena: "elber",
-        nombre: "Elber Galarga",
-        semestre: "2020-III",
-        participacion: "No participador"
-    },
-    456: {
-        carrera: "Actuación Erotica",
-        celular: "89339",
-        competencia: "Técnica",
-        correo: "onlyfans.com/EstebitanBB",
-        direccion: "La vuelta negra",
-        historia: {
-            asignaturasHist: {
-                nombre_1: { nombre_1: "Poses I", nota_1: "5", semestre_1: "2013-I" },
-                nombre_2: { nombre_2: "Kamasutra IV", nota_2: "4.8", semestre_2: "2013-I" },
-                nombre_3: { nombre_3: "Perreo IX", nota_3: "9000", semestre_3: "2015-II" }
+    semestresCod = {
+        codigoSemestre: 0,
+        semestres: {}
+    }
+
+    asignaturas = {
+        "Ingeniería de Software": {
+            contenidos: {
+                contenido_1: "Metodologías de Desarrollo",
+                contenido_2: "Diagramas Lorenzos",
+                contenido_3: "Diagramas Especiales",
             },
-            promedio: 3003.266666666667
-        },
-        identificacion: "456",
-        nombre: "Esteban Dido",
-        contrasena: "esteban",
-        semestre: "el último",
-        participacion: "No participador"
-    },
-    238: {
-        carrera: "Ingeniería de Ingenieros",
-        celular: "233",
-        contrasena: "johnny",
-        correo: "joni@joni.com",
-        direccion: "calle verdadera 123",
-        identificacion: "238",
-        nombre: "Johnny Melas Lavo",
-        semestre: "Este",
-        participacion: "No participador"
-    },
-    2929: {
-        carrera: "Ingenieria de Alimentos",
-        celular: "999",
-        contrasena: "benito",
-        correo: "benito.com",
-        direccion: "Enrique Segoviano",
-        identificacion: "2929",
-        nombre: "Benito Camelo",
-        semestre: "2020-I",
-        participacion: "No participador"
-    }
-};
-
-var equipos = {
-    "EPM 1": {
-        calidad: "baja",
-        cantidad: "1",
-        integrantes: {
-            estudiante_1: "123"
+            estado: "Diseñada",
+            nombre: "Ingeniería de Software",
+            profesor: "Carlos Lopez"
         }
-    },
-    "EPM 2": {
-        calidad: "baja",
-        cantidad: "2",
-        integrantes: {
-            estudiante_1: "238",
-            estudiante_2: "2929"
-        }
-    }
-};
+        // "Programación Orientada a Objetos": {
+        //     contenidos: { contenido_1: "Clases", contenido_2: "Objetos" },
+        //     nombre: "Programación Orientada a Objetos",
+        //     profesor: "Daniel Delgado",
+        //     estado: "Diseñada"
+        // },
+        // "Ingeniería de Requisitos": {
+        //     contenidos: { contenido_1: "Casos de Uso", contenido_2: "Diagrama de Procesos" },
+        //     estado: "Diseñada",
+        //     nombre: "Ingeniería de Requisitos",
+        //     profesor: "Sara Berrio"
+        // }
+    };
 
-var metodologiasDesarrollo = {};
-
-var informesIniciales = {
-    "EPM 1": {
-        idea: "Mejorar las cosas que se puedan mejorar",
-        secciones: {
-            seccion_1: "Introducción",
-            seccion_2: "Índice",
-            seccion_3: "Capitulo I",
-            seccion_4: "Capitulo II",
-            seccion_5: "Conclusiones"
+    clases = {
+        // "Calidad del código": {
+        //     tematica: "Calidad del código",
+        //     numero: "1",
+        //     asignatura: "Programación Orientada a Objetos"
+        // },
+        // "Calidad de los casos de uso": {
+        //     tematica: "Calidad de los casos de uso",
+        //     numero: "1",
+        //     asignatura: "Ingeniería de Requisitos"
+        // },
+        Scrum: {
+            tematica: "Scrum",
+            numero: "1",
+            asignatura: "Ingeniería de Software",
+            contenido: "Metodologías de Desarrollo"
         },
-        tema: "La Represa Hidroituango",
-        estado: "Incompleto",
+        RUP: {
+            tematica: "RUP",
+            numero: "2",
+            asignatura: "Ingeniería de Software",
+            contenido: "Metodologías de Desarrollo"
+        },
+        Cascada: {
+            tematica: "Cascada",
+            numero: "3",
+            asignatura: "Ingeniería de Software",
+            contenido: "Metodologías de Desarrollo"
+        },
+        Espiral: {
+            tematica: "Espiral",
+            numero: "4",
+            asignatura: "Ingeniería de Software",
+            contenido: "Metodologías de Desarrollo"
+        }
+    };
 
-        rubrica: {
-            criterios: {
-                "Aproximación a los requisitos iniciales": {
-                    comentario: "melisimo",
-                    nota: "5",
-                    valoracion: "melo"
-                },
-                Plenitud: {
-                    comentario: "malísimo",
-                    nota: "1.23",
-                    valoracion: "malo"
+    criteriosInicial = {
+        "Aproximación a los requisitos iniciales": {
+            descripcion: "Lo expuesto por el estudiante se aproxima lo suficiente a los intereses del representante",
+            nombre: "Aproximación a los requisitos iniciales",
+            peso: "70",
+            rubrica: "Informe Inicial"
+        },
+        Plenitud: {
+            descripcion: "Se describen todas las características necesarias para los objetos, actores y funciones encontradas",
+            nombre: "Plenitud",
+            peso: "30",
+            rubrica: "Informe Inicial"
+        }
+    };
+
+    criteriosProgreso = {
+        "Avance en los requisitos": {
+            descripcion: "Se nota el avance entre definir el contexto, analizar el problema y empezar a modelar la solución",
+            nombre: "Avance en los requisitos",
+            peso: "50",
+            rubrica: "Informe de Progreso"
+        },
+        Plenitud: {
+            descripcion: "Se describen y se asocian los objetivos y problemas, se establecen todos los procesos",
+            nombre: "Plenitud",
+            peso: "50",
+            rubrica: "Informe de Progreso"
+        }
+    };
+
+    criteriosFinal = {
+
+    };
+
+    criteriosAlpha = {
+        "Funcionalidad": {
+            descripcion: "Todas las funciones estan correctas sin errores",
+            nombre: "Exito de funciones",
+            peso: "50",
+            rubrica: "Prototipo Alpha"
+        },
+        "Completitud": {
+            descripcion: "El prototipo tiene todo lo pedido por la interesada",
+            nombre: "Completitud",
+            peso: "50",
+            rubrica: "Prototipo Alpha"
+        }
+    };
+
+    criteriosBeta = {
+        "Diseño": {
+            descripcion: "El prototipo tiene un buen diseño entendible y agradable a la vista",
+            nombre: "Diseño",
+            peso: "20",
+            rubrica: "Prototipo Beta"
+        },
+        "Funcionalidad": {
+            descripcion: "Todas las funciones estan correctas sin errores",
+            nombre: "Exito de funciones",
+            peso: "40",
+            rubrica: "Prototipo Beta"
+        },
+        "Completitud": {
+            descripcion: "El prototipo tiene todo lo pedido por la interesada",
+            nombre: "Completitud",
+            peso: "40",
+            rubrica: "Prototipo Beta"
+        }
+    };
+
+    empresas = {
+        Postobon: {
+            mision: "Refrescar el mundo. Inspirar momentos de optimismo y felicidad. Crear valor y marcar la diferencia.",
+            necesidad: "Software para incrementar las ventas",
+            nombre: "Postobon",
+            objetivoEmpresa: "Crear y satisfacer la demanda. Generar rentabilidad y agregar valor a la organización.",
+            vision: "Satisfacer con excelencia a los consumidores de bebidas"
+        },
+        EPM: {
+            mision: "Somos una empresa filial del Grupo Empresarial EPM que contribuye al mejoramiento de la calidad de vida de la población a través de servicios de agua y energía con sustentabilidad ambiental.",
+            necesidad: "Aplicación para ubicación del personal en la ciudad",
+            nombre: "EPM",
+            objetivoEmpresa: "Mejorar los servicios básicos",
+            vision: "En 2022 Ticsa será una empresa líder en México en excelencia operativa, reputación y transparencia, ofreciendo a los clientes y al mercado un portafolio integral de soluciones hídricas y energéticas, fundamentada en prácticas socialmente responsables con todos los grupos de ínteres y contribuyendo a la consolidación multilatina del Grupo Empresarial EPM."
+        },
+        Colcafé: {
+            mision: "Vender cafechito",
+            necesidad: "Necesitamos vender mas cafechito",
+            nombre: "Colcafé",
+            objetivoEmpresa: "Y a vece' e' Dolce, a vece' Bulgari↵Cuando te lo quito despué' de lo' partie'↵Las copa' de vino, las libra' de mari↵Tú estás bien suelta, yo de safari↵Tú muevе' el culo fenomenal↵Pa' yo dеvorarte como animal↵Si no te ha' venío', yo te vo'a esperar↵En mi cama y lo vo'a celebrar",
+            vision: "Ver cosas luego de tomar cafechito"
+        }
+    };
+
+    representantes = {
+        123: {
+            celular: "3123044398",
+            correo: "sbols@gmail.com",
+            disponibilidad: "Mucha",
+            identificacion: 123,
+            nombre: "Santiago Bolaños",
+            empresa: "Postobon",
+            contrasena: "santiago"
+        },
+        456: {
+            celular: "3023139870",
+            correo: "perez.juan@gmail.com",
+            disponibilidad: "Poca",
+            identificacion: 456,
+            empresa: "EPM",
+            nombre: "Juan Perez",
+            contrasena: "juan"
+        }
+    };
+
+    problemas = {
+        Postobon: {
+            actor: "Cliente",
+            causa: "Mala manipulación de la base de datos",
+            comentario: "Se hace muy difícil trabajar con un proyecto tan grande",
+            descripcionProblema: "Debido a un error en el software, muchas máquinas no proveen la bebida adecuada",
+            empresa: "Postobon",
+            impacto: "Alto",
+            proceso: "Obtención de bebidas",
+            validacion: "No Aprobado"
+        },
+        EPM: {
+            actor: "Administración",
+            causa: "Mala manipulación de la base de datos y resto del código",
+            comentario: "Buen problema para trabajar en el curso, pero se va a evitar la parte que involucra a los usuarios",
+            descripcionProblema: "No se puede acceder correctamente a la información y cuentas de algunos usuarios",
+            empresa: "EPM",
+            impacto: "Bajo",
+            proceso: "Obtención de información",
+            validacion: "Aprobado Con Ajustes"
+        },
+        Colcafé: {
+            actor: "La gente que hace el café y la gente que compra el café",
+            causa: "El cafechito no se vende lo suficiente",
+            descripcionProblema: "Baby, a ti no me opongo↵Y siempre te lo pongo (Yo te lo pongo)↵Y si tú me tira', vamo' a nadar en lo hondo (Nadar en lo hondo)↵Si es por mí te lo pongo↵De septiembre hasta agosto↵Y a mí sin cojone' lo que digan tu' amiga'",
+            empresa: "Colcafé",
+            impacto: "Que chorprecha!",
+            proceso: "El proceso de vender café"
+        }
+    };
+
+    carteraDeProyectos = {
+        cantidadProyectos: 1,
+        proyectos: {
+            EPM: {
+                descripcionProyecto: "Es un buen proyecto, muy bien encaminado a la metodolgía de la asignatura",
+                empresa: "EPM",
+                objetivoProyecto: "Solucionar el problema"
+            }
+        }
+    };
+
+    estudiantes = {
+        123: {
+            carrera: "Enfriación de Ladrillos",
+            celular: "456",
+            competencia: "Social",
+            correo: "elber@elber.com",
+            direccion: "Calle falsa 123",
+            historia: {
+                promedio: 3.5666666666666664,
+                asignaturasHist: {
+                    nombre_1: { nombre_1: "Ladrillos I", nota_1: "2.3", semestre_1: "2015-I" },
+                    nombre_2: { nombre_2: "Ladrillos II", nota_2: "3.4", semestre_2: "2016-III" },
+                    nombre_3: { nombre_3: "Enfriación II", nota_3: "5", semestre_3: "2017" }
                 }
             },
-            nota: 3.8689999999999998
-        }
-    }
-};
-
-var informesProgreso = {};
-
-var informesFinales = {};
-
-var prototiposAlpha = {
-    "EPM 1": {
-        link: "LinkZaso"
-    }
-};
-
-var prototiposBeta = {
-    "EPM 1": {
-        calidad: "Media",
-        link: "nuai",
-        rubrica: {
-            criterios: {
-                Completitud: { valoracion: "malisimo", comentario: "ñoño", nota: "1.223" },
-                Diseño: { valoracion: "-10", comentario: "melo", nota: "5" },
-                "Exito de funciones": { valoracion: "brevas", comentario: "olis", nota: "3" }
-            },
-            nota: 2.6892
-        }
-    },
-    "EPM 2": {
-        calidad: "Alta",
-        link: "este otro",
-        rubrica: {
-            criterios: {
-                Completitud: { valoracion: "melosky", comentario: "melosky", nota: "4" },
-                Diseño: { valoracion: "melo", comentario: "melo", nota: "2" },
-                "Exito de funciones": { valoracion: "melani", comentario: "melani", nota: "3" }
-            },
-            nota: 3.2
-        }
-    }
-};
-
-var retroalimentaciones = {
-    "EPM 1": {
-        "elemento 0": {
-            criterio_1: "La bebecita bebe lean y bebe whisky↵Fuma marihuana y también se mete picky↵Senda bellacona, frikitona, friky, friky",
-            sugerencia_1: "Senda bellacona, frikitona, friky, friky↵En la cama una salvaje y la castigo con mi dicky",
-            valoracion_1: "Es media salvaje, ella es adicta a mi dicky↵Le mete al lean, le mete al whisky↵Fuma marihuana y también se mete picky"
+            identificacion: "123",
+            contrasena: "elber",
+            nombre: "Elber Galarga",
+            semestre: "2020-III",
+            participacion: "No participador"
         },
-        "elemento 1": {
-            criterio_2: "Ellos rezan todos los días pa que nosotros nos caigamos (uh uh uh uh)↵No nos dejamos ver pero todo el mundo sabe dónde es que estamos, ey (uh uh uh uh)↵La presión se siente siempre que llegamos, ey, ey (uh uh uh uh)↵Le caemos solos y con babies nos vamos (uh uh uh uh)",
-            sugerencia_2: "Tú sabes ya que yo venía a darte↵No me vengas con que tú nos llegas tarde (no stop)↵Avísame, que tu amiguita está en fila pa darle (ey, ey, ey)",
-            valoracion_2: "Y si vas a matar la vibra pues salte (salte)↵Tú sabes ya que yo venía a darte↵No me vengas con que tú nos llegas tarde↵Avísame, que tu amiguita está en fila pa darle (ey, ey)↵Y si vas a matar la vibra pues salte (Salte)"
+        456: {
+            carrera: "Actuación Erotica",
+            celular: "89339",
+            competencia: "Técnica",
+            correo: "onlyfans.com/EstebitanBB",
+            direccion: "La vuelta negra",
+            historia: {
+                asignaturasHist: {
+                    nombre_1: { nombre_1: "Poses I", nota_1: "5", semestre_1: "2013-I" },
+                    nombre_2: { nombre_2: "Kamasutra IV", nota_2: "4.8", semestre_2: "2013-I" },
+                    nombre_3: { nombre_3: "Perreo IX", nota_3: "9000", semestre_3: "2015-II" }
+                },
+                promedio: 3003.266666666667
+            },
+            identificacion: "456",
+            nombre: "Esteban Dido",
+            contrasena: "esteban",
+            semestre: "el último",
+            participacion: "No participador"
         },
-        "elemento 2": {
-            criterio_3: "Mi mamisonga es senda putonga↵No se pone panty y le digo que se lo ponga↵Ella esta loca, que se lo ponga↵Yo le digo mi amor no te pongas",
-            sugerencia_3: "Mi mamisonga es senda putonga↵No se pone panty y le digo que se lo ponga↵Ella esta loca, que se lo ponga↵Yo le digo mi amor no te pongas",
-            valoracion_3: "Es que me pongo demasiado de bellaco↵Es que tu tienes un culo ni el verraco↵Por una esquinita me lo saco↵Mami ponte Jordan, no te pongas tacos"
+        238: {
+            carrera: "Ingeniería de Ingenieros",
+            celular: "233",
+            contrasena: "johnny",
+            correo: "joni@joni.com",
+            direccion: "calle verdadera 123",
+            identificacion: "238",
+            nombre: "Johnny Melas Lavo",
+            semestre: "Este",
+            participacion: "No participador"
+        },
+        2929: {
+            carrera: "Ingenieria de Alimentos",
+            celular: "999",
+            contrasena: "benito",
+            correo: "benito.com",
+            direccion: "Enrique Segoviano",
+            identificacion: "2929",
+            nombre: "Benito Camelo",
+            semestre: "2020-I",
+            participacion: "No participador"
+        }
+    };
+
+    equipos = {
+        "EPM 1": {
+            calidad: "baja",
+            cantidad: "1",
+            integrantes: {
+                estudiante_1: "123"
+            }
+        },
+        "EPM 2": {
+            calidad: "baja",
+            cantidad: "2",
+            integrantes: {
+                estudiante_1: "238",
+                estudiante_2: "2929"
+            }
+        }
+    };
+
+    metodologiasDesarrollo = {};
+
+    informesIniciales = {
+        "EPM 1": {
+            idea: "Mejorar las cosas que se puedan mejorar",
+            secciones: {
+                seccion_1: "Introducción",
+                seccion_2: "Índice",
+                seccion_3: "Capitulo I",
+                seccion_4: "Capitulo II",
+                seccion_5: "Conclusiones"
+            },
+            tema: "La Represa Hidroituango",
+            estado: "Incompleto",
+
+            rubrica: {
+                criterios: {
+                    "Aproximación a los requisitos iniciales": {
+                        comentario: "melisimo",
+                        nota: "5",
+                        valoracion: "melo"
+                    },
+                    Plenitud: {
+                        comentario: "malísimo",
+                        nota: "1.23",
+                        valoracion: "malo"
+                    }
+                },
+                nota: 3.8689999999999998
+            }
+        }
+    };
+
+    informesProgreso = {};
+
+    informesFinales = {};
+
+    prototiposAlpha = {
+        "EPM 1": {
+            link: "LinkZaso"
+        }
+    };
+
+    prototiposBeta = {
+        "EPM 1": {
+            calidad: "Media",
+            link: "nuai",
+            rubrica: {
+                criterios: {
+                    Completitud: { valoracion: "malisimo", comentario: "ñoño", nota: "1.223" },
+                    Diseño: { valoracion: "-10", comentario: "melo", nota: "5" },
+                    "Exito de funciones": { valoracion: "brevas", comentario: "olis", nota: "3" }
+                },
+                nota: 2.6892
+            }
+        },
+        "EPM 2": {
+            calidad: "Alta",
+            link: "este otro",
+            rubrica: {
+                criterios: {
+                    Completitud: { valoracion: "melosky", comentario: "melosky", nota: "4" },
+                    Diseño: { valoracion: "melo", comentario: "melo", nota: "2" },
+                    "Exito de funciones": { valoracion: "melani", comentario: "melani", nota: "3" }
+                },
+                nota: 3.2
+            }
+        }
+    };
+
+    retroalimentaciones = {
+        "EPM 1": {
+            "elemento 0": {
+                criterio_1: "La bebecita bebe lean y bebe whisky↵Fuma marihuana y también se mete picky↵Senda bellacona, frikitona, friky, friky",
+                sugerencia_1: "Senda bellacona, frikitona, friky, friky↵En la cama una salvaje y la castigo con mi dicky",
+                valoracion_1: "Es media salvaje, ella es adicta a mi dicky↵Le mete al lean, le mete al whisky↵Fuma marihuana y también se mete picky"
+            },
+            "elemento 1": {
+                criterio_2: "Ellos rezan todos los días pa que nosotros nos caigamos (uh uh uh uh)↵No nos dejamos ver pero todo el mundo sabe dónde es que estamos, ey (uh uh uh uh)↵La presión se siente siempre que llegamos, ey, ey (uh uh uh uh)↵Le caemos solos y con babies nos vamos (uh uh uh uh)",
+                sugerencia_2: "Tú sabes ya que yo venía a darte↵No me vengas con que tú nos llegas tarde (no stop)↵Avísame, que tu amiguita está en fila pa darle (ey, ey, ey)",
+                valoracion_2: "Y si vas a matar la vibra pues salte (salte)↵Tú sabes ya que yo venía a darte↵No me vengas con que tú nos llegas tarde↵Avísame, que tu amiguita está en fila pa darle (ey, ey)↵Y si vas a matar la vibra pues salte (Salte)"
+            },
+            "elemento 2": {
+                criterio_3: "Mi mamisonga es senda putonga↵No se pone panty y le digo que se lo ponga↵Ella esta loca, que se lo ponga↵Yo le digo mi amor no te pongas",
+                sugerencia_3: "Mi mamisonga es senda putonga↵No se pone panty y le digo que se lo ponga↵Ella esta loca, que se lo ponga↵Yo le digo mi amor no te pongas",
+                valoracion_3: "Es que me pongo demasiado de bellaco↵Es que tu tienes un culo ni el verraco↵Por una esquinita me lo saco↵Mami ponte Jordan, no te pongas tacos"
+            }
+        }
+    };
+
+    revisiones = {
+
+    };
+}
+
+function controladorDatosLocal() {
+    profesores = cargarDatosLocal("profesores");
+    semestresCod = cargarDatosLocal("semestresCod", true);
+    asignaturas = cargarDatosLocal("asignaturas");
+    clases = cargarDatosLocal("clases");
+    criteriosInicial = cargarDatosLocal("criteriosInicial");
+    criteriosProgreso = cargarDatosLocal("criteriosProgreso");
+    criteriosFinal = cargarDatosLocal("criteriosFinal");
+    criteriosAlpha = cargarDatosLocal("criteriosAlpha");
+    criteriosBeta = cargarDatosLocal("criteriosBeta");
+    empresas = cargarDatosLocal("empresas");
+    representantes = cargarDatosLocal("representantes");
+    problemas = cargarDatosLocal("problemas");
+    carteraDeProyectos = cargarDatosLocal("carteraDeProyectos", false, true);
+    estudiantes = cargarDatosLocal("estudiantes");
+    equipos = cargarDatosLocal("equipos");
+    metodologiasDesarrollo = cargarDatosLocal("metodologiasDesarrollo");
+    informesIniciales = cargarDatosLocal("informesIniciales");
+    informesProgreso = cargarDatosLocal("informesProgreso");
+    informesFinales = cargarDatosLocal("informesFinales");
+    prototiposAlpha = cargarDatosLocal("prototiposAlpha");
+    prototiposBeta = cargarDatosLocal("prototiposBeta");
+    retroalimentaciones = cargarDatosLocal("retroalimentaciones");
+    revisiones = cargarDatosLocal("revisiones");
+}
+
+function cargarDatosLocal(nombreObjeto, esSemestreCod = false, esCartera = false) {
+
+    var objeto = JSON.parse(localStorage.getItem(nombreObjeto));
+
+    if (objeto == null) {
+        if (esSemestreCod) {
+            objeto = {
+                codigoSemestre: 0,
+                semestres: {}
+            };
+        }
+        else if (esCartera) {
+            objeto = {
+                cantidadProyectos: 0,
+                proyectos: {}
+            };
+        }
+        else {
+            objeto = {};
         }
     }
-};
+    return objeto;
+}
 
-var revisiones = {
-    "EPM 1": {
-        comentario: "Bien bien bien loca",
-        valoracion: "El que lea esto es gay"
-    }
-};
+var profesores
+var semestresCod
+var asignaturas
+var clases
+var criteriosInicial
+var criteriosProgreso
+var criteriosFinal
+var criteriosAlpha
+var criteriosBeta
+var empresas
+var representantes
+var problemas
+var carteraDeProyectos
+var estudiantes
+var equipos
+var metodologiasDesarrollo
+var informesIniciales
+var informesProgreso
+var informesFinales
+var prototiposAlpha
+var prototiposBeta
+var retroalimentaciones
+var revisiones
 
 // Valores para sesión
 var usuarioActivo = {
@@ -4385,3 +4501,4 @@ var usuarioActivo = {
 };
 
 window.addEventListener("load", inicializarPagina, false)
+window.addEventListener("beforeunload", guardarDatosLocal, false)

@@ -1,6 +1,2 @@
 - boton Subir archivo pa simular entrega proyect
-- Guardar datos -> localStogare.setItem("nombre", JSON.stringify(object))
 - Eventos
-
-- Mencionarles que ya se ve el informe en califica y ver informe
-- Los Links de los prototipos a la hora de calificarlos no estan cambiando (como asi)
