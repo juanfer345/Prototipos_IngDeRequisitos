@@ -3673,9 +3673,6 @@ function login(input, usuario) {
         case "Representante":
             objeto = representantes;
             break;
-        case "Administrador":
-
-            break;
     }
 
     if (usuario != "Administrador") {
@@ -3717,20 +3714,70 @@ function controladorRelacionDinamica(tipoUsuarioRelacion) {
 }
 
 // Eventos
-function eventoProfesorAparece(){
+function eventoProfesorAparece() {
+    var ultimoSemestre = semestresCod.semestres[semestresCod.codigoSemestre - 1];
+    var fechaInicioUltimoSemestre = ultimoSemestre.fechaInicio.split("-")
+    // var fechaInicioUltimoSemestre = "2021-2-20".split("-") // Esto espazer pruebas
+    fechaInicioUltimoSemestre = new Date(fechaInicioUltimoSemestre[0], fechaInicioUltimoSemestre[1] - 1, fechaInicioUltimoSemestre[2]);
+    var fechaHoy = new Date();
+    fechaHoy = new Date(fechaHoy.getFullYear(), fechaHoy.getMonth(), fechaHoy.getDate());
+    var tiempo = fechaHoy - fechaInicioUltimoSemestre;
 
+    var probabilidad = (-Math.atan(tiempo) + Math.PI / 2) / Math.PI;
+    var numeroBrandon = Math.random();
+
+    // console.log(tiempo, probabilidad, ultimoSemestre.fechaInicio) Esto espa depurar
+
+    if (numeroBrandon <= probabilidad) {
+        alert("Si");
+    }
+    else {
+        alert("No");
+    }
 }
 
-function eventoAsignaturaInicia(){
+function eventoAsignaturaInicia() {
+    var ultimoSemestre = semestresCod.semestres[semestresCod.codigoSemestre - 1];
+    var fechaInicioUltimoSemestre = ultimoSemestre.fechaInicio.split("-")
+    // var fechaInicioUltimoSemestre = "2021-2-20".split("-") // Esto espazer pruebas
+    fechaInicioUltimoSemestre = new Date(fechaInicioUltimoSemestre[0], fechaInicioUltimoSemestre[1] - 1, fechaInicioUltimoSemestre[2]);
+    var fechaHoy = new Date();
+    fechaHoy = new Date(fechaHoy.getFullYear(), fechaHoy.getMonth(), fechaHoy.getDate());
 
+    if (fechaHoy >= fechaInicioUltimoSemestre) {
+        alert("Si");
+    }
+    else {
+        alert("No");
+    }
 }
 
-function eventoRepresentanteAparece(){
+function eventoRepresentanteAparece() {
+    var probabilidad = 1 / 15;
+    var numeroBrandon = Math.random();
 
+    if (numeroBrandon <= probabilidad) {
+        alert("Si");
+    }
+    else {
+        alert("No");
+    }
 }
 
-function eventoProyectoFinaliza(){
+function eventoProyectoFinaliza() {
+    var ultimoSemestre = semestresCod.semestres[semestresCod.codigoSemestre - 1];
+    var fechaFinUltimoSemestre = ultimoSemestre.fechaInicio.split("-")
+    fechaFinUltimoSemestre = new Date(fechaFinUltimoSemestre[0], fechaFinUltimoSemestre[1] - 1, fechaFinUltimoSemestre[2]);
+    var fechaHoy = new Date();
+    fechaHoy = new Date(fechaHoy.getFullYear(), fechaHoy.getMonth(), fechaHoy.getDate());
+    // var fechaFin = new Date(2020, 11, 28);
 
+    if (fechaHoy >= fechaFinUltimoSemestre) {
+        alert("Si");
+    }
+    else {
+        alert("No");
+    }
 }
 
 // Formularios factores criticos de exito
