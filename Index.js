@@ -79,8 +79,8 @@ function inicializarPagina() {
 
     document.getElementById("conformaEquipo").addEventListener("click", formularioConformaEquipo)
     document.getElementById("conformaEquipoText").addEventListener("click", formularioConformaEquipo)
-    // document.getElementById("conformaEquipo").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "disenaAsignatura") });
-    // document.getElementById("conformaEquipoText").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "disenaAsignatura") });
+    document.getElementById("conformaEquipo").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Conforma Equipo") });
+    document.getElementById("conformaEquipoText").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Conforma Equipo") });
 
     document.getElementById("defineMetodologia").addEventListener("click", formularioDefineMetodologia)
     document.getElementById("defineMetodologiaText").addEventListener("click", formularioDefineMetodologia)
@@ -146,6 +146,47 @@ function inicializarPagina() {
     document.getElementById("revisaPrototipoBetaText").addEventListener("click", formularioRealizaRevision);
     document.getElementById("revisaPrototipoBeta").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Revisa Prototipo Beta") });
     document.getElementById("revisaPrototipoBetaText").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Revisa Prototipo Beta") });
+
+    // Eventos
+    document.getElementById("elipseProfeAparece").addEventListener("click", eventoProfesorAparece);
+    document.getElementById("relaGrandeProfeAparece").addEventListener("click", eventoProfesorAparece);
+    document.getElementById("relaPequeProfeAparece").addEventListener("click", eventoProfesorAparece);
+    document.getElementById("relaProfeAparece").addEventListener("click", eventoProfesorAparece);
+    document.getElementById("flechaProfeAparece").addEventListener("click", eventoProfesorAparece);
+    document.getElementById("profeAparece").addEventListener("click", eventoProfesorAparece);
+    document.getElementById("profeApareceText").addEventListener("click", eventoProfesorAparece);
+
+    document.getElementById("elipseAsignaturaInicia").addEventListener("click", eventoAsignaturaInicia);
+    document.getElementById("relaGrandeAsignaturaInicia").addEventListener("click", eventoAsignaturaInicia);
+    document.getElementById("relaPequeAsignaturaInicia").addEventListener("click", eventoAsignaturaInicia);
+    document.getElementById("relaAsignaturaInicia").addEventListener("click", eventoAsignaturaInicia);
+    document.getElementById("flechaAsignaturaInicia").addEventListener("click", eventoAsignaturaInicia);
+    document.getElementById("asignaturaInicia").addEventListener("click", eventoAsignaturaInicia);
+    document.getElementById("asignaturaIniciaText").addEventListener("click", eventoAsignaturaInicia);
+
+    document.getElementById("elipseRepreAparece").addEventListener("click", eventoRepresentanteAparece);
+    document.getElementById("relaGrandeRepreAparece").addEventListener("click", eventoRepresentanteAparece);
+    document.getElementById("relaPequeRepreAparece").addEventListener("click", eventoRepresentanteAparece);
+    document.getElementById("relaRepreAparece").addEventListener("click", eventoRepresentanteAparece);
+    document.getElementById("flecharepreAparece").addEventListener("click", eventoRepresentanteAparece);
+    document.getElementById("repreAparece").addEventListener("click", eventoRepresentanteAparece);
+    document.getElementById("repreApareceText").addEventListener("click", eventoRepresentanteAparece);
+
+    document.getElementById("elipseProyFinaliza").addEventListener("click", eventoProyectoFinaliza);
+    document.getElementById("relaGrandeProyFinaliza").addEventListener("click", eventoProyectoFinaliza);
+    document.getElementById("relaPequeProyFinaliza").addEventListener("click", eventoProyectoFinaliza);
+    document.getElementById("relaProyFinaliza").addEventListener("click", eventoProyectoFinaliza);
+    document.getElementById("flechaProyFinaliza").addEventListener("click", eventoProyectoFinaliza);
+    document.getElementById("proyFinaliza").addEventListener("click", eventoProyectoFinaliza);
+    document.getElementById("proyFinalizaText").addEventListener("click", eventoProyectoFinaliza);
+
+    document.getElementById("elipseAcuerdoAparece").addEventListener("click", () => { alert("Si") });
+    document.getElementById("relaGrandeAcuerdoAparece").addEventListener("click", () => { alert("Si") });
+    document.getElementById("relaPequeAcuerdoAparece").addEventListener("click", () => { alert("Si") });
+    document.getElementById("relaAcuerdoAparece").addEventListener("click", () => { alert("Si") });
+    document.getElementById("flechaAcuerdoAparece").addEventListener("click", () => { alert("Si") });
+    document.getElementById("acuerdoAparece").addEventListener("click", () => { alert("Si") });
+    document.getElementById("acuerdoApareceText").addEventListener("click", () => { alert("Si") });
 
     //Factores criticos de exito
     document.getElementById("promoverCompetencia").addEventListener("click", formularioPromoverCompetencia)
@@ -3675,6 +3716,23 @@ function controladorRelacionDinamica(tipoUsuarioRelacion) {
     }
 }
 
+// Eventos
+function eventoProfesorAparece(){
+
+}
+
+function eventoAsignaturaInicia(){
+
+}
+
+function eventoRepresentanteAparece(){
+
+}
+
+function eventoProyectoFinaliza(){
+
+}
+
 // Formularios factores criticos de exito
 function formularioPromoverCompetencia(input) {
     document.getElementById("barraForm1").innerHTML = "<h1 class='tituloForm'> Porcentaje de prototipos beta y prototipos alpha con calidad alta </h1>"
@@ -3970,29 +4028,29 @@ function formularioVerEspecificacion(input, nombreImagen, dimension = "400px") {
 }
 
 function guardarDatosLocal() {
-    localStorage.setItem("profesores",JSON.stringify(profesores));
-    localStorage.setItem("semestresCod",JSON.stringify(semestresCod));
-    localStorage.setItem("asignaturas",JSON.stringify(asignaturas));
-    localStorage.setItem("clases",JSON.stringify(clases));
-    localStorage.setItem("criteriosInicial",JSON.stringify(criteriosInicial));
-    localStorage.setItem("criteriosProgreso",JSON.stringify(criteriosProgreso));
-    localStorage.setItem("criteriosFinal",JSON.stringify(criteriosFinal));
-    localStorage.setItem("criteriosAlpha",JSON.stringify(criteriosAlpha));
-    localStorage.setItem("criteriosBeta",JSON.stringify(criteriosBeta));
-    localStorage.setItem("empresas",JSON.stringify(empresas));
-    localStorage.setItem("representantes",JSON.stringify(representantes));
-    localStorage.setItem("problemas",JSON.stringify(problemas));
-    localStorage.setItem("carteraDeProyectos",JSON.stringify(carteraDeProyectos));
-    localStorage.setItem("estudiantes",JSON.stringify(estudiantes));
-    localStorage.setItem("equipos",JSON.stringify(equipos));
-    localStorage.setItem("metodologiasDesarrollo",JSON.stringify(metodologiasDesarrollo));
-    localStorage.setItem("informesIniciales",JSON.stringify(informesIniciales));
-    localStorage.setItem("informesProgreso",JSON.stringify(informesProgreso));
-    localStorage.setItem("informesFinales",JSON.stringify(informesFinales));
-    localStorage.setItem("prototiposAlpha",JSON.stringify(prototiposAlpha));
-    localStorage.setItem("prototiposBeta",JSON.stringify(prototiposBeta));
-    localStorage.setItem("retroalimentaciones",JSON.stringify(retroalimentaciones));
-    localStorage.setItem("revisiones",JSON.stringify(revisiones));
+    localStorage.setItem("profesores", JSON.stringify(profesores));
+    localStorage.setItem("semestresCod", JSON.stringify(semestresCod));
+    localStorage.setItem("asignaturas", JSON.stringify(asignaturas));
+    localStorage.setItem("clases", JSON.stringify(clases));
+    localStorage.setItem("criteriosInicial", JSON.stringify(criteriosInicial));
+    localStorage.setItem("criteriosProgreso", JSON.stringify(criteriosProgreso));
+    localStorage.setItem("criteriosFinal", JSON.stringify(criteriosFinal));
+    localStorage.setItem("criteriosAlpha", JSON.stringify(criteriosAlpha));
+    localStorage.setItem("criteriosBeta", JSON.stringify(criteriosBeta));
+    localStorage.setItem("empresas", JSON.stringify(empresas));
+    localStorage.setItem("representantes", JSON.stringify(representantes));
+    localStorage.setItem("problemas", JSON.stringify(problemas));
+    localStorage.setItem("carteraDeProyectos", JSON.stringify(carteraDeProyectos));
+    localStorage.setItem("estudiantes", JSON.stringify(estudiantes));
+    localStorage.setItem("equipos", JSON.stringify(equipos));
+    localStorage.setItem("metodologiasDesarrollo", JSON.stringify(metodologiasDesarrollo));
+    localStorage.setItem("informesIniciales", JSON.stringify(informesIniciales));
+    localStorage.setItem("informesProgreso", JSON.stringify(informesProgreso));
+    localStorage.setItem("informesFinales", JSON.stringify(informesFinales));
+    localStorage.setItem("prototiposAlpha", JSON.stringify(prototiposAlpha));
+    localStorage.setItem("prototiposBeta", JSON.stringify(prototiposBeta));
+    localStorage.setItem("retroalimentaciones", JSON.stringify(retroalimentaciones));
+    localStorage.setItem("revisiones", JSON.stringify(revisiones));
 }
 
 function temporalCargarDatos() {
