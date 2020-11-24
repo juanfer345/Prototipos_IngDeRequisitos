@@ -1089,7 +1089,7 @@ function formularioDefineProblema(input) {
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
-            guardarDatos(document.querySelector("#datosDefineProblema").querySelectorAll("input, select, textarea"), "Problema");
+            guardarDatos(document.querySelector("#datosDefineProblema").querySelectorAll("input, select, textarea"), "Problema", empresasHTML);
         });
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
 }
