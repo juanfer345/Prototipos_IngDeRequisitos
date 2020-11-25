@@ -1695,7 +1695,7 @@ function verHistoria(input, idEstudiante) {
     //     document.getElementById("promedio").value = "";
     // }
     if (usuarioActivo.datos.historia != undefined) {
-        document.getElementById("promedio").value = usuarioActivo.datos.historia.promedio.toFixed(2);
+        document.getElementById("promedio").value = estudiantes[document.getElementById(idEstudiante).value].historia.promedio.toFixed(2);
     } else {
         document.getElementById("promedio").value = "";
     }
