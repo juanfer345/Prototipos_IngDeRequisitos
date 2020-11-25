@@ -148,13 +148,13 @@ function inicializarPagina() {
     document.getElementById("flechaProfeAparece").addEventListener("click", eventoProfesorAparece);
     document.getElementById("profeAparece").addEventListener("click", eventoProfesorAparece);
     document.getElementById("profeApareceText").addEventListener("click", eventoProfesorAparece);
-document.getElementById("elipseProfeAparece").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Profesor Aparece", "Eventos")});
-document.getElementById("relaGrandeProfeAparece").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Profesor Aparece", "Eventos")});
-document.getElementById("relaPequeProfeAparece").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Profesor Aparece", "Eventos")});
-document.getElementById("relaProfeAparece").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Profesor Aparece", "Eventos")});
-document.getElementById("flechaProfeAparece").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Profesor Aparece", "Eventos")});
-document.getElementById("profeAparece").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Profesor Aparece", "Eventos")});
-document.getElementById("profeApareceText").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Profesor Aparece", "Eventos")});
+    document.getElementById("elipseProfeAparece").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Profesor Aparece", "Eventos") });
+    document.getElementById("relaGrandeProfeAparece").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Profesor Aparece", "Eventos") });
+    document.getElementById("relaPequeProfeAparece").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Profesor Aparece", "Eventos") });
+    document.getElementById("relaProfeAparece").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Profesor Aparece", "Eventos") });
+    document.getElementById("flechaProfeAparece").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Profesor Aparece", "Eventos") });
+    document.getElementById("profeAparece").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Profesor Aparece", "Eventos") });
+    document.getElementById("profeApareceText").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Profesor Aparece", "Eventos") });
 
     document.getElementById("elipseAsignaturaInicia").addEventListener("click", eventoAsignaturaInicia);
     document.getElementById("relaGrandeAsignaturaInicia").addEventListener("click", eventoAsignaturaInicia);
@@ -163,13 +163,13 @@ document.getElementById("profeApareceText").addEventListener("contextmenu",()=>{
     document.getElementById("flechaAsignaturaInicia").addEventListener("click", eventoAsignaturaInicia);
     document.getElementById("asignaturaInicia").addEventListener("click", eventoAsignaturaInicia);
     document.getElementById("asignaturaIniciaText").addEventListener("click", eventoAsignaturaInicia);
-document.getElementById("elipseAsignaturaInicia").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Asignatura Inicia", "Eventos")});
-document.getElementById("relaGrandeAsignaturaInicia").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Asignatura Inicia", "Eventos")});
-document.getElementById("relaPequeAsignaturaInicia").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Asignatura Inicia", "Eventos")});
-document.getElementById("relaAsignaturaInicia").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Asignatura Inicia", "Eventos")});
-document.getElementById("flechaAsignaturaInicia").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Asignatura Inicia", "Eventos")});
-document.getElementById("asignaturaInicia").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Asignatura Inicia", "Eventos")});
-document.getElementById("asignaturaIniciaText").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Asignatura Inicia", "Eventos")});
+    document.getElementById("elipseAsignaturaInicia").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Asignatura Inicia", "Eventos") });
+    document.getElementById("relaGrandeAsignaturaInicia").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Asignatura Inicia", "Eventos") });
+    document.getElementById("relaPequeAsignaturaInicia").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Asignatura Inicia", "Eventos") });
+    document.getElementById("relaAsignaturaInicia").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Asignatura Inicia", "Eventos") });
+    document.getElementById("flechaAsignaturaInicia").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Asignatura Inicia", "Eventos") });
+    document.getElementById("asignaturaInicia").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Asignatura Inicia", "Eventos") });
+    document.getElementById("asignaturaIniciaText").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Asignatura Inicia", "Eventos") });
 
     document.getElementById("elipseRepreAparece").addEventListener("click", eventoRepresentanteAparece);
     document.getElementById("relaGrandeRepreAparece").addEventListener("click", eventoRepresentanteAparece);
@@ -178,13 +178,13 @@ document.getElementById("asignaturaIniciaText").addEventListener("contextmenu",(
     document.getElementById("flecharepreAparece").addEventListener("click", eventoRepresentanteAparece);
     document.getElementById("repreAparece").addEventListener("click", eventoRepresentanteAparece);
     document.getElementById("repreApareceText").addEventListener("click", eventoRepresentanteAparece);
-document.getElementById("elipseRepreAparece").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Representante Aparece", "Eventos")});
-document.getElementById("relaGrandeRepreAparece").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Representante Aparece", "Eventos")});
-document.getElementById("relaPequeRepreAparece").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Representante Aparece", "Eventos")});
-document.getElementById("relaRepreAparece").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Representante Aparece", "Eventos")});
-document.getElementById("flecharepreAparece").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Representante Aparece", "Eventos")});
-document.getElementById("repreAparece").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Representante Aparece", "Eventos")});
-document.getElementById("repreApareceText").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Representante Aparece", "Eventos")});
+    document.getElementById("elipseRepreAparece").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Representante Aparece", "Eventos") });
+    document.getElementById("relaGrandeRepreAparece").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Representante Aparece", "Eventos") });
+    document.getElementById("relaPequeRepreAparece").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Representante Aparece", "Eventos") });
+    document.getElementById("relaRepreAparece").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Representante Aparece", "Eventos") });
+    document.getElementById("flecharepreAparece").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Representante Aparece", "Eventos") });
+    document.getElementById("repreAparece").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Representante Aparece", "Eventos") });
+    document.getElementById("repreApareceText").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Representante Aparece", "Eventos") });
 
     document.getElementById("elipseProyFinaliza").addEventListener("click", eventoProyectoFinaliza);
     document.getElementById("relaGrandeProyFinaliza").addEventListener("click", eventoProyectoFinaliza);
@@ -193,13 +193,13 @@ document.getElementById("repreApareceText").addEventListener("contextmenu",()=>{
     document.getElementById("flechaProyFinaliza").addEventListener("click", eventoProyectoFinaliza);
     document.getElementById("proyFinaliza").addEventListener("click", eventoProyectoFinaliza);
     document.getElementById("proyFinalizaText").addEventListener("click", eventoProyectoFinaliza);
-document.getElementById("elipseProyFinaliza").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Proyecto Finaliza", "Eventos")});
-document.getElementById("relaGrandeProyFinaliza").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Proyecto Finaliza", "Eventos")});
-document.getElementById("relaPequeProyFinaliza").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Proyecto Finaliza", "Eventos")});
-document.getElementById("relaProyFinaliza").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Proyecto Finaliza", "Eventos")});
-document.getElementById("flechaProyFinaliza").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Proyecto Finaliza", "Eventos")});
-document.getElementById("proyFinaliza").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Proyecto Finaliza", "Eventos")});
-document.getElementById("proyFinalizaText").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Proyecto Finaliza", "Eventos")});
+    document.getElementById("elipseProyFinaliza").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Proyecto Finaliza", "Eventos") });
+    document.getElementById("relaGrandeProyFinaliza").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Proyecto Finaliza", "Eventos") });
+    document.getElementById("relaPequeProyFinaliza").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Proyecto Finaliza", "Eventos") });
+    document.getElementById("relaProyFinaliza").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Proyecto Finaliza", "Eventos") });
+    document.getElementById("flechaProyFinaliza").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Proyecto Finaliza", "Eventos") });
+    document.getElementById("proyFinaliza").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Proyecto Finaliza", "Eventos") });
+    document.getElementById("proyFinalizaText").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Proyecto Finaliza", "Eventos") });
 
     document.getElementById("elipseAcuerdoAparece").addEventListener("click", () => { alert("Si") });
     document.getElementById("relaGrandeAcuerdoAparece").addEventListener("click", () => { alert("Si") });
@@ -208,13 +208,13 @@ document.getElementById("proyFinalizaText").addEventListener("contextmenu",()=>{
     document.getElementById("flechaAcuerdoAparece").addEventListener("click", () => { alert("Si") });
     document.getElementById("acuerdoAparece").addEventListener("click", () => { alert("Si") });
     document.getElementById("acuerdoApareceText").addEventListener("click", () => { alert("Si") });
-document.getElementById("elipseAcuerdoAparece").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Acuerdo Aparece", "Eventos")});
-document.getElementById("relaGrandeAcuerdoAparece").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Acuerdo Aparece", "Eventos")});
-document.getElementById("relaPequeAcuerdoAparece").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Acuerdo Aparece", "Eventos")});
-document.getElementById("relaAcuerdoAparece").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Acuerdo Aparece", "Eventos")});
-document.getElementById("flechaAcuerdoAparece").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Acuerdo Aparece", "Eventos")});
-document.getElementById("acuerdoAparece").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Acuerdo Aparece", "Eventos")});
-document.getElementById("acuerdoApareceText").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Acuerdo Aparece", "Eventos")});
+    document.getElementById("elipseAcuerdoAparece").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Acuerdo Aparece", "Eventos") });
+    document.getElementById("relaGrandeAcuerdoAparece").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Acuerdo Aparece", "Eventos") });
+    document.getElementById("relaPequeAcuerdoAparece").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Acuerdo Aparece", "Eventos") });
+    document.getElementById("relaAcuerdoAparece").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Acuerdo Aparece", "Eventos") });
+    document.getElementById("flechaAcuerdoAparece").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Acuerdo Aparece", "Eventos") });
+    document.getElementById("acuerdoAparece").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Acuerdo Aparece", "Eventos") });
+    document.getElementById("acuerdoApareceText").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Acuerdo Aparece", "Eventos") });
 
     //Condicional
     document.getElementById("condicionalA").addEventListener("click", eventoCondicional);
@@ -240,71 +240,71 @@ document.getElementById("acuerdoApareceText").addEventListener("contextmenu",()=
     document.getElementById("igual2Text").addEventListener("click", eventoCondicional);
     document.getElementById("or").addEventListener("click", eventoCondicional);
     document.getElementById("orText").addEventListener("click", eventoCondicional);
-    
-    document.getElementById("condicionalA").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("problema01").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("problema01Text").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("validacion01").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("validacion01Text").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("sinAjustes").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("sinAjustesText").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("problema02").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("problema02Text").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("validacion02").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("validacion02Text").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("raya1").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("raya2").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("raya3").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("raya4").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("raya5").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("raya6").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("igual1").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("igual1Text").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("igual2").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("igual2Text").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("or").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
-    document.getElementById("orText").addEventListener("contextmenu",()=>{formularioVerEspecificacion(event, "Condicional", "Eventos")});
+
+    document.getElementById("condicionalA").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("problema01").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("problema01Text").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("validacion01").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("validacion01Text").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("sinAjustes").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("sinAjustesText").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("problema02").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("problema02Text").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("validacion02").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("validacion02Text").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("raya1").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("raya2").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("raya3").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("raya4").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("raya5").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("raya6").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("igual1").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("igual1Text").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("igual2").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("igual2Text").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("or").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
+    document.getElementById("orText").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Condicional", "Eventos") });
 
     //Factores criticos de exito
     document.getElementById("promoverCompetencia").addEventListener("click", formularioPromoverCompetencia);
     document.getElementById("promoverCompetenciaText").addEventListener("click", formularioPromoverCompetencia);
-    document.getElementById("promoverCompetencia").addEventListener("contextmenu", ()=>{formularioVerEspecificacion(event, "Promover Competencia", "Logros")});
-    document.getElementById("promoverCompetenciaText").addEventListener("contextmenu", ()=>{formularioVerEspecificacion(event, "Promover Competencia", "Logros")});
+    document.getElementById("promoverCompetencia").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Promover Competencia", "Logros") });
+    document.getElementById("promoverCompetenciaText").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Promover Competencia", "Logros") });
 
     document.getElementById("desarrollarProyecto").addEventListener("click", formularioDesarrollarProyecto);
     document.getElementById("desarrollarProyectoText").addEventListener("click", formularioDesarrollarProyecto);
-    document.getElementById("desarrollarProyecto").addEventListener("contextmenu", ()=>{formularioVerEspecificacion(event, "Desarrollar Proyecto", "Logros")});
-    document.getElementById("desarrollarProyectoText").addEventListener("contextmenu", ()=>{formularioVerEspecificacion(event, "Desarrollar Proyecto", "Logros")});
+    document.getElementById("desarrollarProyecto").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Desarrollar Proyecto", "Logros") });
+    document.getElementById("desarrollarProyectoText").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Desarrollar Proyecto", "Logros") });
 
     document.getElementById("fomentarParticipacion").addEventListener("click", formularioFomentarParticipacion);
     document.getElementById("fomentarParticipacionText").addEventListener("click", formularioFomentarParticipacion);
-    document.getElementById("fomentarParticipacion").addEventListener("contextmenu", ()=>{formularioVerEspecificacion(event, "Fomentar Participacion", "Logros")});
-    document.getElementById("fomentarParticipacionText").addEventListener("contextmenu", ()=>{formularioVerEspecificacion(event, "Fomentar Participacion", "Logros")});
+    document.getElementById("fomentarParticipacion").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Fomentar Participacion", "Logros") });
+    document.getElementById("fomentarParticipacionText").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Fomentar Participacion", "Logros") });
 
     document.getElementById("reconocerProgreso").addEventListener("click", formularioReconocerProgreso);
     document.getElementById("reconocerProgresoText").addEventListener("click", formularioReconocerProgreso);
-    document.getElementById("reconocerProgreso").addEventListener("contextmenu", ()=>{formularioVerEspecificacion(event, "Reconocer Progreso", "Logros")});
-    document.getElementById("reconocerProgresoText").addEventListener("contextmenu", ()=>{formularioVerEspecificacion(event, "Reconocer Progreso", "Logros")});
+    document.getElementById("reconocerProgreso").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Reconocer Progreso", "Logros") });
+    document.getElementById("reconocerProgresoText").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Reconocer Progreso", "Logros") });
 
     document.getElementById("reconocerCausa").addEventListener("click", formularioReconocerCausa);
     document.getElementById("reconocerCausaText").addEventListener("click", formularioReconocerCausa);
-    document.getElementById("reconocerCausa").addEventListener("contextmenu", ()=>{formularioVerEspecificacion(event, "Reconocer Causa", "Logros")});
-    document.getElementById("reconocerCausaText").addEventListener("contextmenu", ()=>{formularioVerEspecificacion(event, "Reconocer Causa", "Logros")});
+    document.getElementById("reconocerCausa").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Reconocer Causa", "Logros") });
+    document.getElementById("reconocerCausaText").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Reconocer Causa", "Logros") });
 
     document.getElementById("garantizarEquipoProyecto").addEventListener("click", formularioGarantizarEquipoProyecto);
     document.getElementById("garantizarEquipoProyectoText").addEventListener("click", formularioGarantizarEquipoProyecto);
-    document.getElementById("garantizarEquipoProyecto").addEventListener("contextmenu", ()=>{formularioVerEspecificacion(event, "Garantizar Proyecto", "Logros")});
-    document.getElementById("garantizarEquipoProyectoText").addEventListener("contextmenu", ()=>{formularioVerEspecificacion(event, "Garantizar Proyecto", "Logros")});
+    document.getElementById("garantizarEquipoProyecto").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Garantizar Proyecto", "Logros") });
+    document.getElementById("garantizarEquipoProyectoText").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Garantizar Proyecto", "Logros") });
 
     document.getElementById("garantizarEquipoEstudiante").addEventListener("click", formularioGarantizarEquipoEstudiante);
     document.getElementById("garantizarEquipoEstudianteText").addEventListener("click", formularioGarantizarEquipoEstudiante);
-    document.getElementById("garantizarEquipoEstudiante").addEventListener("contextmenu", ()=>{formularioVerEspecificacion(event, "Garantizar Estudiante", "Logros")});
-    document.getElementById("garantizarEquipoEstudianteText").addEventListener("contextmenu", ()=>{formularioVerEspecificacion(event, "Garantizar Estudiante", "Logros")});
+    document.getElementById("garantizarEquipoEstudiante").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Garantizar Estudiante", "Logros") });
+    document.getElementById("garantizarEquipoEstudianteText").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Garantizar Estudiante", "Logros") });
 
     document.getElementById("incrementarCartera").addEventListener("click", formularioIncrementarCartera);
     document.getElementById("incrementarCarteraText").addEventListener("click", formularioIncrementarCartera);
-    document.getElementById("incrementarCartera").addEventListener("contextmenu", ()=>{formularioVerEspecificacion(event, "Incrementar Cartera", "Logros")});
-    document.getElementById("incrementarCarteraText").addEventListener("contextmenu", ()=>{formularioVerEspecificacion(event, "Incrementar Cartera", "Logros")});
+    document.getElementById("incrementarCartera").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Incrementar Cartera", "Logros") });
+    document.getElementById("incrementarCarteraText").addEventListener("contextmenu", () => { formularioVerEspecificacion(event, "Incrementar Cartera", "Logros") });
 
     // Haciendo que cada formulario sea arrastrable
     asignarArrastracion(document.getElementById("divForm1"), document.getElementById("barraForm1"));
