@@ -1,1 +1,0 @@
-Para utilizar esta aplicación abre el archivo index.html usando google chrome

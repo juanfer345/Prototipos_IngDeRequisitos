@@ -1,0 +1,12 @@
+Integrantes:
+
+- Sara Catalina Balbín Ramírez 
+- Juan Manuel Cárdenas Vélez 
+- Santiago Gonzalez Bustamante 
+- Juan Fernando Patiño Castro 
+
+Descripción:
+
+Esquema preconceptual lorenzo y dinámico usado para presentarle la aplicación a la interesada.
+
+Para utilizar esta aplicación abre el archivo index.html usando google chrome
