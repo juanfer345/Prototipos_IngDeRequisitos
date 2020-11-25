@@ -4246,36 +4246,36 @@ function controladorDatosLocal() {
 
 function vaciarObjetos(){
     
-    profesores = {};
-    semestresCod = {};
-    asignaturas = {};
-    clases = {};
-    criteriosInicial = {};
-    criteriosProgreso = {};
-    criteriosFinal = {};
-    criteriosAlpha = {};
-    criteriosBeta = {};
-    empresas = {};
-    representantes = {};
-    problemas = {};
-    carteraDeProyectos = {};
-    estudiantes = {};
-    equipos = {};
-    metodologiasDesarrollo = {};
-    informesIniciales = {};
-    informesProgreso = {};
-    informesFinales = {};
-    prototiposAlpha = {};
-    prototiposBeta = {};
-    retroalimentaciones = {};
-    revisiones = {};
+    profesores = null;
+    semestresCod = null;
+    asignaturas = null;
+    clases = null;
+    criteriosInicial = null;
+    criteriosProgreso = null;
+    criteriosFinal = null;
+    criteriosAlpha = null;
+    criteriosBeta = null;
+    empresas = null;
+    representantes = null;
+    problemas = null;
+    carteraDeProyectos = null;
+    estudiantes = null;
+    equipos = null;
+    metodologiasDesarrollo = null;
+    informesIniciales = null;
+    informesProgreso = null;
+    informesFinales = null;
+    prototiposAlpha = null;
+    prototiposBeta = null;
+    retroalimentaciones = null;
+    revisiones = null;
 }
 
 function cargarDatosLocal(nombreObjeto, esSemestreCod = false, esCartera = false) {
 
     var objeto = localStorage.getItem(nombreObjeto);
 
-    if (objeto == "undefined" || objeto == null) {
+    if (objeto == "undefined" || objeto == null || objeto == "null") {
         if (esSemestreCod) {
             objeto = {
                 codigoSemestre: 0,
