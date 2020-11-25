@@ -1974,7 +1974,7 @@ function formularioEntregaInformePrototipo(input, tipoInfProt) {
                         <textarea id="idea"></textarea>
 
                         <button type="button" id="subirArchivo" class="botonExtra"> Subir Archivo </button>
-                        <input type="text" id="archivo" disabled value="ño">
+                        <input type="text" id="archivo" disabled>
                     </div>
                 `
                 break;
@@ -2001,7 +2001,7 @@ function formularioEntregaInformePrototipo(input, tipoInfProt) {
                         <textarea id="avance"></textarea>
 
                         <button type="button" id="subirArchivo" class="botonExtra"> Subir Archivo </button>
-                        <input type="text" id="archivo" disabled value="ño">
+                        <input type="text" id="archivo" disabled>
                     </div>
                 `
                 break;
@@ -2028,7 +2028,7 @@ function formularioEntregaInformePrototipo(input, tipoInfProt) {
                         <textarea id="conclusion"></textarea>
 
                         <button type="button" id="subirArchivo" class="botonExtra"> Subir Archivo </button>
-                        <input type="text" id="archivo" disabled value="ño">
+                        <input type="text" id="archivo" disabled>
                     </div>
                 `
                 break;
