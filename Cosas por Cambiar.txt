@@ -1,3 +1,2 @@
 - boton Subir archivo pa simular entrega proyect
-- Eventos
 - Falta ejemplo de datos json en ejemplos de codigo fuente
