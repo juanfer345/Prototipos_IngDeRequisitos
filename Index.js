@@ -4244,6 +4244,33 @@ function controladorDatosLocal() {
     revisiones = cargarDatosLocal("revisiones");
 }
 
+function vaciarObjetos(){
+    
+    profesores = {};
+    semestresCod = {};
+    asignaturas = {};
+    clases = {};
+    criteriosInicial = {};
+    criteriosProgreso = {};
+    criteriosFinal = {};
+    criteriosAlpha = {};
+    criteriosBeta = {};
+    empresas = {};
+    representantes = {};
+    problemas = {};
+    carteraDeProyectos = {};
+    estudiantes = {};
+    equipos = {};
+    metodologiasDesarrollo = {};
+    informesIniciales = {};
+    informesProgreso = {};
+    informesFinales = {};
+    prototiposAlpha = {};
+    prototiposBeta = {};
+    retroalimentaciones = {};
+    revisiones = {};
+}
+
 function cargarDatosLocal(nombreObjeto, esSemestreCod = false, esCartera = false) {
 
     var objeto = localStorage.getItem(nombreObjeto);
