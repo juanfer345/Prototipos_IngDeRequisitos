@@ -7,6 +7,6 @@ Integrantes:
 
 Descripción:
 
-Esquema preconceptual lorenzo y dinámico usado para presentarle la aplicación a la interesada.
+Esquema preconceptual dinámico usado para presentarle la aplicación a la interesada.
 
 Para utilizar esta aplicación abre el archivo index.html usando google chrome

@@ -3767,7 +3767,7 @@ function adicionarAobjeto(objeto, listiviris) {
 
 function login(input, usuario) {
 
-    var contrasenaSuperSecretaAdministrador = "contraseñaUltraSecreta"; var nombreAdministrador = "Administrador";
+    var contrasenaSuperSecretaAdministrador = "admin"; var nombreAdministrador = "admin";
     var objeto; var errorIngresoDatos = false;
 
     switch (usuario) {
