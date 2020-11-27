@@ -1694,8 +1694,8 @@ function verHistoria(input, idEstudiante) {
     // } else {
     //     document.getElementById("promedio").value = "";
     // }
-    if (usuarioActivo.datos.historia != undefined) {
-        document.getElementById("promedio").value = usuarioActivo.datos.historia.promedio.toFixed(2);
+    if (estudiantes[idEstudiante].historia != undefined) {
+        document.getElementById("promedio").value = estudiantes[idEstudiante].historia.promedio.toFixed(2);
     } else {
         document.getElementById("promedio").value = "";
     }
@@ -3767,7 +3767,7 @@ function adicionarAobjeto(objeto, listiviris) {
 
 function login(input, usuario) {
 
-    var contrasenaSuperSecretaAdministrador = "contraseñaUltraSecreta"; var nombreAdministrador = "Administrador";
+    var contrasenaSuperSecretaAdministrador = "admin"; var nombreAdministrador = "admin";
     var objeto; var errorIngresoDatos = false;
 
     switch (usuario) {
@@ -4244,11 +4244,38 @@ function controladorDatosLocal() {
     revisiones = cargarDatosLocal("revisiones");
 }
 
+function vaciarObjetos(){
+    
+    profesores = null;
+    semestresCod = null;
+    asignaturas = null;
+    clases = null;
+    criteriosInicial = null;
+    criteriosProgreso = null;
+    criteriosFinal = null;
+    criteriosAlpha = null;
+    criteriosBeta = null;
+    empresas = null;
+    representantes = null;
+    problemas = null;
+    carteraDeProyectos = null;
+    estudiantes = null;
+    equipos = null;
+    metodologiasDesarrollo = null;
+    informesIniciales = null;
+    informesProgreso = null;
+    informesFinales = null;
+    prototiposAlpha = null;
+    prototiposBeta = null;
+    retroalimentaciones = null;
+    revisiones = null;
+}
+
 function cargarDatosLocal(nombreObjeto, esSemestreCod = false, esCartera = false) {
 
     var objeto = localStorage.getItem(nombreObjeto);
 
-    if (objeto == "undefined" || objeto == null) {
+    if (objeto == "undefined" || objeto == null || objeto == "null") {
         if (esSemestreCod) {
             objeto = {
                 codigoSemestre: 0,
