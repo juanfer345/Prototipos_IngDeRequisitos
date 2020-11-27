@@ -543,7 +543,7 @@ function formularioRegistraEstudiante(input) {
     // Añadiendo los escuchadores de cada botón (el de reiniciar campos no hace falta)
     document.getElementById("confirmarForm1").addEventListener("click",
         () => {
-            guardarDatos(document.querySelector("#datosRegistraEstudiante").querySelectorAll("input"), "Registra_Estudiante");
+            guardarDatos(document.querySelectorAll("#datosRegistraEstudiante input"), "Registra_Estudiante");
         }
     );
     document.getElementById("cerrarForm1").onclick = () => { divform.style.display = "none" };
@@ -3816,7 +3816,7 @@ function controladorRelacionDinamica(tipoUsuarioRelacion) {
         return true;
     }
     else {
-        return false;
+        return true;
     }
 }
 
@@ -4270,31 +4270,11 @@ function cargarDatosLocal(nombreObjeto, esSemestreCod = false, esCartera = false
     return objeto;
 }
 
-var profesores
-var semestresCod
-var asignaturas
-var clases
-var criteriosInicial
-var criteriosProgreso
-var criteriosFinal
-var criteriosAlpha
-var criteriosBeta
-var empresas
-var representantes
-var problemas
-var carteraDeProyectos
-var estudiantes
-var equipos
-var metodologiasDesarrollo
-var informesIniciales
-var informesProgreso
-var informesFinales
-var prototiposAlpha
-var prototiposBeta
-var retroalimentaciones
-var revisiones
+// Variables para sesión
+var profesores, semestresCod, asignaturas, clases, criteriosInicial, criteriosProgreso, criteriosFinal, criteriosAlpha
+var criteriosBeta, empresas, representantes, problemas, carteraDeProyectos, estudiantes, equipos, metodologiasDesarrollo
+var informesIniciales, informesProgreso, informesFinales, prototiposAlpha, prototiposBeta, retroalimentaciones, revisiones
 
-// Valores para sesión
 var usuarioActivo = {
     datos: {
     },
